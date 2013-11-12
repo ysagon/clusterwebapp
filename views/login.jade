@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div.loginbox
+    form(name="login", action="/login", method="post").form-signin
+      h2.form-signin-heading Please sign in
+      if message != ''
+         .alert.alert-danger= message
+      input(type="text", name="username", placeholder="Username", required, autofocus).form-control
+      input(type="password", name="password", placeholder="Password", required).form-control
+      br
+      button(type="submit", value="Submit").btn.btn-lg.btn-primary.btn-block Sign in
+  p
+    small Hint - bob:secret
