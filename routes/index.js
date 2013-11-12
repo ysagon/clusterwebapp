@@ -13,22 +13,25 @@ exports.index = function(req, res){
 
 
 exports.ganglia = function(execSync){
-   var ganglia = require(".././ganglia");
-   //$a = new Ganglia();
-   ganglia.ganglia().execute(execSync);
-   var res = ganglia.parse(execSync);
+   return function(req, res){
+      var ganglia = require(".././ganglia");
+      ganglia.execute(execSync);
+      var data = ganglia.parse(execSync);
    //foreach($res as $job){
    //   print("<a href=\"".$job[1]."\">".$job[0]."</a>\n");
    //   print("</br>\n");
    //}
    //ganglia.
-   return function(req, res){
-      res.render('status', { data: 'hello'});
+      res.render('status', { data: data});
    }
 }
 
 exports.allJobsRunning = function(execSync){
   return function(req, res){
+     var ganglia = require(".././ganglia");
+     ganglia.execute(execSync);
+     var gangliaLinks = ganglia.parse(execSync);
+
      var result = execSync.exec('/home/falcone/prg/scripts/src/showq.py --json --running');
      var jobs = JSON.parse(result.stdout).running;
      var jsonStruct = {
@@ -67,9 +70,21 @@ exports.allJobsRunning = function(execSync){
         rows: [
         ]
      };
-     
+
+    function gangliaHosts(jobId){
+      for(var i=0; i<gangliaLinks.length; i++){
+         if(gangliaLinks[i][0] == jobId){
+           return gangliaLinks[i][1];
+         }
+      }
+      return '#';
+    }
+
     for(var i=0; i< jobs.length; i++){
-      jsonStruct.rows[i] = {jobid:jobs[i].jobid,
+      var link = gangliaHosts(jobs[i].jobid);
+      var hrefLink = '<a href=\"' + link + '\">'+ jobs[i].jobid + '</a>';
+      
+      jsonStruct.rows[i] = {jobid:hrefLink,
                             name:jobs[i].name,
                             user:jobs[i].user,
                             partition:jobs[i].partition,
