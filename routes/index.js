@@ -205,31 +205,35 @@ exports.reservations = function(execSync){
               index: 6,
               type: 'string',
               friendly: 'Node count',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            CoreCnt: {
               index: 7,
               type: 'string',
               friendly: 'Core count',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            Features: {
               index: 8,
               type: 'string',
               friendly: 'Features',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            PartitionName: {
               index: 9,
               type: 'string',
-              friendly: 'Parition name',
+              friendly: 'Partition name',
               filter: false
            },
            Flags: {
               index: 10,
               type: 'string',
               friendly: 'Flags',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            Users: {
               index: 11,
@@ -241,13 +245,15 @@ exports.reservations = function(execSync){
               index: 12,
               type: 'string',
               friendly: 'Accounts',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            Licences: {
               index: 13,
               type: 'string',
               friendly: 'Licences',
-              filter: false
+              filter: false,
+              hidden: true,
            },
            State: {
               index: 14,
