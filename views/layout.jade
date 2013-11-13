@@ -7,7 +7,7 @@ html(lang='en')
     meta(name='author', content='Yann Sagon (yann.sagon@unige.ch)')
     meta(name='copyright', content='Copyright (c) 2013 University of Geneva')
     link(rel='shortcut icon', href=urlRoot + 'images/favicon.ico')
-    title Default layout
+    title Baobab web interface
     //link(href='/bower_components/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
     link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
     link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
@@ -43,7 +43,25 @@ html(lang='en')
          };
          var myWatable = new Array();
  
- 
+   
+  
+         var temp = ($('#reservationTable').WATable({
+                                       actions: {
+            filter: true, //Toggle visibility
+               custom: [
+                  $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', function(e){
+                     e.preventDefault();
+                     for(var i=0; i<myWatable.length; i++){
+                        myWatable[i].update();
+                     }
+                  })
+               ]
+         },
+                                       hidePagerOnEmpty: true,
+                                       url: urlRoot + 'reservations'
+                                    })).data('WATable');
+         myWatable.push(temp);
+   
   
          var temp = ($('#statusTable').WATable({
                                        actions: {

@@ -15,16 +15,6 @@ exports.index = function(urlRoot){
   };
 }
 
-
-exports.ganglia = function(execSync){
-   return function(req, res){
-      var ganglia = require(".././ganglia");
-      ganglia.execute(execSync);
-      var data = ganglia.parse(execSync);
-      res.render('resJson', { data: data});
-   }
-}
-
 exports.allJobsRunning = function(execSync){
   return function(req, res){
      var ganglia = require(".././ganglia");
@@ -173,6 +163,126 @@ exports.history = function(execSync){
     res.render('resjson', { data: result.stdout });
   };
 };
+
+exports.reservations = function(execSync){
+   return function(req, res){
+      var reservation = require(".././reservation");
+      var data = reservation.execute(execSync);
+      var jsonStruct = {
+        cols: {
+           ReservationName: {
+              index: 1,
+              type: 'string',
+              friendly: 'Reservation name',
+              filter: true,
+           },
+           StartTime: {
+              index: 2,
+              type: 'string',
+              filter: true,
+              friendly: 'Start time'
+           },
+           EndTime: {
+              index: 3,
+              type: 'string',
+              friendly: 'End time',
+              filter: true,
+              tooltip: 'Owner of the job'
+           },
+           Duration: {
+              index: 4,
+              type: 'string',
+              friendly: 'Duration',
+              filter: true
+           },
+           Nodes: {
+              index: 5,
+              type: 'string',
+              friendly: 'Nodes',
+              filter: false
+           },
+           NodeCnt: {
+              index: 6,
+              type: 'string',
+              friendly: 'Node count',
+              filter: false
+           },
+           CoreCnt: {
+              index: 7,
+              type: 'string',
+              friendly: 'Core count',
+              filter: false
+           },
+           Features: {
+              index: 8,
+              type: 'string',
+              friendly: 'Features',
+              filter: false
+           },
+           PartitionName: {
+              index: 9,
+              type: 'string',
+              friendly: 'Parition name',
+              filter: false
+           },
+           Flags: {
+              index: 10,
+              type: 'string',
+              friendly: 'Flags',
+              filter: false
+           },
+           Users: {
+              index: 11,
+              type: 'string',
+              friendly: 'Users',
+              filter: false
+           },
+           Accounts: {
+              index: 12,
+              type: 'string',
+              friendly: 'Accounts',
+              filter: false
+           },
+           Licences: {
+              index: 13,
+              type: 'string',
+              friendly: 'Licences',
+              filter: false
+           },
+           State: {
+              index: 14,
+              type: 'string',
+              friendly: 'State',
+              filter: false
+           }
+        },
+        rows: [
+      ],
+    };
+     
+
+    for(var i=0; i< data.length; i++){
+      var j = 0;
+      jsonStruct.rows[i] = {ReservationName:data[i][j++].split('=')[1],
+                            StartTime:data[i][j++].split('=')[1],
+                            EndTime:data[i][j++].split('=')[1],
+                            Duration:data[i][j++].split('=')[1],
+                            Nodes:data[i][j++].split('=')[1],
+                            NodeCnt:data[i][j++].split('=')[1],
+                            CoreCnt:data[i][j++].split('=')[1],
+                            Features:data[i][j++].split('=')[1],
+                            PartitionName:data[i][j++].split('=')[1],
+                            Flags:data[i][j++].split('=')[1],
+                            Users:data[i][j++].split('=')[1],
+                            Accounts:data[i][j++].split('=')[1],
+                            Licences:data[i][j++].split('=')[1],
+                            State:data[i][j++].split('=')[1]
+      };
+    }
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
+   }
+}
+
 
 exports.status = function(execSync){
   return function(req, res){

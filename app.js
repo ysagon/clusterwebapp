@@ -149,7 +149,7 @@ app.get('/alljobsrunning', routes.allJobsRunning(execSync));
 app.get('/alljobspending', routes.allJobsPending(execSync));
 app.get('/history', ensureAuthenticated, routes.history(execSync));
 app.get('/status', routes.status(execSync));
-app.get('/ganglia', routes.ganglia(execSync));
+app.get('/reservations', routes.reservations(execSync));
 
 
 // POST /login
