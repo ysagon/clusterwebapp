@@ -13,6 +13,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var execSync = require("execSync");
+var urlRoot = 'https://baobab.unige.ch/iface/';
+
 
 //var ldap = require('ldapjs');
 
@@ -137,7 +139,7 @@ if ('development' == app.get('env')) {
   app.locals.pretty = true;
 }
 
-app.get('/', routes.index);
+app.get('/', routes.index(urlRoot));
 app.get('/users', ensureAuthenticated, user.list);
 app.get('/login', routes.login);
 app.get('/userlist', ensureAuthenticated, routes.userlist(db));

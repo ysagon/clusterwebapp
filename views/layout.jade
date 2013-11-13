@@ -9,8 +9,8 @@ html(lang='en')
     link(rel='shortcut icon', href='/bootstrap-3.0.0/assets/ico/favicon.png')
     title Default layout
     //link(href='/bower_components/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
-    link(href='/bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
-    link(href='/javascripts/watable/watable.css', rel='stylesheet')
+    link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
+    link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
  body
     
     .container
@@ -21,17 +21,79 @@ html(lang='en')
             a(href='/logout') logout
         .bs-example
             block content
-    script(src='/bower_components/jquery/jquery.js')
+    script(src=urlRoot + 'bower_components/jquery/jquery.js')
 
-    script(src='/bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
-    script(src='/bower_components/bootstrap/docs/assets/js/tab.js')
+    script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
+    //script(src='/bower_components/bootstrap/docs/assets/js/tab.js')
 
     //script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
     //script(src='/bower_components/bootstrap/js/tab.js')
-    script(src='/javascripts/watable/jquery.watable.js')
+    script(src=urlRoot + 'javascripts/watable/jquery.watable.js')
+    != "<script type='text/javascript'>"
+    != "var urlRoot = \"" + urlRoot + "\""
+    != "</script>"
     script.
        $( document ).ready(function() {
-         $('#statusTable').WATable({url: '/status'});
-         $('#allJobsRunning').WATable({url: '/alljobsrunning'});
-         $('#allJobsPending').WATable({url: '/alljobspending'});
+
+         var actions = {
+            filter: true, //Toggle visibility
+            custom: [
+              $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>'),
+            ]
+         };
+         var myWatable = new Array();
+ 
+ 
+  
+         var temp = ($('#statusTable').WATable({
+                                       actions: {
+            filter: true, //Toggle visibility
+               custom: [
+                  $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', function(e){
+                     e.preventDefault();
+                     for(var i=0; i<myWatable.length; i++){
+                        myWatable[i].update();
+                     }
+                  })
+               ]
+         },
+                                       hidePagerOnEmpty: true,
+                                       url: urlRoot + 'status'
+                                    })).data('WATable');
+         myWatable.push(temp);
+
+         var temp = ($('#allJobsRunning').WATable({
+                                       actions: {
+            filter: true, //Toggle visibility
+               custom: [
+                  $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', function(e){
+                     e.preventDefault();
+                     for(var i=0; i<myWatable.length; i++){
+                        myWatable[i].update();
+                     }
+                  })
+               ]
+         },
+                                       filter: true,
+                                       url: urlRoot + 'alljobsrunning'
+                                    })).data('WATable');
+         myWatable.push(temp);
+
+         var temp = ($('#allJobsPending').WATable({
+            actions: {
+               filter: true, //Toggle visibility
+               custom: [
+                  $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', function(e){
+                     e.preventDefault();
+                     for(var i=0; i<myWatable.length; i++){
+                        myWatable[i].update();
+                     }
+                  })
+               ]
+            },
+            filter: true,
+            url: urlRoot + 'alljobspending'
+         })).data('WATable');
+
+         myWatable.push(temp);
        });

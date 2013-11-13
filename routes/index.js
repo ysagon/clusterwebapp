@@ -3,13 +3,17 @@
  * GET home page.
  */
 
+
+
 exports.login = function(req, res){
    res.render('login', { user: req.user, message: req.flash('error') });
 };
 
-exports.index = function(req, res){
-  res.render('index', { user: req.user, title: 'Welcome' });
-};
+exports.index = function(urlRoot){
+  return function(req, res){
+    res.render('index', { urlRoot: urlRoot, user: req.user, title: 'Welcome' });
+  };
+}
 
 
 exports.ganglia = function(execSync){
@@ -17,12 +21,7 @@ exports.ganglia = function(execSync){
       var ganglia = require(".././ganglia");
       ganglia.execute(execSync);
       var data = ganglia.parse(execSync);
-   //foreach($res as $job){
-   //   print("<a href=\"".$job[1]."\">".$job[0]."</a>\n");
-   //   print("</br>\n");
-   //}
-   //ganglia.
-      res.render('status', { data: data});
+      res.render('resJson', { data: data});
    }
 }
 
@@ -39,32 +38,39 @@ exports.allJobsRunning = function(execSync){
            jobid: {
               index: 1,
               type: 'string',
-              friendly: 'Job ID'
+              friendly: 'Job ID',
+              filter: true,
            },
            name: {
               index: 2,
               type: 'string',
+              filter: true,
               friendly: 'Job name'
            },
            user: {
               index: 3,
               type: 'string',
-              friendly: 'User'
+              friendly: 'User',
+              filter: true,
+              tooltip: 'Owner of the job'
            },
            partition: {
               index: 4,
               type: 'string',
-              friendly: 'Partition'
+              friendly: 'Partition',
+              filter: true
            },
            end: {
               index: 5,
               type: 'string',
-              friendly: 'Max remaining time'
+              friendly: 'Max remaining time',
+              filter: false
            },
            nodes: {
               index: 6,
-              type: 'string',
-              friendly: 'Nodes allocated to the job'
+              type: 'number',
+              friendly: 'Nodes allocated to the job',
+              filter: true
            }
         },
         rows: [
@@ -92,7 +98,7 @@ exports.allJobsRunning = function(execSync){
                             nodes:jobs[i].nodes};
     }
 
-    res.render('status', { data: JSON.stringify(jsonStruct) });
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
 
@@ -134,7 +140,7 @@ exports.allJobsPending = function(execSync){
            },
            priority: {
               index: 7,
-              type: 'string',
+              type: 'number',
               friendly: 'Priority'
            },
            numNodes: {
@@ -157,7 +163,7 @@ exports.allJobsPending = function(execSync){
                             priority:jobs[i].priority,
                             numNodes:jobs[i].numNodes};
     }
-    res.render('status', { data: JSON.stringify(jsonStruct) });
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
 
@@ -220,7 +226,7 @@ exports.status = function(execSync){
                               nodelist:rows[i][5]};
     }
 
-    res.render('status', { data: JSON.stringify(jsonStruct) });
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
 
