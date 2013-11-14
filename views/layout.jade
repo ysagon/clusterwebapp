@@ -10,6 +10,7 @@ html(lang='en')
     title Baobab web interface
     //link(href='/bower_components/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
     link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
+    link(href=urlRoot + 'bower_components/bootstrap-datepicker/css/datepicker.css', rel='stylesheet')
     link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
  body
     
@@ -22,6 +23,7 @@ html(lang='en')
         .bs-example
             block content
     script(src=urlRoot + 'bower_components/jquery/jquery.js')
+    script(src=urlRoot + 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
 
     script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
     //script(src='/bower_components/bootstrap/docs/assets/js/tab.js')
@@ -34,7 +36,18 @@ html(lang='en')
     != "</script>"
     script.
        $( document ).ready(function() {
-
+         $( "#startDate" ).datepicker({
+            format: "dd/mm/yyyy",
+            //startDate: '-5d'
+         }).on('changeDate', function(e){
+            var selectedDate = e.format('yyyy-mm-dd')
+            var url = myWatable[0].option('url');
+            var newUrl = url + '?startDate=' + selectedDate;
+            myWatable[0].option('url',newUrl);
+            myWatable[0].update();
+            myWatable[0].option('url',url);
+            console.log(selectedDate);
+         });
          var actions = {
             filter: true, //Toggle visibility
             custom: [
@@ -44,6 +57,23 @@ html(lang='en')
          var myWatable = new Array();
  
    
+         var temp = ($('#historyTable').WATable({
+                                       actions: {
+            filter: true, //Toggle visibility
+               custom: [
+                  $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', function(e){
+                     e.preventDefault();
+                     for(var i=0; i<myWatable.length; i++){
+                        myWatable[i].update();
+                     }
+                  })
+               ]
+         },
+                                       hidePagerOnEmpty: true,
+                                       columnPicker: true,
+                                       url: urlRoot + 'history'
+                                    })).data('WATable');
+         myWatable.push(temp);
   
          var temp = ($('#reservationTable').WATable({
                                        actions: {

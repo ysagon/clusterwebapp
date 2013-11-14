@@ -159,10 +159,84 @@ exports.allJobsPending = function(execSync){
 
 exports.history = function(execSync){
   return function(req, res){
-    var result = execSync.exec("echo titi");
-    res.render('resjson', { data: result.stdout });
-  };
-};
+      var ouCode = req.headers['unigechemployeeoucode'];
+      console.log(req.headers);
+      var user = req.headers['unigechuniqueuid'];
+     
+      var startDate;
+
+      if(typeof req.query.startDate != 'undefined'){
+         startDate = new Date(req.query.startDate);
+      }else{
+         startDate  = new Date(new Date().setDate(new Date().getDate()-10));
+      }
+
+      var history = require(".././history");
+      var data = history.execute(execSync, startDate, user);
+      var jsonStruct = {
+        cols: {
+           JobID: {
+              index: 1,
+              type: 'string',
+              friendly: 'Job ID',
+              filter: true,
+           },
+           JobName: {
+              index: 2,
+              type: 'string',
+              filter: true,
+              friendly: 'Job name'
+           },
+           Partition: {
+              index: 3,
+              type: 'string',
+              friendly: 'Partition',
+              filter: true,
+           },
+           Account: {
+              index: 4,
+              type: 'string',
+              friendly: 'account',
+              filter: true
+           },
+           AllocCPUS: {
+              index: 5,
+              type: 'number',
+              friendly: 'Cpus allocated',
+              filter: true
+           },
+           State: {
+              index: 6,
+              type: 'string',
+              friendly: 'State',
+              filter: true,
+           },
+           ExitCode: {
+              index: 7,
+              type: 'string',
+              friendly: 'Exit code',
+              filter: true,
+           },
+        },
+        rows: [
+      ],
+    };
+     
+
+    for(var i=0; i< data.length; i++){
+      var j = 0;
+      jsonStruct.rows[i] = {JobID:data[i][j++],
+                            JobName:data[i][j++],
+                            Partition:data[i][j++],
+                            Account:data[i][j++],
+                            AllocCPUS:data[i][j++],
+                            State:data[i][j++],
+                            ExitCode:data[i][j++]
+      };
+    }
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
+   }
+}
 
 exports.reservations = function(execSync){
    return function(req, res){
