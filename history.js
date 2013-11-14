@@ -1,7 +1,11 @@
 exports.execute = function(execSync, startDate, user){
    var out = new Array();
    var formatDate = startDate.getFullYear() + '-' + String(Number(startDate.getMonth())+1) + '-' + startDate.getDate();
-   var cmd = 'sacct --user ' + user + ' -s CA,CD,F,NF,PR,TO -S ' + formatDate + ' --parsable2 --noheader';
+
+
+   var format = 'JobID,JobName,Partition,Account,AllocCPUS,State,ExitCode,Start';
+
+   var cmd = 'sacct --user ' + user + ' -s CA,CD,F,NF,PR,TO -S ' + formatDate + ' --parsable2 --noheader --format ' + format;
    console.log(cmd);
    var result = execSync.exec(cmd);
 

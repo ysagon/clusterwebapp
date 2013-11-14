@@ -36,6 +36,7 @@ html(lang='en')
     != "</script>"
     script.
        $( document ).ready(function() {
+         $( "#startDate" ).val('-10d');
          $( "#startDate" ).datepicker({
             format: "dd/mm/yyyy",
             //startDate: '-5d'

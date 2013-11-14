@@ -217,6 +217,12 @@ exports.history = function(execSync){
               friendly: 'Exit code',
               filter: true,
            },
+           Start: {
+              index: 8,
+              type: 'string',
+              friendly: 'Start date',
+              filter: true,
+           },
         },
         rows: [
       ],
@@ -231,7 +237,8 @@ exports.history = function(execSync){
                             Account:data[i][j++],
                             AllocCPUS:data[i][j++],
                             State:data[i][j++],
-                            ExitCode:data[i][j++]
+                            ExitCode:data[i][j++],
+                            Start:data[i][j++]
       };
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
