@@ -77,6 +77,7 @@ html(lang='en')
          myWatable.push(temp);
   
          var temp = ($('#reservationTable').WATable({
+                                       pageSize: '100',
                                        actions: {
             filter: true, //Toggle visibility
                custom: [
@@ -96,6 +97,7 @@ html(lang='en')
    
   
          var temp = ($('#statusTable').WATable({
+                                       pageSize: '100',
                                        actions: {
             filter: true, //Toggle visibility
                custom: [
@@ -113,6 +115,7 @@ html(lang='en')
          myWatable.push(temp);
 
          var temp = ($('#allJobsRunning').WATable({
+                                       pageSize: '100',
                                        actions: {
             filter: true, //Toggle visibility
                custom: [
@@ -130,6 +133,7 @@ html(lang='en')
          myWatable.push(temp);
 
          var temp = ($('#allJobsPending').WATable({
+                                       pageSize: '100',
             actions: {
                filter: true, //Toggle visibility
                custom: [

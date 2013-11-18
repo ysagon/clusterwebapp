@@ -1,22 +1,22 @@
 extends layout
 
 block content
-  ul.nav.nav-tabs
+  ul#tab.nav.nav-tabs
     li
-      a( href="#jobsrunning" data-toggle="tab").active Jobs running
+      a( href="#jobsrunning" data-toggle="tab") Jobs running
     li
       a( href="#jobspending" data-toggle="tab") Jobs pending
     li
       a( href="#history" data-toggle="tab") History
-    li
+    li.active
       a( href="#status" data-toggle="tab") Status
 
   .tab-content
-    .tab-pane(id="jobsrunning").active 
+    .tab-pane(id="jobsrunning")
       block jobsrunning
     .tab-pane(id="jobspending")
       block jobspending
     .tab-pane(id="history")
       block history
-    .tab-pane(id="status")
+    .tab-pane(id="status").active
       block status
