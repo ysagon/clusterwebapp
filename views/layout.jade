@@ -23,6 +23,9 @@ html(lang='en')
         .bs-example
             block content
     script(src=urlRoot + 'bower_components/jquery/jquery.js')
+    script(src=urlRoot + 'bower_components/jquery-ui/ui/minified/jquery-ui.min.js')
+    script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js')
+    script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.validate.min.js')
     script(src=urlRoot + 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
 
     script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
@@ -36,6 +39,11 @@ html(lang='en')
     != "</script>"
     script.
        $( document ).ready(function() {
+         $( "#sbatchGenerator" ).sbatchGenerator();
+         $(document).tooltip({
+            selector:'[data-toggle="tooltip"]'
+         });
+
          $( "#startDate" ).val('-10d');
          $( "#startDate" ).datepicker({
             format: "dd/mm/yyyy",

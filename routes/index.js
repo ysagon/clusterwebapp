@@ -160,7 +160,6 @@ exports.allJobsPending = function(execSync){
 exports.history = function(execSync){
   return function(req, res){
       var ouCode = req.headers['unigechemployeeoucode'];
-      console.log(req.headers);
       var user = req.headers['unigechuniqueuid'];
      
       var startDate;

@@ -5,8 +5,6 @@ exports.execute = function(execSync){
 
    reservations.pop();
 
-   console.log('nb reservations ' + reservations.length);
-
    for(var i=0; i<reservations.length; i++) {
       var reservation = reservations[i].split(/\s+/);
       out.push(reservation);

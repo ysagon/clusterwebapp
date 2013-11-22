@@ -58,7 +58,9 @@
          'id': 'sbatch_cpusPerTask',
          'name': 'sbatch_cpusPerTask',
          'label': 'Cpus per task',
-         'ph': 'cpus per task',
+         'tooltip': 'Number of threads a single instance of your application needs',
+         'class': 'span1',
+         'ph': '1..16',
          'validate': [{'key':'required', 'val':''},
                       {'key':'min', 'val':1},
                       {'key':'max', 'val':16}
@@ -68,7 +70,8 @@
                  'slurm_option': '--job-name',
                  'id': 'sbatch_jobName',
                  'label': 'Job name',
-                 'ph': 'Job name',
+         'class': 'span2',
+                 'ph': 'string',
                  'validate': [{'key':'required', 'val':''},
                       {'key':'minlength', 'val':2}
          ]                  
@@ -79,8 +82,10 @@
          'id': 'sbatch_nTasks',
          'name': 'sbatch_nTasks',
          'label': 'Number of tasks',
-         'ph': '1-1000',
-         'validate': [{'key':'max', 'val':1000},
+         'tooltip': 'Number of instance(s) of your application, or number of MPI workers',
+         'class': 'span1',
+         'ph': '1..416',
+         'validate': [{'key':'max', 'val':416},
                       {'key':'min', 'val':1},
                       {'key':'required', 'val':''}
          ]
@@ -91,24 +96,23 @@
          'id': 'sbatch_time',
          'name': 'sbatch_time',
          'label': 'Required time',
+         'tooltip': 'Maximum running time of your job. In order for your job to be scheduled quickly, specify the minimum time possible',
+         'class': 'span2',
          'ph': 'days-hh:mm:ss'
-        },
-        {'type': 'button',
-         'id': 'btnSubmit',
-         'name': 'submit',
-         'value': 'Generate'
         },
         {'type': 'email',
          'slurm_option': '--mail-user',
          'id': 'sbatch_mail_user',
          'name': 'sbatch_mail_user',
          'label': 'Email of the user to be notified',
+         'class': 'span3',
          'ph': 'email'
         },
         {'type': 'select',
          'slurm_option': '--mail-type',
          'id': 'sbatch_mail_type',
          'label': 'Type of notification',
+         'class': 'span2',
          'name': 'sbatch_mail_type',
          'value': [{'id': 'BEGIN', 'value':'Begin of job'},
                    {'id': 'END', 'value':'End of job'},
@@ -120,12 +124,22 @@
         {'type': 'select',
          'slurm_option': '--partition',
          'id': 'partitions',
+         'label': 'Partition',
+         'class': 'span3',
          'name': 'sbatch_partitions',
-         'value': [{'id': 'parallel', 'value':'Parallel'},
+         'tooltip': 'See &lt;a href=&quot;#status&quot;&gt;status&lt;/a&gt;',
+         'value': [
                    {'id': 'debug', 'value':'Debug'},
-                   {'id': 'bigmem', 'value':'Bigmem'}]
+                   {'id': 'parallel', 'value':'Parallel'},
+                   {'id': 'bigmem', 'value':'Bigmem'}
+                  ]
         
         },        
+        {'type': 'button',
+         'id': 'btnSubmit',
+         'name': 'submit',
+         'value': 'Generate'
+        },
       ];
       
       
@@ -172,14 +186,13 @@
     },
 
     _generateScript: function() {
-       //var res = $('<pre id="sbatch"></pre>');
        var data = new Array();
-       data.push('#/bin/sh ');
+       data.push('#!/bin/sh ');
        
        var inputs = self._vars.inputs;
        for (var i=0; i<inputs.length; i++){
           if(typeof inputs[i].slurm_option != 'undefined'){
-             data.push('#' + inputs[i].slurm_option + '=' + $('#'+inputs[i].id).val());
+             data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#'+inputs[i].id).val());
           }
        }
        data.push('#clusters=baobab');
@@ -193,6 +206,9 @@
         var label = false;
          if(obj.label){
             label = $('<label>'+obj.label+'</label>');
+            if(obj.tooltip){
+              label.append($('<a href="#" data-html="true" data-toggle="tooltip" title="'+ obj.tooltip +'">?</a>'));
+            }
          }
          return label;
     },
@@ -200,10 +216,12 @@
         switch(obj.type){
           case 'select':{
           var select = $('<select id="'+ obj.id 
-                                       + '" name='+ obj.name +'></select>');
+                                       + '" name="'+ obj.name 
+                                       + '" class="'+ obj.class + '"></select>');
           for(var i=0; i<obj.value.length; i++){
             var id = obj.value[i].id;
             var value = obj.value[i].value;
+            
             $('<option value="' + id + '" id="'+ id +'">'+value+'</option>').appendTo(select);
           }
           return select;
@@ -214,6 +232,7 @@
              var input = $('<input type="'+ obj.type
              + '" placeholder="' + obj.ph 
              + '" name="' + obj.name
+             + '" class="' + obj.class
              + '" id="' + obj.id
              + '">');
              if(typeof obj.validate != 'undefined'){
@@ -226,7 +245,7 @@
              break;
           }
           case 'button':{
-          return $('<button id="'+obj.id+'">' + obj.value + '</button>');
+          return $('<button class="btn" id="'+obj.id+'">' + obj.value + '</button>');
           }
         }
      },   

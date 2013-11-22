@@ -10,6 +10,8 @@ block content
       a( href="#history" data-toggle="tab") History
     li.active
       a( href="#status" data-toggle="tab") Status
+    li
+      a( href="#tools" data-toggle="tab") Tools
 
   .tab-content
     .tab-pane(id="jobsrunning")
@@ -20,3 +22,5 @@ block content
       block history
     .tab-pane(id="status").active
       block status
+    .tab-pane(id="tools")
+      block tools
