@@ -116,6 +116,11 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+var hourMs = 1000*60*60;
+app.use('/download', express.static('/var/www/html/download', { maxAge: hourMs }));
+app.use('/download', express.directory('/var/www/html/download'));
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
