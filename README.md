@@ -63,6 +63,10 @@ The authentication is done by shibboleth through apache. Here is the part needed
      ShibUseHeaders On
  </Location>
 
+Configure the application
+-------------------------
+You can specify the urlroot of your installation in app.js
+
 Running the application
 =======================
 ::

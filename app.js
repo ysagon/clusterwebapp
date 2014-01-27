@@ -13,7 +13,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var execSync = require("execSync");
-var urlRoot = 'https://baobab.unige.ch/iface/';
+var urlRoot = 'https://baobabmaster.unige.ch/iface/';
 
 
 //var ldap = require('ldapjs');
