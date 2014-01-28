@@ -13,8 +13,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var execSync = require("execSync");
-var urlRoot = 'https://baobabmaster.unige.ch/iface/';
-
+var urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
+var port = 6000;
 
 //var ldap = require('ldapjs');
 
@@ -113,7 +113,7 @@ var db = monk('localhost:27017/clusterWebApp');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

@@ -2,9 +2,13 @@ extends tab
 
 block jobsrunning
   #allJobsRunning
+  p Page opened 
+    abbr.timeago.loaded
 
 block jobspending
   #allJobsPending
+  p Page opened 
+    abbr.timeago.loaded
 
 block history
   div(id='div_start_date', class='input-append date')
@@ -12,13 +16,18 @@ block history
      span.add-on
         i.icon-th
   #historyTable
+  p Page opened 
+    abbr.timeago.loaded
 
 block status
   h2 Cluster status
   #statusTable
   h2 Cluster reservation
   #reservationTable
-
+  p Page opened 
+    abbr.timeago.loaded
 block tools
   h2 Sbatch generator
   #sbatchGenerator
+  p Page opened 
+    abbr.timeago.loaded

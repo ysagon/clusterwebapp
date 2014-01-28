@@ -27,6 +27,7 @@ html(lang='en')
     script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js')
     script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.validate.min.js')
     script(src=urlRoot + 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
+    script(src=urlRoot + 'bower_components/jquery-timeago/jquery.timeago.js')
 
     script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
     //script(src='/bower_components/bootstrap/docs/assets/js/tab.js')
@@ -39,7 +40,20 @@ html(lang='en')
     != "</script>"
     script.
        $( document ).ready(function() {
+         var zeropad = function (num) {
+            return ((num < 10) ? '0' : '') + num;
+         };
+         var iso8601 = function (date) {
+            return date.getUTCFullYear()
+            + "-" + zeropad(date.getUTCMonth()+1)
+            + "-" + zeropad(date.getUTCDate())
+            + "T" + zeropad(date.getUTCHours())
+            + ":" + zeropad(date.getUTCMinutes())
+            + ":" + zeropad(date.getUTCSeconds()) + "Z";
+         }; 
          $( "#sbatchGenerator" ).sbatchGenerator();
+         $( "abbr.loaded" ).attr("title", iso8601(new Date()));
+         $( "abbr.timeago" ).timeago();
          $(document).tooltip({
             selector:'[data-toggle="tooltip"]'
          });
