@@ -1,11 +1,24 @@
 exports.execute = function(execSync, startDate, user){
    var out = new Array();
-   var formatDate = startDate.getFullYear() + '-' + String(Number(startDate.getMonth())+1) + '-' + startDate.getDate();
 
+   var fullYear = startDate.getFullYear();
+   var month = Number(startDate.getMonth())+1;
+   var day = startDate.getDate();
+   // not possible to format correctly the Date object.. pff
+   if(month.toString().length == 1){
+     month = '0'+month;
+   }
+
+   if(day.toString().length == 1){
+     day = '0'+day;
+   }
+
+   var formatDate = fullYear + '-' + month + '-' + day;
 
    var format = 'JobID,JobName,Partition,Account,AllocCPUS,State,ExitCode,Start';
 
    var cmd = 'sacct --user ' + user + ' -s CA,CD,F,NF,PR,TO -S ' + formatDate + ' --parsable2 --noheader --format ' + format;
+
    var result = execSync.exec(cmd);
 
    var jobs = result.stdout.split('\n');

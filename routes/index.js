@@ -268,7 +268,6 @@ exports.reservations = function(execSync){
               type: 'string',
               friendly: 'End time',
               filter: true,
-              tooltip: 'Owner of the job'
            },
            Duration: {
               index: 4,
@@ -320,6 +319,7 @@ exports.reservations = function(execSync){
               index: 11,
               type: 'string',
               friendly: 'Users',
+              tooltip: 'users permited to use the reserved ressources',
               filter: false
            },
            Accounts: {

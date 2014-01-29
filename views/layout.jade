@@ -8,12 +8,10 @@ html(lang='en')
     meta(name='copyright', content='Copyright (c) 2013 University of Geneva')
     link(rel='shortcut icon', href=urlRoot + 'images/favicon.ico')
     title Baobab web interface
-    //link(href='/bower_components/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
     link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
     link(href=urlRoot + 'bower_components/bootstrap-datepicker/css/datepicker.css', rel='stylesheet')
     link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
  body
-    
     .container
         if user
            p
@@ -31,10 +29,6 @@ html(lang='en')
     script(src=urlRoot + 'bower_components/jquery-timeago/jquery.timeago.js')
 
     script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
-    //script(src='/bower_components/bootstrap/docs/assets/js/tab.js')
-
-    //script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-    //script(src='/bower_components/bootstrap/js/tab.js')
     script(src=urlRoot + 'javascripts/watable/jquery.watable.js')
     != "<script type='text/javascript'>"
     != "var urlRoot = \"" + urlRoot + "\""

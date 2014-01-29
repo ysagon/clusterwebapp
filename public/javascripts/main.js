@@ -67,12 +67,6 @@ $(document).ready(function() {
   // reservation table
   var temp = ($('#reservationTable').WATable({
     pageSize: '100',
-    actions: {
-      filter: true, //Toggle visibility
-      custom: [
-        $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
-      ]
-    },
     hidePagerOnEmpty: true,
     columnPicker: true,
     url: urlRoot + 'reservations'
@@ -84,12 +78,6 @@ $(document).ready(function() {
   // status table
   var temp = ($('#statusTable').WATable({
     pageSize: '100',
-    actions: {
-      filter: true, //Toggle visibility
-      custom: [
-        $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
-      ]
-    },
     hidePagerOnEmpty: true,
     url: urlRoot + 'status'
   })).data('WATable');
@@ -100,12 +88,12 @@ $(document).ready(function() {
   // jobs running
   var temp = ($('#allJobsRunning').WATable({
     pageSize: '100',
-    actions: {
-      filter: true, //Toggle visibility
-      custom: [
-        $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable) 
-      ]
-    },
+    //actions: {
+    //  filter: true, //Toggle visibility
+    //  custom: [
+    //    $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable) 
+    //  ]
+    //},
     filter: true,
     hidePagerOnEmpty: true,
     url: urlRoot + 'alljobsrunning'
@@ -117,12 +105,6 @@ $(document).ready(function() {
   // jobs pending
   var temp = ($('#allJobsPending').WATable({
     pageSize: '100',
-    actions: {
-      filter: true, //Toggle visibility
-      custom: [
-        $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
-      ]
-    },
     filter: true,
     url: urlRoot + 'alljobspending'
   })).data('WATable');
