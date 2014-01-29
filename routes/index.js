@@ -21,7 +21,7 @@ exports.allJobsRunning = function(execSync){
      ganglia.execute(execSync);
      var gangliaLinks = ganglia.parse(execSync);
 
-     var result = execSync.exec('/home/falcone/prg/scripts/src/showq.py --json --running');
+     var result = execSync.exec(__dirname + '/../scripts/showq.py --json --running');
      var jobs = JSON.parse(result.stdout).running;
      var jsonStruct = {
         cols: {
@@ -29,6 +29,7 @@ exports.allJobsRunning = function(execSync){
               index: 1,
               type: 'string',
               friendly: 'Job ID',
+              tooltip: 'Click on the id to see your job in ganglia',
               filter: true,
            },
            name: {
@@ -94,7 +95,7 @@ exports.allJobsRunning = function(execSync){
 
 exports.allJobsPending = function(execSync){
   return function(req, res){
-    var result = execSync.exec('/home/falcone/prg/scripts/src/showq.py --pending --json');
+    var result = execSync.exec(__dirname + '/../scripts/showq.py --json --pending');
     var jobs = JSON.parse(result.stdout).pending;
      var jsonStruct = {
         cols: {

@@ -6,21 +6,25 @@ block content
       a( href="#jobsrunning" data-toggle="tab") Jobs running
     li
       a( href="#jobspending" data-toggle="tab") Jobs pending
-    li
+    //li
       a( href="#history" data-toggle="tab") History
     li.active
       a( href="#status" data-toggle="tab") Status
-    li
+    //li
       a( href="#tools" data-toggle="tab") Tools
+    li
+      a( href="#docs" data-toggle="tab") Docs
 
   .tab-content
     .tab-pane(id="jobsrunning")
       block jobsrunning
     .tab-pane(id="jobspending")
       block jobspending
-    .tab-pane(id="history")
+    //.tab-pane(id="history")
       block history
     .tab-pane(id="status").active
       block status
-    .tab-pane(id="tools")
+    //.tab-pane(id="tools")
       block tools
+    .tab-pane(id="docs")
+      block docs
