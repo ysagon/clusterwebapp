@@ -51,13 +51,8 @@ $(document).ready(function() {
   
   // history table
   var temp = ($('#historyTable').WATable({
-    actions: {
-      filter: true, //Toggle visibility
-      custom: [
-        $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
-      ]
-    },
     columnPicker: true,
+    filter: true,
     url: urlRoot + 'history'
   })).data('WATable');
   if(typeof temp != 'undefined'){
