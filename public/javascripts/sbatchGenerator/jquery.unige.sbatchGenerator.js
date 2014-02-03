@@ -105,6 +105,7 @@
          'id': 'sbatch_mail_user',
          'name': 'sbatch_mail_user',
          'label': 'Email of the user to be notified',
+         'value': email,
          'class': 'span3',
          'ph': 'email'
         },
@@ -145,7 +146,7 @@
       
       
       $.validator.addMethod("duration", function(value, element){
-        return this.optional(element) || /^([0-4]-)?(\d\d):(\d\d):(\d\d)$/.test(value);
+        return this.optional(element) || /^([0-4]-)?(\d\d:)?(\d\d:)?(\d\d)$/.test(value);
       }, 'Specify a valid duration max: 4-00:00:00');
       
       for(var i=0; i< self._vars.inputs.length; i++){
@@ -195,10 +196,10 @@
              data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#'+inputs[i].id).val());
           }
        }
-       data.push('#clusters=baobab');
-       data.push('#output=slurm-%J.out');
+       data.push('#SBATCH --clusters=baobab');
+       data.push('#SBATCH --output=slurm-%J.out');
        data.push('\n');
-       data.push('srun asdf');
+       data.push('srun your_binary');
        return data.join('\n');
     },
     
@@ -235,6 +236,9 @@
              + '" class="' + obj.class
              + '" id="' + obj.id
              + '">');
+             if(typeof obj.value != 'undefined'){
+               input.attr('value', obj.value);
+             }
              if(typeof obj.validate != 'undefined'){
                 for(var i=0;i< obj.validate.length; i++){
                     input.attr(obj.validate[i].key, obj.validate[i].val);
