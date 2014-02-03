@@ -1,9 +1,22 @@
+/**
+ * Extracts the jobs history of a given user
+ *
+ * @author ysagon@gmail.com (Yann Sagon)
+ */
+
+/**
+ * Use sacct to extract informations about the terminated jobs of a user
+ * @param Object execSync
+ * @param Date startDate the begining of the history
+ * @param String user the user we want to work with
+ */
 exports.execute = function(execSync, startDate, user){
    var out = new Array();
 
    var fullYear = startDate.getFullYear();
    var month = Number(startDate.getMonth())+1;
    var day = startDate.getDate();
+
    // not possible to format correctly the Date object.. pff
    if(month.toString().length == 1){
      month = '0'+month;
@@ -29,6 +42,5 @@ exports.execute = function(execSync, startDate, user){
       var job = jobs[i].split('|');
       out.push(job);
    }
-     
    return out;
 }

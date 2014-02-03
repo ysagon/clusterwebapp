@@ -31,6 +31,8 @@ html(lang='en')
 
     script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
     script(src=urlRoot + 'javascripts/watable/jquery.watable.js')
-    != "<script type='text/javascript'>"
-    != "var urlRoot = \"" + urlRoot + "\""
-    != "</script>"
+    script.
+      var urlRoot = "!{urlRoot}";
+      var email = "!{userDetail.email}";
+      var userName = "!{userDetail.userName}";
+

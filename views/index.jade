@@ -13,6 +13,8 @@ block jobspending
     abbr.timeago.loaded
 
 block history
+  if userDetail.isAdmin
+    p You are administrator
   p. 
     This page lists your already terminated jobs from the 10 last days.
     You can select another date in the field below.

@@ -11,7 +11,14 @@ exports.login = function(req, res){
 
 exports.index = function(urlRoot){
   return function(req, res){
-    res.render('index', { urlRoot: urlRoot, user: req.user, title: 'Welcome' });
+    var user = req.headers['unigechuniqueuid'];
+    var email = req.headers['mail'];
+    var ismemberof = (req.headers['ismemberof']).split(";");
+    var isAdmin = false;
+    if (_isAdmin(ismemberof)){
+      isAdmin = true;
+    }
+    res.render('index', { urlRoot: urlRoot, userDetail: {'userName': user, 'email': email, 'isAdmin': isAdmin}, title: 'Welcome' });
   };
 }
 
@@ -96,7 +103,12 @@ exports.allJobsRunning = function(execSync){
 exports.allJobsPending = function(execSync){
   return function(req, res){
     var result = execSync.exec(__dirname + '/../scripts/showq.py --json --pending');
+    // the id pending doesn't exist if there is no pending jobs.
     var jobs = JSON.parse(result.stdout).pending;
+    if (typeof jobs == 'undefined'){
+      res.render('resjson',{});
+      return;
+    }
      var jsonStruct = {
         cols: {
            jobid: {
@@ -158,11 +170,21 @@ exports.allJobsPending = function(execSync){
   };
 };
 
+
+function _isAdmin(ismemberof){
+  for(var i=0; i<ismemberof.length; i++){
+    if(ismemberof[i]=='administrateur'){
+       return true;
+    }
+  }
+  return false;
+}
+
 exports.history = function(execSync){
   return function(req, res){
       var ouCode = req.headers['unigechemployeeoucode'];
       var user = req.headers['unigechuniqueuid'];
-     
+      var ismemberof = (req.headers['ismemberof']).split(";");
       var startDate;
 
       if(typeof req.query.startDate != 'undefined'){
