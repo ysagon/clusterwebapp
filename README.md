@@ -74,3 +74,9 @@ Running the application
  node app.js
 
 Deploy the application
+======================
+::
+
+ su nodeapp -c "./update.sh"
+ cp scripts/iface.conf /etc/init/
+ start iface
