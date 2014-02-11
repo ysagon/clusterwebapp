@@ -90,12 +90,13 @@ exports.allJobsRunning = function(execSync){
       return '#';
     }
 
+
     for(var i=0; i< jobs.length; i++){
       var link = gangliaHosts(jobs[i].jobid);
       var hrefLink = '<a href=\"' + link + '\" target=\"_blank\">'+ jobs[i].jobid + '</a>';
-      
+
       jsonStruct.rows[i] = {jobid:hrefLink,
-                            name:jobs[i].name,
+                            name:_cutJobName(jobs[i].name),
                             user:jobs[i].user,
                             partition:jobs[i].partition,
                             end:jobs[i].end_sec,
@@ -107,6 +108,12 @@ exports.allJobsRunning = function(execSync){
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
+function _cutJobName(str){
+   if(str.length > 20){
+      str = str.substr(0, Math.min(20, str.length)) + '...';
+   }
+   return str;
+}
 
 exports.allJobsPending = function(execSync){
   return function(req, res){
@@ -167,7 +174,7 @@ exports.allJobsPending = function(execSync){
      
     for(var i=0; i< jobs.length; i++){
       jsonStruct.rows[i] = {jobid:jobs[i].jobid,
-                            name:jobs[i].name,
+                            name:_cutJobName(jobs[i].name),
                             user:jobs[i].user,
                             partition:jobs[i].partition,
                             limit:jobs[i].limit,
