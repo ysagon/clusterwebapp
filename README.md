@@ -72,3 +72,5 @@ Running the application
 ::
 
  node app.js
+
+Deploy the application
