@@ -48,7 +48,7 @@ function _createRegex(hosts){
 
 function _createLink(hosts){
    var url1 = "https://baobab.unige.ch/ganglia2/?r=hour&cs=&ce=&m=load_one&s=by+name&c=DALCO+Cluster&h=&host_regex=";
-   var url2 = "&max_graphs=0&tab=m&vn=&sh=1&z=small&hc=2";
+   var url2 = "&max_graphs=0&tab=m&vn=&sh=1&z=small&hc=0";
    return url1 + hosts + url2;
 }
  

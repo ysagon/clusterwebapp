@@ -60,13 +60,19 @@ exports.allJobsRunning = function(execSync){
            },
            end: {
               index: 5,
-              type: 'string',
+              type: 'number',
               friendly: 'Max remaining time',
               filter: false
            },
-           nodes: {
+           cpus: {
               index: 6,
               type: 'number',
+              friendly: 'nb cpus',
+              filter: true
+           },
+           nodes: {
+              index: 7,
+              type: 'string',
               friendly: 'Nodes allocated to the job',
               filter: true
            }
@@ -86,13 +92,15 @@ exports.allJobsRunning = function(execSync){
 
     for(var i=0; i< jobs.length; i++){
       var link = gangliaHosts(jobs[i].jobid);
-      var hrefLink = '<a href=\"' + link + '\">'+ jobs[i].jobid + '</a>';
+      var hrefLink = '<a href=\"' + link + '\" target=\"_blank\">'+ jobs[i].jobid + '</a>';
       
       jsonStruct.rows[i] = {jobid:hrefLink,
                             name:jobs[i].name,
                             user:jobs[i].user,
                             partition:jobs[i].partition,
-                            end:jobs[i].end,
+                            end:jobs[i].end_sec,
+                            endFormat:jobs[i].end,
+                            cpus:jobs[i].cpus,
                             nodes:jobs[i].nodes};
     }
 
@@ -138,7 +146,8 @@ exports.allJobsPending = function(execSync){
            },
            start: {
               index: 6,
-              type: 'string',
+              filter: false,
+              type: 'number',
               friendly: 'Estimated start time'
            },
            priority: {
@@ -146,10 +155,10 @@ exports.allJobsPending = function(execSync){
               type: 'number',
               friendly: 'Priority'
            },
-           numNodes: {
+           numCpus: {
               index: 8,
-              type: 'string',
-              friendly: 'nodes'
+              type: 'number',
+              friendly: 'nb cpus'
            }
         },
         rows: [
@@ -162,9 +171,10 @@ exports.allJobsPending = function(execSync){
                             user:jobs[i].user,
                             partition:jobs[i].partition,
                             limit:jobs[i].limit,
-                            start:jobs[i].start,
+                            start:jobs[i].start_sec,
+                            startFormat:jobs[i].start,
                             priority:jobs[i].priority,
-                            numNodes:jobs[i].numNodes};
+                            numCpus:jobs[i].cpus};
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
