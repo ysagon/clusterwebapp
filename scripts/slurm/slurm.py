@@ -29,6 +29,7 @@ class JobParam:
     return JobParam( name, fmt, doIt )
 
 
+
 ## JOBS ######################################
 
 class Job:
@@ -81,7 +82,7 @@ class Queue:
   @staticmethod
   def __command():
     fmt = ' '.join( map(lambda p: p.fmt, Queue.params() ) )
-    cmd = ['squeue', '-h', '-o', fmt ]
+    cmd = ['squeue', '--all', '-h', '-o', fmt ]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE )
     return p.communicate()[0]
 
@@ -101,6 +102,7 @@ class Queue:
       JobParam.str( "state", "%t" ),
       JobParam.date( "end", "%e" ),
       JobParam.int( "priority", "%Q" ),
+      JobParam.int( "CPUs", "%C" ),  
       JobParam.int( "numNodes", "%D" ),  
       JobParam.date( "start", "%S" ),
       JobParam.str( "partition", "%P" ),

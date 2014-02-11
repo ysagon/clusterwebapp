@@ -17,13 +17,13 @@ def abbr( string, length ):
 ## Running
 
 def runningCols(job):
-  nodes = "%s (%s)" % (job.numNodes,job.nodes)
+  nodes = "%s (%s)" % (job.CPUs,job.nodes)
   end = diffDate(job.end)
   name = abbr( job.name, 12 )
   return [ job.jobid, name, job.user, job.partition, end, nodes ]
 
 def runningTable( jobs ):
-  header = ['ID', 'Job', 'User', 'Partition', 'Remaining', 'Nodes']
+  header = ['ID', 'Job', 'User', 'Partition', 'Remaining', 'CPUs']
   rows = list( map( runningCols, jobs ) )
   return rows, header
 
@@ -34,8 +34,10 @@ def runningJson( job ):
     'user': job.user,
     'partition': job.partition,
     'numNodes': job.numNodes,
-    'nodes': job.numNodes,
-    'end': diffDate(job.end)
+    'cpus': job.CPUs,
+    'nodes': job.nodes,
+    'end': diffDate(job.end),
+    'end_sec': diffDateInSeconds(job.end)
   }    
 
 def printRunning( queue ):
@@ -54,11 +56,11 @@ def pendingCols(job):
   else:
     start = "N/A"
   name = abbr( job.name, 12 )
-  return [job.jobid, name, job.user, job.partition, job.limit, start, job.priority, job.numNodes]
+  return [job.jobid, name, job.user, job.partition, job.limit, start, job.priority, job.CPUs]
 
 
 def pendingTable( jobs ):
-  header = ['ID', 'Job', 'User', 'Partition', 'Requested', 'Est. Start', 'Priority', 'Nodes']
+  header = ['ID', 'Job', 'User', 'Partition', 'Requested', 'Est. Start', 'Priority', 'CPUs']
   rows = list( map( pendingCols, jobs ) )
   return rows, header
 
@@ -68,14 +70,16 @@ def pendingJson( job ):
     'name': job.name,
     'user': job.user,
     'partition': job.partition,
-    'numNodes': job.numNodes,
+    'cpus': job.CPUs,
     'priority': job.priority,
-    'limit': job.limit
+    'limit': job.limit,
   }
   if job.start:
     j['start'] = diffDate(job.start)
+    j['start_sec'] = diffDateInSeconds(job.start)
   else:
     j['start'] = None
+    j['start_sec'] = None
   return j
 
 def printPending( queue, limit ):
@@ -95,13 +99,13 @@ def printPending( queue, limit ):
 
 ## JSON
 
-def printJson( queue ):
+def printJson( queue, showPending, showRunning ):
   res = {}
   running = queue.running()
-  if len(running) > 0:
+  if len(running) > 0 and showRunning:
     res['running'] = map( runningJson, running )
   pending = queue.pending()
-  if len(pending) > 0:
+  if len(pending) > 0 and showPending:
     res['pending'] = map( pendingJson, pending )
   print jdumps( res )
 
@@ -143,7 +147,12 @@ def main():
     queue = Queue.current()
 
   if options.json:
-    printJson(queue)
+    if options.pendingOnly:
+      printJson(queue, True, False)
+    elif options.runningOnly:
+      printJson(queue, False, True)
+    else:
+      printJson(queue, True, True)
     return
 
   if options.cgi:
@@ -167,3 +176,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+ 

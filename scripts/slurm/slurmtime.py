@@ -45,3 +45,8 @@ def diffDate( dt ):
   else:
     return res
 
+def diffDateInSeconds( dt ):
+  delta,future = __duration(dt)
+  return delta.seconds + delta.days * 24 * 3600
+
+
