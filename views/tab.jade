@@ -14,6 +14,9 @@ block content
       a( href="#tools" data-toggle="tab") Tools
     li
       a( href="#docs" data-toggle="tab") Docs
+    if userDetail.isAdmin
+      li
+        a( href="#admin" data-toggle="tab") Admin
 
   .tab-content
     .tab-pane(id="jobsrunning")
@@ -28,3 +31,6 @@ block content
       block tools
     .tab-pane(id="docs")
       block docs
+    if userDetail.isAdmin
+      .tab-pane(id="admin")
+         block admin

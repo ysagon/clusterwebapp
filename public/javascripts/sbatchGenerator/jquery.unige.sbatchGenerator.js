@@ -14,7 +14,6 @@
 (function($) {
    'use strict';
   $.widget('unige.sbatchGenerator', {
-    self: null,
     /**
          * object to store widget default options
          */
@@ -33,16 +32,17 @@
         * @private
         */
     _create: function() {
-       self = this;
-       self._vars.container = self.element;
-       console.log(self._vars.container);
-       self._drawUI();
+       var that = this;
+       that._vars.container = that.element;
+       console.log(that._vars.container);
+       that._drawUI();
     },
     
     /**
      * Draw the widget
      */
     _drawUI: function() {
+      var that = this;
       var script = $('<pre id="script"></pre>');
       
       
@@ -52,7 +52,7 @@
       var fieldset = $('<fieldset></fielseet>');
       
       var legend = $('<legend>Sbatch generator</legend>');
-      self._vars.inputs = [
+      that._vars.inputs = [
         {'type': 'number',
          'slurm_option': '--cpus-per-task',
          'id': 'sbatch_cpusPerTask',
@@ -149,9 +149,9 @@
         return this.optional(element) || /^([0-4]-)?(\d\d:)?(\d\d:)?(\d\d)$/.test(value);
       }, 'Specify a valid duration max: 4-00:00:00');
       
-      for(var i=0; i< self._vars.inputs.length; i++){
-         var input = self._buildInputs(self._vars.inputs[i]);
-         var label = self._buildLabels(self._vars.inputs[i]);
+      for(var i=0; i< that._vars.inputs.length; i++){
+         var input = that._buildInputs(that._vars.inputs[i]);
+         var label = that._buildLabels(that._vars.inputs[i]);
          if(label){
             label.appendTo(fieldset);
          }
@@ -167,7 +167,7 @@
       // validate form
       form.validate({debug: true,
                      submitHandler: function(form){
-                        var res = self._generateScript();
+                        var res = that._generateScript();
                         script.text(res);
                      },
                      rules: {
@@ -187,10 +187,11 @@
     },
 
     _generateScript: function() {
+       var that = this;
        var data = new Array();
        data.push('#!/bin/sh ');
        
-       var inputs = self._vars.inputs;
+       var inputs = that._vars.inputs;
        for (var i=0; i<inputs.length; i++){
           if(typeof inputs[i].slurm_option != 'undefined'){
              data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#'+inputs[i].id).val());

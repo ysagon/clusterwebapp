@@ -190,7 +190,7 @@ exports.allJobsPending = function(execSync){
 
 function _isAdmin(ismemberof){
   for(var i=0; i<ismemberof.length; i++){
-    if(ismemberof[i]=='administrateur'){
+    if(ismemberof[i]=='administrator'){
        return true;
     }
   }
@@ -412,7 +412,7 @@ exports.reservations = function(execSync){
 
 exports.status = function(execSync){
   return function(req, res){
-    var result = execSync.exec('/usr/bin/sinfo --noheader');
+    var result = execSync.exec('/usr/bin/sinfo -a --noheader');
     var lines = result.stdout.split('\n');
     lines.pop(); // last element is empty
     var rows = new Array();

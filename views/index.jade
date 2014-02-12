@@ -43,6 +43,16 @@ block tools
   p Page opened 
     abbr.timeago.loaded
 
+// - this block is only seen if the user is in group admin
+if userDetail.isAdmin
+  block admin
+    ul
+      li
+        a(href='https://baobabmaster.unige.ch/admin/' target='_blank') Admin doc
+      li
+        a(href='https://baobabmaster.unige.ch/ubmod/' target='_blank') Ubmod
+
+
 block docs
   h2 Enduser documentation
   ul
