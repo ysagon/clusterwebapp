@@ -3,6 +3,7 @@
  * 
  * @author ysagon@gmail.com (Yann Sagon)
  */
+define(['jquery-ui', 'sbatchGenerator/jquery.unige.sbatchGenerator', 'timeago', 'watable'], function($, undefined, undefined, undefined){
 $(document).ready(function() {
   var zeropad = function(num) {
     return ((num < 10) ? '0' : '') + num;
@@ -106,4 +107,5 @@ $(document).ready(function() {
   if(typeof temp != 'undefined'){
     myWatable.push(temp);
   }
+});
 });

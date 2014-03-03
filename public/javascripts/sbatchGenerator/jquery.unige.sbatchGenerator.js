@@ -11,7 +11,7 @@
  *
  * @author yann.sagon@unige.ch (Yann Sagon)
  */
-(function($) {
+define(['jquery-ui', 'jquery-validation'], function($, undefined) {
    'use strict';
   $.widget('unige.sbatchGenerator', {
     /**
@@ -264,4 +264,4 @@
       this._super(key, value);
     }
   });
-})(jQuery);
+});

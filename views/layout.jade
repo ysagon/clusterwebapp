@@ -25,18 +25,24 @@ html(lang='en')
             a(href='/logout') logout
         .bs-example
             block content
-    script(src=urlRoot + 'bower_components/jquery/jquery.js')
-    script(src=urlRoot + 'bower_components/jquery-ui/ui/minified/jquery-ui.min.js')
-    script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js')
-    script(src=urlRoot + 'javascripts/main.js')
-    script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.validate.min.js')
-    script(src=urlRoot + 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
-    script(src=urlRoot + 'bower_components/jquery-timeago/jquery.timeago.js')
+    script(src=urlRoot + 'bower_components/requirejs/require.js')
+    //script(src=urlRoot + 'bower_components/jquery/jquery.js')
+    //script(src=urlRoot + 'bower_components/jquery-ui/ui/minified/jquery-ui.min.js')
+    //script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js')
+    //script(src=urlRoot + 'javascripts/main.js')
+    //script(src=urlRoot + 'javascripts/sbatchGenerator/jquery.validate.min.js')
+    //script(src=urlRoot + 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
+    //script(src=urlRoot + 'bower_components/jquery-timeago/jquery.timeago.js')
 
-    script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
-    script(src=urlRoot + 'javascripts/watable/jquery.watable.js')
+    //script(src=urlRoot + 'bower_components/bootstrap/docs/assets/js/bootstrap.min.js')
+    //script(src=urlRoot + 'javascripts/watable/jquery.watable.js')
     script.
       var urlRoot = "!{urlRoot}";
       var email = "!{userDetail.email}";
       var userName = "!{userDetail.userName}";
+      require([urlRoot + 'javascripts/common.js'], function(undefined){
+         require(['main'], function($){
+         
+         });
+      });
 
