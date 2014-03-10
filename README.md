@@ -36,10 +36,15 @@ Install node from source
 
 Install the project dependencies
 --------------------------------
-The dependencies are installed using npm.
+The node dependencies are installed using npm.
 ::
 
  npm update
+
+The js dependencies are installed using bower.
+::
+
+ bower install
 
 Configure apache
 ----------------

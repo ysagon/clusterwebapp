@@ -42,7 +42,27 @@ module.exports = function(grunt) {
         }
       }
     },
+    shell: {
+      make_bootstrap: {
+         command: 'npm install; make',
+         options: {
+           stdout: true,
+           execOptions: {
+             cwd: 'public/bower_components/bootstrap/'
+           }
+         }
+      }
+    },
     copy: {
+      init: {
+        files: [
+          { expand: true,
+            flatten: true,
+            src: ['custom/variables.less'],
+            dest: 'public/bower_components/bootstrap/less/'
+          }
+        ]
+      },
       main: {
         files: [
           {expand: true,
@@ -59,6 +79,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Default task(s).
   grunt.registerTask('deploy', ['requirejs', 'cssmin', 'copy']);
