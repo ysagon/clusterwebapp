@@ -15,7 +15,8 @@ require.config({
     ,'jquery-validation': 'sbatchGenerator/jquery.validate.min' 
     ,'timeago': '../bower_components/jquery-timeago/jquery.timeago'
     ,'watable': 'watable/jquery.watable'
-    ,'bootstrap': '
+    ,'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap.min'
+    ,'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker'
   },
   shim: {
     'jquery-ui': {
@@ -29,7 +30,15 @@ require.config({
     'jquery-validation': {
       exports: '$',
       deps: ['jquery']
-    }
+    },
+    'bootstrap': {
+      exports: '',
+      deps: ['jquery']
+    },
+    'bootstrap-datepicker': {
+      exports: '',
+      deps: ['bootstrap']
+    },
     'watable': {
       exports: '$',
       deps: ['bootstrap']

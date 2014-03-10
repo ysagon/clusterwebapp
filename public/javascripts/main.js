@@ -3,7 +3,12 @@
  * 
  * @author ysagon@gmail.com (Yann Sagon)
  */
-define(['jquery-ui', 'sbatchGenerator/jquery.unige.sbatchGenerator', 'timeago', 'watable'], function($, undefined, undefined, undefined){
+define(['jquery-ui', 
+        'sbatchGenerator/jquery.unige.sbatchGenerator', 
+        'timeago', 
+        'watable',
+        'bootstrap',
+        'bootstrap-datepicker'], function($, undefined, undefined, undefined, undefined, undefined){
 $(document).ready(function() {
   var zeropad = function(num) {
     return ((num < 10) ? '0' : '') + num;
