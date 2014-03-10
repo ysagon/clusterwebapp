@@ -1,14 +1,14 @@
 /**
  * Main script for the slurm web interface
- * 
+ *
  * @author ysagon@gmail.com (Yann Sagon)
  */
-define(['jquery-ui', 
-        'sbatchGenerator/jquery.unige.sbatchGenerator', 
-        'timeago', 
+define(['jquery-ui',
+        'sbatchGenerator/jquery.unige.sbatchGenerator',
+        'timeago',
         'watable',
         'bootstrap',
-        'bootstrap-datepicker'], function($, undefined, undefined, undefined, undefined, undefined){
+        'bootstrap-datepicker'], function($, undefined, undefined, undefined, undefined, undefined) {
 $(document).ready(function() {
   var zeropad = function(num) {
     return ((num < 10) ? '0' : '') + num;
@@ -48,20 +48,20 @@ $(document).ready(function() {
   /**
    * callback to refresh the watables with data from the server
    */
-  var refreshTable =  function(e){
+  var refreshTable = function(e) {
     e.preventDefault();
     for (var i = 0; i < myWatable.length; i++) {
       myWatable[i].update();
     }
   };
-  
+
   // history table
   var temp = ($('#historyTable').WATable({
     columnPicker: true,
     filter: true,
     url: urlRoot + 'history'
   })).data('WATable');
-  if(typeof temp != 'undefined'){
+  if (typeof temp != 'undefined') {
     myWatable.push(temp);
   }
 
@@ -72,7 +72,7 @@ $(document).ready(function() {
     columnPicker: true,
     url: urlRoot + 'reservations'
   })).data('WATable');
-  if(typeof temp != 'undefined'){
+  if (typeof temp != 'undefined') {
     myWatable.push(temp);
   }
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
     hidePagerOnEmpty: true,
     url: urlRoot + 'status'
   })).data('WATable');
-  if(typeof temp != 'undefined'){
+  if (typeof temp != 'undefined') {
     myWatable.push(temp);
   }
 
@@ -92,14 +92,14 @@ $(document).ready(function() {
     //actions: {
     //  filter: true, //Toggle visibility
     //  custom: [
-    //    $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable) 
+    //    $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
     //  ]
     //},
     filter: true,
     hidePagerOnEmpty: true,
     url: urlRoot + 'alljobsrunning'
   })).data('WATable');
-  if(typeof temp != 'undefined'){
+  if (typeof temp != 'undefined') {
     myWatable.push(temp);
   }
 
@@ -109,7 +109,7 @@ $(document).ready(function() {
     filter: true,
     url: urlRoot + 'alljobspending'
   })).data('WATable');
-  if(typeof temp != 'undefined'){
+  if (typeof temp != 'undefined') {
     myWatable.push(temp);
   }
 });

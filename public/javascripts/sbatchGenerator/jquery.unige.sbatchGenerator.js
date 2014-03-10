@@ -23,7 +23,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
     _vars: {
       container: null,
-      inputs: null,
+      inputs: null
     },
 
     /**
@@ -37,20 +37,20 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
        console.log(that._vars.container);
        that._drawUI();
     },
-    
+
     /**
      * Draw the widget
      */
     _drawUI: function() {
       var that = this;
       var script = $('<pre id="script"></pre>');
-      
-      
-      
+
+
+
       var form = $('<form id="form"></form>');
-      
+
       var fieldset = $('<fieldset></fielseet>');
-      
+
       var legend = $('<legend>Sbatch generator</legend>');
       that._vars.inputs = [
         {'type': 'number',
@@ -61,10 +61,10 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'tooltip': 'Number of threads a single instance of your application needs',
          'class': 'span1',
          'ph': '1..16',
-         'validate': [{'key':'required', 'val':''},
-                      {'key':'min', 'val':1},
-                      {'key':'max', 'val':16}
-         ]                          
+         'validate': [{'key': 'required', 'val': ''},
+                      {'key': 'min', 'val': 1},
+                      {'key': 'max', 'val': 16}
+         ]
         },
         {'type': 'text',
                  'slurm_option': '--job-name',
@@ -72,10 +72,10 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
                  'label': 'Job name',
          'class': 'span2',
                  'ph': 'string',
-                 'validate': [{'key':'required', 'val':''},
-                      {'key':'minlength', 'val':2}
-         ]                  
-           
+                 'validate': [{'key': 'required', 'val': ''},
+                      {'key': 'minlength', 'val': 2}
+         ]
+
         },
         {'type': 'number',
          'slurm_option': '--ntasks',
@@ -85,11 +85,11 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'tooltip': 'Number of instance(s) of your application, or number of MPI workers',
          'class': 'span1',
          'ph': '1..416',
-         'validate': [{'key':'max', 'val':416},
-                      {'key':'min', 'val':1},
-                      {'key':'required', 'val':''}
+         'validate': [{'key': 'max', 'val': 416},
+                      {'key': 'min', 'val': 1},
+                      {'key': 'required', 'val': ''}
          ]
-             
+
         },
         {'type': 'text',
          'slurm_option': '--time',
@@ -115,13 +115,13 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'label': 'Type of notification',
          'class': 'span2',
          'name': 'sbatch_mail_type',
-         'value': [{'id': 'BEGIN', 'value':'Begin of job'},
-                   {'id': 'END', 'value':'End of job'},
-                   {'id': 'FAIL', 'value':'Fail job'},
-                   {'id': 'REQUEUE', 'value':'Requeue'},
-                   {'id': 'ALL', 'value':'All'}]
-        
-        }, 
+         'value': [{'id': 'BEGIN', 'value': 'Begin of job'},
+                   {'id': 'END', 'value': 'End of job'},
+                   {'id': 'FAIL', 'value': 'Fail job'},
+                   {'id': 'REQUEUE', 'value': 'Requeue'},
+                   {'id': 'ALL', 'value': 'All'}]
+
+        },
         {'type': 'select',
          'slurm_option': '--partition',
          'id': 'partitions',
@@ -130,51 +130,51 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'name': 'sbatch_partitions',
          'tooltip': 'See &lt;a href=&quot;#status&quot;&gt;status&lt;/a&gt;',
          'value': [
-                   {'id': 'debug', 'value':'Debug'},
-                   {'id': 'parallel', 'value':'Parallel'},
-                   {'id': 'bigmem', 'value':'Bigmem'}
+                   {'id': 'debug', 'value': 'Debug'},
+                   {'id': 'parallel', 'value': 'Parallel'},
+                   {'id': 'bigmem', 'value': 'Bigmem'}
                   ]
-        
-        },        
+
+        },
         {'type': 'button',
          'id': 'btnSubmit',
          'name': 'submit',
          'value': 'Generate'
-        },
+        }
       ];
-      
-      
-      
-      $.validator.addMethod("duration", function(value, element){
+
+
+
+      $.validator.addMethod('duration', function(value, element) {
         return this.optional(element) || /^([0-4]-)?(\d\d:)?(\d\d:)?(\d\d)$/.test(value);
       }, 'Specify a valid duration max: 4-00:00:00');
-      
-      for(var i=0; i< that._vars.inputs.length; i++){
+
+      for (var i = 0; i < that._vars.inputs.length; i++) {
          var input = that._buildInputs(that._vars.inputs[i]);
          var label = that._buildLabels(that._vars.inputs[i]);
-         if(label){
+         if (label) {
             label.appendTo(fieldset);
          }
          input.appendTo(fieldset);
       }
       legend.appendTo(form);
-      
+
       fieldset.appendTo(form);
       form.appendTo(this._vars.container);
-      
+
       script.appendTo(this._vars.container);
-      
+
       // validate form
       form.validate({debug: true,
-                     submitHandler: function(form){
+                     submitHandler: function(form) {
                         var res = that._generateScript();
                         script.text(res);
                      },
                      rules: {
-                      sbatch_time:{
+                      sbatch_time: {
                          required: true,
                          duration: true
-                      }                      
+                      }
                      }});
       //form.validate({
       //  submitHandler: function(form){
@@ -182,19 +182,19 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
       //    $(form).submit();
       //  }
       //});
-      
-      
+
+
     },
 
     _generateScript: function() {
        var that = this;
        var data = new Array();
        data.push('#!/bin/sh ');
-       
+
        var inputs = that._vars.inputs;
-       for (var i=0; i<inputs.length; i++){
-          if(typeof inputs[i].slurm_option != 'undefined'){
-             data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#'+inputs[i].id).val());
+       for (var i = 0; i < inputs.length; i++) {
+          if (typeof inputs[i].slurm_option != 'undefined') {
+             data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#' + inputs[i].id).val());
           }
        }
        data.push('#SBATCH --clusters=baobab');
@@ -203,57 +203,57 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
        data.push('srun your_binary');
        return data.join('\n');
     },
-    
-    _buildLabels: function(obj){
+
+    _buildLabels: function(obj) {
         var label = false;
-         if(obj.label){
-            label = $('<label>'+obj.label+'</label>');
-            if(obj.tooltip){
-              label.append($('<a href="#" data-html="true" data-toggle="tooltip" title="'+ obj.tooltip +'">?</a>'));
+         if (obj.label) {
+            label = $('<label>' + obj.label + '</label>');
+            if (obj.tooltip) {
+              label.append($('<a href="#" data-html="true" data-toggle="tooltip" title="' + obj.tooltip + '">?</a>'));
             }
          }
          return label;
     },
-    _buildInputs: function(obj){
-        switch(obj.type){
-          case 'select':{
-          var select = $('<select id="'+ obj.id 
-                                       + '" name="'+ obj.name 
-                                       + '" class="'+ obj.class + '"></select>');
-          for(var i=0; i<obj.value.length; i++){
+    _buildInputs: function(obj) {
+        switch (obj.type) {
+          case 'select': {
+          var select = $('<select id="' + obj.id +
+                                        '" name="' + obj.name +
+                                       '" class="' + obj.class + '"></select>');
+          for (var i = 0; i < obj.value.length; i++) {
             var id = obj.value[i].id;
             var value = obj.value[i].value;
-            
-            $('<option value="' + id + '" id="'+ id +'">'+value+'</option>').appendTo(select);
+
+            $('<option value="' + id + '" id="' + id + '">' + value + '</option>').appendTo(select);
           }
           return select;
           }
           case 'text':
           case 'email':
-          case 'number':{
-             var input = $('<input type="'+ obj.type
-             + '" placeholder="' + obj.ph 
-             + '" name="' + obj.name
-             + '" class="' + obj.class
-             + '" id="' + obj.id
-             + '">');
-             if(typeof obj.value != 'undefined'){
+          case 'number': {
+             var input = $('<input type="' + obj.type +
+             '" placeholder="' + obj.ph +
+             '" name="' + obj.name +
+             '" class="' + obj.class +
+             '" id="' + obj.id +
+             '">');
+             if (typeof obj.value != 'undefined') {
                input.attr('value', obj.value);
              }
-             if(typeof obj.validate != 'undefined'){
-                for(var i=0;i< obj.validate.length; i++){
+             if (typeof obj.validate != 'undefined') {
+                for (var i = 0; i < obj.validate.length; i++) {
                     input.attr(obj.validate[i].key, obj.validate[i].val);
                 }
              }
-             
+
              return input;
              break;
           }
-          case 'button':{
-          return $('<button class="btn" id="'+obj.id+'">' + obj.value + '</button>');
+          case 'button': {
+          return $('<button class="btn" id="' + obj.id + '">' + obj.value + '</button>');
           }
         }
-     },   
+     },
     /**
         * Manage options received from the init function
         * @private

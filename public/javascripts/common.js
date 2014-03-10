@@ -11,12 +11,12 @@ require.config({
   baseUrl: 'iface-dev/javascripts',
   paths: {
     'jquery': '../bower_components/jquery/jquery.min'
-    ,'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min'
-    ,'jquery-validation': 'sbatchGenerator/jquery.validate.min' 
-    ,'timeago': '../bower_components/jquery-timeago/jquery.timeago'
-    ,'watable': 'watable/jquery.watable'
-    ,'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap.min'
-    ,'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker'
+    , 'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min'
+    , 'jquery-validation': 'sbatchGenerator/jquery.validate.min'
+    , 'timeago': '../bower_components/jquery-timeago/jquery.timeago'
+    , 'watable': 'watable/jquery.watable'
+    , 'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap.min'
+    , 'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker'
   },
   shim: {
     'jquery-ui': {
