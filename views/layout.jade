@@ -8,9 +8,14 @@ html(lang='en')
     meta(name='copyright', content='Copyright (c) 2013-2014 University of Geneva')
     link(rel='shortcut icon', href=urlRoot + 'images/favicon.ico')
     title Baobab web interface
-    link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', rel='stylesheet')
-    link(href=urlRoot + 'bower_components/bootstrap-datepicker/css/datepicker.css', rel='stylesheet')
-    link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
+    if 'development' == process.env.NODE_ENV
+      link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', 
+           rel='stylesheet')
+      link(href=urlRoot + 'bower_components/bootstrap-datepicker/css/datepicker.css', 
+           rel='stylesheet')
+      link(href=urlRoot + 'javascripts/watable/watable.css', rel='stylesheet')
+    if 'production' == process.env.NODE_ENV
+      link(href=urlRoot + 'css/optimized.css', rel='stylesheet')
     style. 
       .error {
         color: red;
@@ -24,14 +29,22 @@ html(lang='en')
             a(href='/logout') logout
         .bs-example
             block content
-    script(src=urlRoot + 'bower_components/requirejs/require.js')
+    if 'development' == process.env.NODE_ENV
+      script(src=urlRoot + 'bower_components/requirejs/require.js')
+    if 'production' == process.env.NODE_ENV
+      script(src=urlRoot + 'javascripts/optimized.js')
     script.
       var urlRoot = "!{urlRoot}";
       var email = "!{userDetail.email}";
       var userName = "!{userDetail.userName}";
-      require([urlRoot + 'javascripts/common.js'], function(undefined){
-         require(['main'], function($){
-         
-         });
-      });
+    if 'production' == process.env.NODE_ENV
+      script.
+        require(['main'], function($){
+        });
+    if 'development' == process.env.NODE_ENV
+      script.
+        require([urlRoot + 'javascripts/common.js'], function(undefined){
+          require(['main'], function($){
+          });
+        });
 

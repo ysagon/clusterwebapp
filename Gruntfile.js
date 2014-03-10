@@ -22,23 +22,46 @@ module.exports = function(grunt) {
               ]
       }
     },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+    requirejs: {
+      compile: {
+        options: {
+          mainConfigFile: "public/javascripts/common.js",
+          baseUrl: "public/javascripts",
+          name: "../bower_components/almond/almond",
+          include: "main",
+          out: "build/javascripts/optimized.js"
+        }
       }
-    }
+    },
+    cssmin: {
+      combine: {
+        files: {
+          'build/css/optimized.css': ['public/bower_components/bootstrap/docs/assets/css/bootstrap.css', 
+                                      'public/bower_components/bootstrap-datepicker/css/datepicker.css',
+                                      'public/javascripts/watable/watable.css']
+        }
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          {expand: true,
+           flatten: true,
+           src: ['public/bower_components/bootstrap/docs/assets/img/glyphicons-halflings.png'], 
+           dest: 'build/img/', 
+           filter: 'isFile'}
+        ]
+      }
+    },
   });
 
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-gjslint');
-
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('deploy', ['requirejs', 'cssmin', 'copy']);
+  grunt.registerTask('default', ['gjslint']);
 
 };

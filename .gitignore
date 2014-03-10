@@ -1,3 +1,6 @@
 node_modules
+build
 public/bower_components/
 *.pyc
+express.log
+public/javascripts/optimized.js
