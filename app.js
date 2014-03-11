@@ -78,6 +78,7 @@ app.get('/alljobspending', routes.allJobsPending(execSync));
 app.get('/history', routes.history(execSync));
 app.get('/status', routes.status(execSync));
 app.get('/reservations', routes.reservations(execSync));
+app.get('/applications', routes.applications());
 
 try {
    var res = http.createServer(app).listen(app.get('port'), function() {

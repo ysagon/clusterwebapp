@@ -77,6 +77,16 @@ $(document).ready(function() {
     myWatable.push(temp);
   }
 
+  // aplications table
+  var temp = ($('#appsTable').WATable({
+    pageSize: '100',
+    hidePagerOnEmpty: true,
+    url: urlRoot + 'applications'
+  })).data('WATable');
+  if (typeof temp != 'undefined') {
+    myWatable.push(temp);
+  }
+
   // status table
   var temp = ($('#statusTable').WATable({
     pageSize: '100',
@@ -110,6 +120,7 @@ $(document).ready(function() {
   var temp = ($('#allJobsPending').WATable({
     pageSize: '100',
     filter: true,
+    hidePagerOnEmpty: true,
     url: urlRoot + 'alljobspending'
   })).data('WATable');
   if (typeof temp != 'undefined') {

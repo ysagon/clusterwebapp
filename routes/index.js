@@ -27,6 +27,70 @@ exports.index = function(urlRoot) {
   };
 };
 
+exports.applications = function() {
+  return function(req, res) {
+    var jsonStruct = {
+       cols: {
+          group: {
+             index: 1,
+             type: 'string',
+             friendly: 'Group'
+          },
+          name: {
+             index: 2,
+             type: 'string',
+             friendly: 'Name'
+          },
+          version: {
+             index: 3,
+             type: 'string',
+             friendly: 'Version'
+          },
+          link: {
+             index: 4,
+             type: 'string',
+             friendly: 'doc'
+          }
+       },
+       rows: [
+       ]
+    };
+    var data = [
+               {group: 'general', name: 'Matlab', version: '2012b',
+                link: 'matlab'},
+               {group: 'general', name: 'Matlab', version: '2013b',
+                link: ''},
+               {group: 'general', name: 'User mode linux', version: '-',
+                link: ''},
+               {group: 'general', name: 'Stata', version: '13 mp 16',
+                link: ''},
+               {group: 'general', name: 'R', version: '', link: ''},
+               {group: 'general', name: 'R studio', version: '', link: ''},
+               {group: 'general', name: 'Octave', version: '', link: ''},
+               {group: 'general', name: 'Gnuplot', version: '', link: ''},
+               {group: 'general', name: 'Palabos', version: '', link: ''},
+               {group: 'general', name: 'GCC', version: '4.7.2', link: ''},
+               {group: 'general', name: 'GCC', version: '4.7.2', link: ''},
+               {group: 'general', name: 'icc', version: '2013', link: ''},
+               {group: 'general', name: 'icpc', version: '2013', link: ''},
+               {group: 'general', name: 'ifort', version: '2013', link: ''},
+               {group: 'general', name: 'paraview', version: '4.8', link: ''},
+               {group: 'general', name: 'Python', version: '2.7', link: ''},
+               {group: 'general', name: 'Python', version: '3.3', link: ''},
+               {group: 'general', name: 'GIT', version: '3.3', link: ''}
+               ];
+    var baseUrl = 'http://baobabmaster.unige.ch/enduser/src/' +
+                  'enduser/enduser.html';
+    for (var i = 0; i < data.length; i++) {
+       var url = baseUrl + '#' + data[i].link;
+       data[i].link = '<a href="' + url + '">doc</a>';
+    }
+    jsonStruct.rows = data;
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
+  }
+};
+
+
 exports.allJobsRunning = function(execSync) {
   return function(req, res) {
      var result = execSync.exec(__dirname +
@@ -68,7 +132,7 @@ exports.allJobsRunning = function(execSync) {
            cpus: {
               index: 6,
               type: 'number',
-              friendly: 'nb cpus',
+              friendly: 'Nb cpus',
               filter: true
            },
            nodes: {
@@ -172,7 +236,7 @@ exports.allJobsPending = function(execSync) {
            numCpus: {
               index: 8,
               type: 'number',
-              friendly: 'nb cpus'
+              friendly: 'Nb cpus'
            }
         },
         rows: [
@@ -248,7 +312,7 @@ exports.history = function(execSync) {
            Account: {
               index: 4,
               type: 'string',
-              friendly: 'account',
+              friendly: 'Account',
               filter: true
            },
            AllocCPUS: {
@@ -438,11 +502,13 @@ exports.status = function(execSync) {
        cols: {
           partition: {
              index: 1,
-             type: 'string'
+             type: 'string',
+             friendly: 'Partition'
           },
           avail: {
              index: 2,
-             type: 'string'
+             type: 'string',
+             friendly: 'Available'
           },
           timelimit: {
              index: 3,
@@ -451,15 +517,18 @@ exports.status = function(execSync) {
           },
           nodes: {
              index: 4,
-             type: 'string'
+             type: 'string',
+             friendly: 'Nb nodes'
           },
           state: {
              index: 5,
-             type: 'string'
+             type: 'string',
+             friendly: 'State'
           },
           nodelist: {
              index: 6,
-             type: 'string'
+             type: 'string',
+             friendly: 'Node list'
           }
        },
        rows: [

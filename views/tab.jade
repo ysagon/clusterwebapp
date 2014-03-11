@@ -2,35 +2,39 @@ extends layout
 
 block content
   ul#tab.nav.nav-tabs
+    li.active
+      a( href="#status" data-toggle="tab") Status
     li
       a( href="#jobsrunning" data-toggle="tab") Jobs running
     li
       a( href="#jobspending" data-toggle="tab") Jobs pending
     li
       a( href="#history" data-toggle="tab") History
-    li.active
-      a( href="#status" data-toggle="tab") Status
+    li
+      a( href="#applications" data-toggle="tab") Applications
     li
       a( href="#tools" data-toggle="tab") Tools
     li
-      a( href="#docs" data-toggle="tab") Docs
+      a( href="#links" data-toggle="tab") Links
     if userDetail.isAdmin
       li
         a( href="#admin" data-toggle="tab") Admin
 
   .tab-content
+    .tab-pane(id="status").active
+      block status
     .tab-pane(id="jobsrunning")
       block jobsrunning
     .tab-pane(id="jobspending")
       block jobspending
     .tab-pane(id="history")
       block history
-    .tab-pane(id="status").active
-      block status
+    .tab-pane(id="applications")
+      block applications
     .tab-pane(id="tools")
       block tools
-    .tab-pane(id="docs")
-      block docs
+    .tab-pane(id="links")
+      block links
     if userDetail.isAdmin
       .tab-pane(id="admin")
          block admin
