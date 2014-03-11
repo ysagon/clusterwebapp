@@ -41,10 +41,18 @@ The node dependencies are installed using npm.
 
  npm update
 
-The js dependencies are installed using bower.
+The js dependencies are installed using bower. There is a task in grunt that do all the initial stuff:
 ::
 
- bower install
+ grunt provisionning
+
+Go production
+-------------
+Once all the dependencies are installed, you can optimize the files for production by doing:
+::
+
+ grunt production
+
 
 Configure apache
 ----------------

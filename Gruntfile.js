@@ -53,6 +53,10 @@ module.exports = function(grunt) {
          }
       }
     },
+    bower: {
+      install: {
+      }
+    },
     copy: {
       init: {
         files: [
@@ -80,9 +84,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-bower-task');
 
   // Default task(s).
-  grunt.registerTask('deploy', ['requirejs', 'cssmin', 'copy']);
+  grunt.registerTask('provisionning', ['bower:install', 'copy:init', 'shell:make_bootstrap']);
+  grunt.registerTask('production', ['requirejs', 'cssmin', 'copy:main']);
   grunt.registerTask('default', ['gjslint']);
 
 };
