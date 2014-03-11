@@ -58,7 +58,8 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'id': 'sbatch_cpusPerTask',
          'name': 'sbatch_cpusPerTask',
          'label': 'Cpus per task',
-         'tooltip': 'Number of threads a single instance of your application needs',
+         'tooltip': 'Number of threads a single instance ' +
+                    'of your application needs',
          'class': 'span1',
          'ph': '1..16',
          'validate': [{'key': 'required', 'val': ''},
@@ -82,7 +83,8 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'id': 'sbatch_nTasks',
          'name': 'sbatch_nTasks',
          'label': 'Number of tasks',
-         'tooltip': 'Number of instance(s) of your application, or number of MPI workers',
+         'tooltip': 'Number of instance(s) of your application, or number ' +
+                    'of MPI workers',
          'class': 'span1',
          'ph': '1..416',
          'validate': [{'key': 'max', 'val': 416},
@@ -96,7 +98,9 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          'id': 'sbatch_time',
          'name': 'sbatch_time',
          'label': 'Required time',
-         'tooltip': 'Maximum running time of your job. In order for your job to be scheduled quickly, specify the minimum time possible',
+         'tooltip': 'Maximum running time of your job. In order for your ' +
+                    'job to be scheduled quickly, specify the minimum time ' +
+                    'possible',
          'class': 'span2',
          'ph': 'days-hh:mm:ss'
         },
@@ -146,7 +150,8 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
 
       $.validator.addMethod('duration', function(value, element) {
-        return this.optional(element) || /^([0-4]-)?(\d\d:)?(\d\d:)?(\d\d)$/.test(value);
+        return this.optional(element) ||
+               /^([0-4]-)?(\d\d:)?(\d\d:)?(\d\d)$/.test(value);
       }, 'Specify a valid duration max: 4-00:00:00');
 
       for (var i = 0; i < that._vars.inputs.length; i++) {
@@ -194,7 +199,10 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
        var inputs = that._vars.inputs;
        for (var i = 0; i < inputs.length; i++) {
           if (typeof inputs[i].slurm_option != 'undefined') {
-             data.push('#SBATCH ' + inputs[i].slurm_option + '=' + $('#' + inputs[i].id).val());
+             data.push('#SBATCH ' +
+                       inputs[i].slurm_option +
+                       '=' +
+                       $('#' + inputs[i].id).val());
           }
        }
        data.push('#SBATCH --clusters=baobab');
@@ -209,7 +217,10 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          if (obj.label) {
             label = $('<label>' + obj.label + '</label>');
             if (obj.tooltip) {
-              label.append($('<a href="#" data-html="true" data-toggle="tooltip" title="' + obj.tooltip + '">?</a>'));
+              label.append($('<a href="#" data-html="true" ' +
+                             'data-toggle="tooltip" title="' +
+                             obj.tooltip +
+                             '">?</a>'));
             }
          }
          return label;
@@ -224,7 +235,10 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
             var id = obj.value[i].id;
             var value = obj.value[i].value;
 
-            $('<option value="' + id + '" id="' + id + '">' + value + '</option>').appendTo(select);
+            $('<option value="' +
+              id +
+              '" id="' + id + '">' +
+              value + '</option>').appendTo(select);
           }
           return select;
           }
@@ -250,7 +264,9 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
              break;
           }
           case 'button': {
-          return $('<button class="btn" id="' + obj.id + '">' + obj.value + '</button>');
+          return $('<button class="btn" id="' +
+                   obj.id + '">' +
+                   obj.value + '</button>');
           }
         }
      },

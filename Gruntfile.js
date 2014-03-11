@@ -2,6 +2,9 @@
  * @author Yann Sagon (yann.sagon@unige.ch)
  */
 
+/**
+ * @param {object} grunt the grunt object
+ */
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -17,7 +20,9 @@ module.exports = function(grunt) {
         }
       },
       all: {
-        src: ['public/javascripts/*.js',
+        src: ['*.js',
+              'routes/*.js',
+              'public/javascripts/*.js',
               'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js'
               ]
       }
@@ -25,20 +30,21 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          mainConfigFile: "public/javascripts/common.js",
-          baseUrl: "public/javascripts",
-          name: "../bower_components/almond/almond",
-          include: "main",
-          out: "build/javascripts/optimized.js"
+          mainConfigFile: 'public/javascripts/common.js',
+          baseUrl: 'public/javascripts',
+          name: '../bower_components/almond/almond',
+          include: 'main',
+          out: 'build/javascripts/optimized.js'
         }
       }
     },
     cssmin: {
       combine: {
         files: {
-          'build/css/optimized.css': ['public/bower_components/bootstrap/docs/assets/css/bootstrap.css', 
-                                      'public/bower_components/bootstrap-datepicker/css/datepicker.css',
-                                      'public/javascripts/watable/watable.css']
+          'build/css/optimized.css':
+             ['public/bower_components/bootstrap/docs/assets/css/bootstrap.css',
+              'public/bower_components/bootstrap-datepicker/css/datepicker.css',
+              'public/javascripts/watable/watable.css']
         }
       }
     },
@@ -71,12 +77,13 @@ module.exports = function(grunt) {
         files: [
           {expand: true,
            flatten: true,
-           src: ['public/bower_components/bootstrap/docs/assets/img/glyphicons-halflings.png'], 
-           dest: 'build/img/', 
+           src: ['public/bower_components/bootstrap/docs/assets' +
+                 '/img/glyphicons-halflings.png'],
+           dest: 'build/img/',
            filter: 'isFile'}
         ]
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-gjslint');
@@ -86,8 +93,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bower-task');
 
-  // Default task(s).
-  grunt.registerTask('provisionning', ['bower:install', 'copy:init', 'shell:make_bootstrap']);
+  grunt.registerTask('provisionning', ['bower:install',
+                                       'copy:init',
+                                       'shell:make_bootstrap']);
   grunt.registerTask('production', ['requirejs', 'cssmin', 'copy:main']);
   grunt.registerTask('default', ['gjslint']);
 

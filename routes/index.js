@@ -5,31 +5,32 @@
 
 
 
-exports.login = function(req, res){
+exports.login = function(req, res) {
    res.render('login', { user: req.user, message: req.flash('error') });
 };
 
-exports.index = function(urlRoot){
-  return function(req, res){
+exports.index = function(urlRoot) {
+  return function(req, res) {
     var user = req.headers['unigechuniqueuid'];
     var email = req.headers['mail'];
-    var ismemberof = (req.headers['ismemberof']).split(";");
+    var ismemberof = (req.headers['ismemberof']).split(';');
     var isAdmin = false;
-    if (_isAdmin(ismemberof)){
+    if (_isAdmin(ismemberof)) {
       isAdmin = true;
     }
-    res.render('index', { urlRoot: urlRoot, userDetail: {'userName': user, 'email': email, 'isAdmin': isAdmin}, title: 'Welcome' });
+    res.render('index',
+               { urlRoot: urlRoot, userDetail:
+                 {'userName': user,
+                  'email': email,
+                  'isAdmin': isAdmin},
+               title: 'Welcome' });
   };
-}
+};
 
-exports.allJobsRunning = function(execSync){
-  return function(req, res){
-     var ganglia = require(".././ganglia");
-     ganglia.execute(execSync);
-     var gangliaLinks = ganglia.parse(execSync);
-
-     var result = execSync.exec(__dirname + '/../scripts/showq.py --json --running');
-     var jobs = JSON.parse(result.stdout).running;
+exports.allJobsRunning = function(execSync) {
+  return function(req, res) {
+     var result = execSync.exec(__dirname +
+                                '/../scripts/showq.py --json --running');
      var jsonStruct = {
         cols: {
            jobid: {
@@ -37,7 +38,7 @@ exports.allJobsRunning = function(execSync){
               type: 'string',
               friendly: 'Job ID',
               tooltip: 'Click on the id to see your job in ganglia',
-              filter: true,
+              filter: true
            },
            name: {
               index: 2,
@@ -81,49 +82,55 @@ exports.allJobsRunning = function(execSync){
         ]
      };
 
-    function gangliaHosts(jobId){
-      for(var i=0; i<gangliaLinks.length; i++){
-         if(gangliaLinks[i][0] == jobId){
+
+    var jobs = JSON.parse(result.stdout).running;
+    //if no pending jobs, we return just the structure with no data.
+    if (typeof jobs == 'undefined') {
+       res.render('resjson', { data: JSON.stringify(jsonStruct) });
+    }
+     var ganglia = require('.././ganglia');
+     ganglia.execute(execSync);
+     var gangliaLinks = ganglia.parse(execSync);
+
+    for (var i = 0; i < jobs.length; i++) {
+      var link = gangliaHosts(jobs[i].jobid);
+      var hrefLink = '<a href=\"' +
+                     link +
+                     '\" target=\"_blank\">' + jobs[i].jobid + '</a>';
+
+      jsonStruct.rows[i] = {jobid: hrefLink,
+                            name: _cutJobName(jobs[i].name),
+                            user: jobs[i].user,
+                            partition: jobs[i].partition,
+                            end: jobs[i].end_sec,
+                            endFormat: jobs[i].end,
+                            cpus: jobs[i].cpus,
+                            nodes: jobs[i].nodes};
+    }
+
+    res.render('resjson', { data: JSON.stringify(jsonStruct) });
+
+    function gangliaHosts(jobId) {
+      for (var i = 0; i < gangliaLinks.length; i++) {
+         if (gangliaLinks[i][0] == jobId) {
            return gangliaLinks[i][1];
          }
       }
       return '#';
     }
-
-
-    for(var i=0; i< jobs.length; i++){
-      var link = gangliaHosts(jobs[i].jobid);
-      var hrefLink = '<a href=\"' + link + '\" target=\"_blank\">'+ jobs[i].jobid + '</a>';
-
-      jsonStruct.rows[i] = {jobid:hrefLink,
-                            name:_cutJobName(jobs[i].name),
-                            user:jobs[i].user,
-                            partition:jobs[i].partition,
-                            end:jobs[i].end_sec,
-                            endFormat:jobs[i].end,
-                            cpus:jobs[i].cpus,
-                            nodes:jobs[i].nodes};
-    }
-
-    res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
-function _cutJobName(str){
-   if(str.length > 20){
+function _cutJobName(str) {
+   if (str.length > 20) {
       str = str.substr(0, Math.min(20, str.length)) + '...';
    }
    return str;
 }
 
-exports.allJobsPending = function(execSync){
-  return function(req, res){
-    var result = execSync.exec(__dirname + '/../scripts/showq.py --json --pending');
-    // the id pending doesn't exist if there is no pending jobs.
-    var jobs = JSON.parse(result.stdout).pending;
-    if (typeof jobs == 'undefined'){
-      res.render('resjson',{});
-      return;
-    }
+exports.allJobsPending = function(execSync) {
+  return function(req, res) {
+    var result = execSync.exec(__dirname +
+                               '/../scripts/showq.py --json --pending');
      var jsonStruct = {
         cols: {
            jobid: {
@@ -171,46 +178,52 @@ exports.allJobsPending = function(execSync){
         rows: [
         ]
      };
-     
-    for(var i=0; i< jobs.length; i++){
-      jsonStruct.rows[i] = {jobid:jobs[i].jobid,
-                            name:_cutJobName(jobs[i].name),
-                            user:jobs[i].user,
-                            partition:jobs[i].partition,
-                            limit:jobs[i].limit,
-                            start:jobs[i].start_sec,
-                            startFormat:jobs[i].start,
-                            priority:jobs[i].priority,
-                            numCpus:jobs[i].cpus};
+    // the id pending doesn't exist if there is no pending jobs.
+    var jobs = JSON.parse(result.stdout).pending;
+    //if no pending jobs, we return just the structure with no data.
+    if (typeof jobs == 'undefined') {
+       res.render('resjson', { data: JSON.stringify(jsonStruct) });
+       return;
+    }
+    for (var i = 0; i < jobs.length; i++) {
+      jsonStruct.rows[i] = {jobid: jobs[i].jobid,
+                            name: _cutJobName(jobs[i].name),
+                            user: jobs[i].user,
+                            partition: jobs[i].partition,
+                            limit: jobs[i].limit,
+                            start: jobs[i].start_sec,
+                            startFormat: jobs[i].start,
+                            priority: jobs[i].priority,
+                            numCpus: jobs[i].cpus};
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
 
 
-function _isAdmin(ismemberof){
-  for(var i=0; i<ismemberof.length; i++){
-    if(ismemberof[i]=='administrator'){
+function _isAdmin(ismemberof) {
+  for (var i = 0; i < ismemberof.length; i++) {
+    if (ismemberof[i] == 'administrator') {
        return true;
     }
   }
   return false;
 }
 
-exports.history = function(execSync){
-  return function(req, res){
+exports.history = function(execSync) {
+  return function(req, res) {
       var ouCode = req.headers['unigechemployeeoucode'];
       var user = req.headers['unigechuniqueuid'];
-      var ismemberof = (req.headers['ismemberof']).split(";");
+      var ismemberof = (req.headers['ismemberof']).split(';');
       var startDate;
 
-      if(typeof req.query.startDate != 'undefined'){
+      if (typeof req.query.startDate != 'undefined') {
          startDate = new Date(req.query.startDate);
-      }else{
-         startDate  = new Date(new Date().setDate(new Date().getDate()-10));
+      }else {
+         startDate = new Date(new Date().setDate(new Date().getDate() - 10));
       }
 
-      var history = require(".././history");
+      var history = require('.././history');
       var data = history.execute(execSync, startDate, user);
       var jsonStruct = {
         cols: {
@@ -218,7 +231,7 @@ exports.history = function(execSync){
               index: 1,
               type: 'string',
               friendly: 'Job ID',
-              filter: true,
+              filter: true
            },
            JobName: {
               index: 2,
@@ -230,7 +243,7 @@ exports.history = function(execSync){
               index: 3,
               type: 'string',
               friendly: 'Partition',
-              filter: true,
+              filter: true
            },
            Account: {
               index: 4,
@@ -248,45 +261,45 @@ exports.history = function(execSync){
               index: 6,
               type: 'string',
               friendly: 'State',
-              filter: true,
+              filter: true
            },
            ExitCode: {
               index: 7,
               type: 'string',
               friendly: 'Exit code',
-              filter: true,
+              filter: true
            },
            Start: {
               index: 8,
               type: 'string',
               friendly: 'Start date',
-              filter: true,
-           },
+              filter: true
+           }
         },
         rows: [
-      ],
+      ]
     };
-     
 
-    for(var i=0; i< data.length; i++){
+
+    for (var i = 0; i < data.length; i++) {
       var j = 0;
-      jsonStruct.rows[i] = {JobID:data[i][j++],
-                            JobName:data[i][j++],
-                            Partition:data[i][j++],
-                            Account:data[i][j++],
-                            AllocCPUS:data[i][j++],
-                            State:data[i][j++],
-                            ExitCode:data[i][j++],
-                            Start:data[i][j++]
+      jsonStruct.rows[i] = {JobID: data[i][j++],
+                            JobName: data[i][j++],
+                            Partition: data[i][j++],
+                            Account: data[i][j++],
+                            AllocCPUS: data[i][j++],
+                            State: data[i][j++],
+                            ExitCode: data[i][j++],
+                            Start: data[i][j++]
       };
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
    }
-}
+};
 
-exports.reservations = function(execSync){
-   return function(req, res){
-      var reservation = require(".././reservation");
+exports.reservations = function(execSync) {
+   return function(req, res) {
+      var reservation = require('.././reservation');
       var data = reservation.execute(execSync);
       var jsonStruct = {
         cols: {
@@ -294,7 +307,7 @@ exports.reservations = function(execSync){
               index: 1,
               type: 'string',
               friendly: 'Reservation name',
-              filter: true,
+              filter: true
            },
            StartTime: {
               index: 2,
@@ -306,7 +319,7 @@ exports.reservations = function(execSync){
               index: 3,
               type: 'string',
               friendly: 'End time',
-              filter: true,
+              filter: true
            },
            Duration: {
               index: 4,
@@ -325,21 +338,21 @@ exports.reservations = function(execSync){
               type: 'string',
               friendly: 'Node count',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            CoreCnt: {
               index: 7,
               type: 'string',
               friendly: 'Core count',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            Features: {
               index: 8,
               type: 'string',
               friendly: 'Features',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            PartitionName: {
               index: 9,
@@ -352,7 +365,7 @@ exports.reservations = function(execSync){
               type: 'string',
               friendly: 'Flags',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            Users: {
               index: 11,
@@ -366,14 +379,14 @@ exports.reservations = function(execSync){
               type: 'string',
               friendly: 'Accounts',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            Licences: {
               index: 13,
               type: 'string',
               friendly: 'Licences',
               filter: false,
-              hidden: true,
+              hidden: true
            },
            State: {
               index: 14,
@@ -383,41 +396,41 @@ exports.reservations = function(execSync){
            }
         },
         rows: [
-      ],
+      ]
     };
-     
 
-    for(var i=0; i< data.length; i++){
+
+    for (var i = 0; i < data.length; i++) {
       var j = 0;
-      jsonStruct.rows[i] = {ReservationName:data[i][j++].split('=')[1],
-                            StartTime:data[i][j++].split('=')[1],
-                            EndTime:data[i][j++].split('=')[1],
-                            Duration:data[i][j++].split('=')[1],
-                            Nodes:data[i][j++].split('=')[1],
-                            NodeCnt:data[i][j++].split('=')[1],
-                            CoreCnt:data[i][j++].split('=')[1],
-                            Features:data[i][j++].split('=')[1],
-                            PartitionName:data[i][j++].split('=')[1],
-                            Flags:data[i][j++].split('=')[1],
-                            Users:data[i][j++].split('=')[1],
-                            Accounts:data[i][j++].split('=')[1],
-                            Licences:data[i][j++].split('=')[1],
-                            State:data[i][j++].split('=')[1]
+      jsonStruct.rows[i] = {ReservationName: data[i][j++].split('=')[1],
+                            StartTime: data[i][j++].split('=')[1],
+                            EndTime: data[i][j++].split('=')[1],
+                            Duration: data[i][j++].split('=')[1],
+                            Nodes: data[i][j++].split('=')[1],
+                            NodeCnt: data[i][j++].split('=')[1],
+                            CoreCnt: data[i][j++].split('=')[1],
+                            Features: data[i][j++].split('=')[1],
+                            PartitionName: data[i][j++].split('=')[1],
+                            Flags: data[i][j++].split('=')[1],
+                            Users: data[i][j++].split('=')[1],
+                            Accounts: data[i][j++].split('=')[1],
+                            Licences: data[i][j++].split('=')[1],
+                            State: data[i][j++].split('=')[1]
       };
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
    }
-}
+};
 
 
-exports.status = function(execSync){
-  return function(req, res){
+exports.status = function(execSync) {
+  return function(req, res) {
     var result = execSync.exec('/usr/bin/sinfo -a --noheader');
     var lines = result.stdout.split('\n');
     lines.pop(); // last element is empty
     var rows = new Array();
     // split each row into an array
-    for(var i=0; i < lines.length; i++){
+    for (var i = 0; i < lines.length; i++) {
       rows[i] = lines[i].split(/\s+/);
     }
 
@@ -447,26 +460,26 @@ exports.status = function(execSync){
           nodelist: {
              index: 6,
              type: 'string'
-          },
+          }
        },
        rows: [
        ]
     };
 
-    for(var i=0; i< lines.length; i++){
-      jsonStruct.rows[i] = {partition:rows[i][0],
-                              avail:rows[i][1],
-                              timelimit:rows[i][2],
-                              nodes:rows[i][3],
-                              state:rows[i][4],
-                              nodelist:rows[i][5]};
+    for (var i = 0; i < lines.length; i++) {
+      jsonStruct.rows[i] = {partition: rows[i][0],
+                              avail: rows[i][1],
+                              timelimit: rows[i][2],
+                              nodes: rows[i][3],
+                              state: rows[i][4],
+                              nodelist: rows[i][5]};
     }
 
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
 };
 
-exports.logout = function(req, res){
+exports.logout = function(req, res) {
   req.logout();
   res.redirect('/');
 };
@@ -474,9 +487,9 @@ exports.logout = function(req, res){
 exports.userlist = function(db) {
   return function(req, res) {
     var collection = db.get('usercollection');
-      collection.find({},{},function(e,docs){
+      collection.find({},{},function(e, docs) {
       res.render('userlist', {
-       "userlist" : docs
+       'userlist' : docs
        });
      });
   };

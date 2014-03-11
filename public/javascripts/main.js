@@ -8,7 +8,8 @@ define(['jquery-ui',
         'timeago',
         'watable',
         'bootstrap',
-        'bootstrap-datepicker'], function($, undefined, undefined, undefined, undefined, undefined) {
+        'bootstrap-datepicker'],
+        function($, undefined, undefined, undefined, undefined, undefined) {
 $(document).ready(function() {
   var zeropad = function(num) {
     return ((num < 10) ? '0' : '') + num;
@@ -92,7 +93,9 @@ $(document).ready(function() {
     //actions: {
     //  filter: true, //Toggle visibility
     //  custom: [
-    //    $('<a href="#" class="refresh"><i class="icon-refresh"></i>&nbsp;Refresh</a>').on('click', refreshTable)
+    //    $('<a href="#" class="refresh">' +
+    //      '<i class="icon-refresh">' +
+    //      '</i>&nbsp;Refresh</a>').on('click', refreshTable)
     //  ]
     //},
     filter: true,
