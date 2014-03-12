@@ -46,8 +46,13 @@ exports.applications = function() {
              type: 'string',
              friendly: 'Version'
           },
-          link: {
+          module: {
              index: 4,
+             type: 'string',
+             friendly: 'module'
+          },
+          link: {
+             index: 5,
              type: 'string',
              friendly: 'doc'
           }
@@ -56,34 +61,114 @@ exports.applications = function() {
        ]
     };
     var data = [
-               {group: 'general', name: 'Matlab', version: '2012b',
+               {group: 'general', name: 'Matlab', module: 'matlab', version: '2012b',
                 link: 'matlab'},
-               {group: 'general', name: 'Matlab', version: '2013b',
+
+               {group: 'general', name: 'Matlab', module: 'matlab/2013b', 
+                version: '2013b',
+                link: 'matlab'},
+
+               {group: 'general', name: 'User mode linux', 
+                link: 'user-mode-linux'},
+
+               {group: 'general', name: 'Stata', module: 'stata', 
+                version: '13 mp 16', link: 'stata-13'},
+
+               {group: 'general', name: 'R', module: 'r', 
+                version: '3.0.1', link: 'r-project-and-r-studio'},
+
+               {group: 'general', name: 'R studio', module: 'rstudio', 
+                version: '', link: 'r-project-and-r-studio'},
+
+               {group: 'general', name: 'Octave', module: 'octave', version: '3.6.4', link: 'octave'},
+               {group: 'general', name: 'Gnuplot', version: '', link: 'gnuplot'},
+               {group: 'general', name: 'Palabos', version: '', link: 'palabos'},
+               {group: 'general', name: 'GCC', version: '4.7.2', link: 'gcc'},
+               {group: 'general', name: 'icc', version: '2013', link: 'intel'},
+               {group: 'general', name: 'icpc', version: '2013', link: 'intel'},
+               {group: 'general', name: 'ifort', version: '2013', link: 'intel'},
+               {group: 'general', name: 'paraview', module: 'paraview', 
+                version: '4.10', link: 'paraview'},
+
+               {group: 'general', name: 'Python', module: 'python/27', 
+                version: '2.7.5', link: 'python'},
+
+               {group: 'python27', name: 'BioPython', version: '1.6.3',
                 link: ''},
-               {group: 'general', name: 'User mode linux', version: '-',
+               {group: 'python27', name: 'Mpi4py', version: '1.3.1',
                 link: ''},
-               {group: 'general', name: 'Stata', version: '13 mp 16',
+
+               {group: 'general', name: 'Python', module: 'python/33',
+                version: '3.3', link: ''},
+
+               {group: 'python33', name: 'BioPython', version: '1.6.3',
                 link: ''},
-               {group: 'general', name: 'R', version: '', link: ''},
-               {group: 'general', name: 'R studio', version: '', link: ''},
-               {group: 'general', name: 'Octave', version: '', link: ''},
-               {group: 'general', name: 'Gnuplot', version: '', link: ''},
-               {group: 'general', name: 'Palabos', version: '', link: ''},
-               {group: 'general', name: 'GCC', version: '4.7.2', link: ''},
-               {group: 'general', name: 'GCC', version: '4.7.2', link: ''},
-               {group: 'general', name: 'icc', version: '2013', link: ''},
-               {group: 'general', name: 'icpc', version: '2013', link: ''},
-               {group: 'general', name: 'ifort', version: '2013', link: ''},
-               {group: 'general', name: 'paraview', version: '4.8', link: ''},
-               {group: 'general', name: 'Python', version: '2.7', link: ''},
-               {group: 'general', name: 'Python', version: '3.3', link: ''},
-               {group: 'general', name: 'GIT', version: '3.3', link: ''}
+
+               {group: 'python33', name: 'Mpi4py', version: '1.3.1',
+                link: ''},
+
+               {group: 'general', name: 'Gaussian', module: 'Gaussian',
+                version: 'g09.c01 with PGI 11.10',
+                link: ''},
+
+               {group: 'general', name: 'Boost', version: '1.5.4',
+                module: 'boost', link: ''},
+
+               {group: 'python33', name: 'Pygrib', version: '1.9.8',
+                link: ''},
+
+               {group: 'python27', name: 'Pygrib', version: '1.9.8',
+                link: ''},
+
+               {group: 'general', name: 'MetaPIGA', module: 'MetaPIGA', 
+                version: '3.1', link: ''},
+
+               {group: 'python27', name: 'Cutadapt', version: '',
+                link: ''},
+
+               {group: 'general', name: 'CellProfiler', version: '',
+                link: ''},
+
+               {group: 'general', name: 'GIT', version: '3.3',
+                link: 'git'},
+
+               {group: 'biani', name: 'MrBayes', module: 'MrBayes', 
+                version: '3.2.2', link: ''},
+
+               {group: 'biani', name: 'exaML', module: 'exaML', 
+                version: '1.0.8', link: ''},
+
+               {group: 'biani', name: 'RAxML', module: 'RaxML', 
+                version: '', link: ''},
+
+               {group: 'biani', name: 'PAML', module: 'paml', 
+                version: '4.7b', link: ''},
+
+               {group: 'biani', name: 'PhyML', module: 'phyml', 
+                version: '3.1', link: ''},
+
+               {group: 'biani', name: 'Beast', module: 'beast', 
+                version: '1.8.0', link: ''},
+
+               {group: 'biani', name: 'Tracer', module: 'tracer',
+                version: '1.5', link: ''},
+
+               {group: 'biad', name: 'BWA', module: 'bwa', version: '0.7.5a', link: ''},
+               {group: 'biad', name: 'samtools', version: '', link: ''},
+               {group: 'biad', name: 'bowtie', version: '', link: ''},
+               {group: 'biad', name: 'Tophat', version: '', link: ''},
+               {group: 'biad', name: 'Cufflinks', version: '', link: ''},
+               {group: 'biad', name: 'Trinity', version: '', link: ''},
+               {group: 'biad', name: 'Mira assembler', version: '', link: ''}
+
                ];
     var baseUrl = 'http://baobabmaster.unige.ch/enduser/src/' +
                   'enduser/enduser.html';
     for (var i = 0; i < data.length; i++) {
-       var url = baseUrl + '#' + data[i].link;
-       data[i].link = '<a href="' + url + '">doc</a>';
+       if(data[i].link != ''){
+         var url = baseUrl + '#' + data[i].link;
+         data[i].link = '<a href="' + url + '" target="_blank">doc</a>';
+       }
     }
     jsonStruct.rows = data;
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
