@@ -61,36 +61,46 @@ exports.applications = function() {
        ]
     };
     var data = [
-               {group: 'general', name: 'Matlab', module: 'matlab', version: '2012b',
-                link: 'matlab'},
+               {group: 'general', name: 'Matlab', module: 'matlab/2012b',
+                version: '2012b', link: 'matlab'},
 
-               {group: 'general', name: 'Matlab', module: 'matlab/2013b', 
+               {group: 'general', name: 'Matlab', module: 'matlab',
                 version: '2013b',
                 link: 'matlab'},
 
-               {group: 'general', name: 'User mode linux', 
+               {group: 'general', name: 'User mode linux',
                 link: 'user-mode-linux'},
 
-               {group: 'general', name: 'Stata', module: 'stata', 
+               {group: 'general', name: 'Stata', module: 'stata',
                 version: '13 mp 16', link: 'stata-13'},
 
-               {group: 'general', name: 'R', module: 'r', 
+               {group: 'general', name: 'R', module: 'r',
                 version: '3.0.1', link: 'r-project-and-r-studio'},
 
-               {group: 'general', name: 'R studio', module: 'rstudio', 
+               {group: 'general', name: 'R studio', module: 'rstudio',
                 version: '', link: 'r-project-and-r-studio'},
 
-               {group: 'general', name: 'Octave', module: 'octave', version: '3.6.4', link: 'octave'},
-               {group: 'general', name: 'Gnuplot', version: '', link: 'gnuplot'},
-               {group: 'general', name: 'Palabos', version: '', link: 'palabos'},
-               {group: 'general', name: 'GCC', version: '4.7.2', link: 'gcc'},
+               {group: 'general', name: 'Octave', module: 'octave',
+                version: '3.6.4', link: 'octave'},
+
+               {group: 'general', name: 'Gnuplot', version: '',
+                link: 'gnuplot'},
+
+               {group: 'general', name: 'Palabos', version: '',
+                link: 'palabos'},
+
+               {group: 'general', name: 'GCC', version: '4.7.2',
+                link: 'gcc'},
+
                {group: 'general', name: 'icc', version: '2013', link: 'intel'},
                {group: 'general', name: 'icpc', version: '2013', link: 'intel'},
-               {group: 'general', name: 'ifort', version: '2013', link: 'intel'},
-               {group: 'general', name: 'paraview', module: 'paraview', 
+               {group: 'general', name: 'ifort', version: '2013',
+                link: 'intel'},
+
+               {group: 'general', name: 'paraview', module: 'paraview',
                 version: '4.10', link: 'paraview'},
 
-               {group: 'general', name: 'Python', module: 'python/27', 
+               {group: 'general', name: 'Python', module: 'python/27',
                 version: '2.7.5', link: 'python'},
 
                {group: 'python27', name: 'BioPython', version: '1.6.3',
@@ -120,7 +130,7 @@ exports.applications = function() {
                {group: 'python27', name: 'Pygrib', version: '1.9.8',
                 link: ''},
 
-               {group: 'general', name: 'MetaPIGA', module: 'MetaPIGA', 
+               {group: 'general', name: 'MetaPIGA', module: 'MetaPIGA',
                 version: '3.1', link: ''},
 
                {group: 'python27', name: 'Cutadapt', version: '',
@@ -132,40 +142,56 @@ exports.applications = function() {
                {group: 'general', name: 'GIT', version: '3.3',
                 link: 'git'},
 
-               {group: 'biani', name: 'MrBayes', module: 'MrBayes', 
+               {group: 'biani', name: 'MrBayes', module: 'MrBayes',
                 version: '3.2.2', link: ''},
 
-               {group: 'biani', name: 'exaML', module: 'exaML', 
+               {group: 'biani', name: 'exaML', module: 'exaML',
                 version: '1.0.8', link: ''},
 
-               {group: 'biani', name: 'RAxML', module: 'RaxML', 
+               {group: 'biani', name: 'RAxML', module: 'RaxML',
                 version: '', link: ''},
 
-               {group: 'biani', name: 'PAML', module: 'paml', 
+               {group: 'biani', name: 'PAML', module: 'paml',
                 version: '4.7b', link: ''},
 
-               {group: 'biani', name: 'PhyML', module: 'phyml', 
+               {group: 'biani', name: 'PhyML', module: 'phyml',
                 version: '3.1', link: ''},
 
-               {group: 'biani', name: 'Beast', module: 'beast', 
+               {group: 'biani', name: 'Beast', module: 'beast',
                 version: '1.8.0', link: ''},
 
                {group: 'biani', name: 'Tracer', module: 'tracer',
                 version: '1.5', link: ''},
 
-               {group: 'biad', name: 'BWA', module: 'bwa', version: '0.7.5a', link: ''},
-               {group: 'biad', name: 'samtools', version: '', link: ''},
-               {group: 'biad', name: 'bowtie', version: '', link: ''},
-               {group: 'biad', name: 'Tophat', version: '', link: ''},
-               {group: 'biad', name: 'Cufflinks', version: '', link: ''},
-               {group: 'biad', name: 'Trinity', version: '', link: ''},
-               {group: 'biad', name: 'Mira assembler', version: '', link: ''}
+               {group: 'biad', name: 'BWA', module: 'bwa',
+                version: '0.7.5a', link: ''},
+
+               {group: 'biad', name: 'samtools', module: 'samtools',
+                version: '0.1.19', link: ''},
+
+               {group: 'biad', name: 'bowtie1', module: 'bowtie1',
+                version: '1.0.0', link: ''},
+
+               {group: 'biad', name: 'bowtie2', module: 'bowtie2',
+                version: '2.1.0', link: ''},
+
+               {group: 'biad', name: 'Tophat', module: 'tophat',
+                version: '2.0.9', link: ''},
+
+               {group: 'biad', name: 'Cufflinks', module: 'cufflinks',
+                version: '2.1.1', link: ''},
+
+               {group: 'biad', name: 'Trinity', module: 'trinity',
+                version: 'r20131110', link: ''},
+
+               {group: 'biad', name: 'Mira assembler', module: 'mira',
+                version: '4.0rc4', link: ''}
 
                ];
     var baseUrl = 'http://baobabmaster.unige.ch/enduser/src/' +
                   'enduser/enduser.html';
     for (var i = 0; i < data.length; i++) {
-       if(data[i].link != ''){
+       if (data[i].link != '') {
          var url = baseUrl + '#' + data[i].link;
          data[i].link = '<a href="' + url + '" target="_blank">doc</a>';
        }
