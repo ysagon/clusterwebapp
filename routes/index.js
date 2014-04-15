@@ -71,11 +71,14 @@ exports.applications = function() {
                {group: 'general', name: 'User mode linux',
                 link: 'user-mode-linux'},
 
+               {group: 'general', name: 'GNU parallel', module: 'parallel',
+                version: '20140322', link: ''},
+
                {group: 'general', name: 'Stata', module: 'stata',
                 version: '13 mp 16', link: 'stata-13'},
 
                {group: 'general', name: 'R', module: 'r',
-                version: '3.0.1', link: 'r-project-and-r-studio'},
+                version: '3.0.3', link: 'r-project-and-r-studio'},
 
                {group: 'general', name: 'R studio', module: 'rstudio',
                 version: '', link: 'r-project-and-r-studio'},
@@ -89,8 +92,17 @@ exports.applications = function() {
                {group: 'general', name: 'Palabos', version: '',
                 link: 'palabos'},
 
+               {group: 'mpi', name: 'mpi-selector', version: '',
+                link: 'compilation'},
+
+               {group: 'general', name: 'cmake', module: 'cmake', 
+                version: '2.8.8', link: ''},
+
                {group: 'general', name: 'GCC', version: '4.7.2',
                 link: 'gcc'},
+
+               {group: 'general', name: 'GCC', module: 'gcc', 
+                version: '4.8.2', link: ''},
 
                {group: 'general', name: 'icc', version: '2013', link: 'intel'},
                {group: 'general', name: 'icpc', version: '2013', link: 'intel'},
@@ -117,9 +129,8 @@ exports.applications = function() {
                {group: 'python33', name: 'Mpi4py', version: '1.3.1',
                 link: ''},
 
-               {group: 'general', name: 'Gaussian', module: 'Gaussian',
-                version: 'g09.c01 with PGI 11.10',
-                link: ''},
+               {group: 'general', name: 'Gaussian', module: 'gaussian',
+                version: 'g09.c01 with PGI 11.10', link: ''},
 
                {group: 'general', name: 'Boost', version: '1.5.4',
                 module: 'boost', link: ''},
@@ -130,7 +141,13 @@ exports.applications = function() {
                {group: 'python27', name: 'Pygrib', version: '1.9.8',
                 link: ''},
 
-               {group: 'general', name: 'MetaPIGA', module: 'MetaPIGA',
+               {group: 'python27', name: 'pp', version: '1.6.4',
+                link: ''},
+
+               {group: 'general', name: 'xsd', module: 'xsd',
+                version: '3.3.0', link: ''},
+
+               {group: 'general', name: 'MetaPIGA', module: 'metapiga',
                 version: '3.1', link: ''},
 
                {group: 'python27', name: 'Cutadapt', version: '',
@@ -139,16 +156,22 @@ exports.applications = function() {
                {group: 'general', name: 'CellProfiler', version: '',
                 link: ''},
 
+               {group: 'general', name: 'cpmd', module: 'cpmd', 
+                version: '3.17.1', link: ''},
+
+               {group: 'general', name: 'ADF', module: 'adf', 
+                version: '2013.01d', link: ''},
+
                {group: 'general', name: 'GIT', version: '3.3',
                 link: 'git'},
 
-               {group: 'biani', name: 'MrBayes', module: 'MrBayes',
+               {group: 'biani', name: 'MrBayes', module: 'mrbayes',
                 version: '3.2.2', link: ''},
 
-               {group: 'biani', name: 'exaML', module: 'exaML',
+               {group: 'biani', name: 'exaML', module: 'examl',
                 version: '1.0.8', link: ''},
 
-               {group: 'biani', name: 'RAxML', module: 'RaxML',
+               {group: 'biani', name: 'RAxML', module: 'raxml',
                 version: '', link: ''},
 
                {group: 'biani', name: 'PAML', module: 'paml',
