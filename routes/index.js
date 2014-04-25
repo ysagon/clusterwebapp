@@ -421,6 +421,12 @@ exports.history = function(execSync) {
          startDate = new Date(new Date().setDate(new Date().getDate() - 10));
       }
 
+      if(_isAdmin(ismemberof)){
+         if(typeof req.query.user != 'undefined'){
+            user = req.query.user;
+         }
+      }
+
       var history = require('.././history');
       var data = history.execute(execSync, startDate, user);
       var jsonStruct = {

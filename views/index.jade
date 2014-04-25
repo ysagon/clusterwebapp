@@ -22,6 +22,10 @@ block history
      input(type='text', name='startDate', class='span2', id='startDate')
      span.add-on
         i.icon-th
+  if userDetail.isAdmin
+     div(id='div_history_user')
+        p username
+        input(type='text', name='historyUser', class='span2', id='historyUser')
   #historyTable
   br
   p Page opened 

@@ -59,11 +59,11 @@ $(document).ready(function() {
     //startDate: '-5d'
   }).on('changeDate', function(e) {
     var selectedDate = e.format('yyyy-mm-dd');
-    var url = myWatable[0].option('url');
-    var newUrl = url + '?startDate=' + selectedDate;
-    myWatable[0].option('url', newUrl);
-    myWatable[0].update();
-    myWatable[0].option('url', url);
+    var url = myWatable.history.table.option('url');
+    var newUrl = url + '?startDate=' + selectedDate + '&user=' + $('#historyUser').val();
+    myWatable.history.table.option('url', newUrl);
+    myWatable.history.table.update();
+    myWatable.history.table.option('url', url);
     console.log(selectedDate);
   });
 
