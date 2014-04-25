@@ -15,7 +15,7 @@ block content
     li
       a( href="#tools" data-toggle="tab") Tools
     li
-      a( href="#links" data-toggle="tab") Links
+      a( href="#doc" data-toggle="tab") Doc
     if userDetail.isAdmin
       li
         a( href="#admin" data-toggle="tab") Admin
@@ -33,8 +33,8 @@ block content
       block applications
     .tab-pane(id="tools")
       block tools
-    .tab-pane(id="links")
-      block links
+    .tab-pane(id="doc")
+      block doc
     if userDetail.isAdmin
       .tab-pane(id="admin")
          block admin

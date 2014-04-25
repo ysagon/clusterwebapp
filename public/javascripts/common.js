@@ -14,6 +14,7 @@ require.config({
     'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min',
     'jquery-validation': 'sbatchGenerator/jquery.validate.min',
     'timeago': '../bower_components/jquery-timeago/jquery.timeago',
+    'markdown': '../bower_components/markdown/lib/markdown',
     'watable': 'watable/jquery.watable',
     'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap.min',
     'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/' +
@@ -23,6 +24,9 @@ require.config({
     'jquery-ui': {
       exports: '$',
       deps: ['jquery']
+    },
+    'markdown': {
+      exports: 'window.markdown'
     },
     'timeago': {
       exports: '$',

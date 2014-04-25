@@ -10,6 +10,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    execute: {
+       options: {
+          args: ['faq.md', 'faq.json']
+       },
+       target: {
+          src: ['scripts/md2faq.js']
+       }
+    },
     gjslint: {
       options: {
         flags: [
@@ -23,7 +31,9 @@ module.exports = function(grunt) {
         src: ['*.js',
               'routes/*.js',
               'public/javascripts/*.js',
-              'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js'
+              'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js',
+              'public/javascripts/sbatchGenerator/jquery.unige.faq.js',
+              'public/javascripts/sbatchGenerator/faqdata.js'
               ]
       }
     },
@@ -86,6 +96,7 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-gjslint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -96,7 +107,7 @@ module.exports = function(grunt) {
   grunt.registerTask('provisionning', ['bower:install',
                                        'copy:init',
                                        'shell:make_bootstrap']);
-  grunt.registerTask('production', ['requirejs', 'cssmin', 'copy:main']);
+  grunt.registerTask('production', ['requirejs', 'cssmin', 'copy:main', 'execute']);
   grunt.registerTask('default', ['gjslint']);
 
 };

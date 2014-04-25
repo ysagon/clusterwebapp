@@ -3,4 +3,5 @@ build
 public/bower_components/
 *.pyc
 express.log
+faq.json
 public/javascripts/optimized.js

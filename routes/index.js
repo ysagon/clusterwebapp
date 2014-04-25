@@ -95,13 +95,13 @@ exports.applications = function() {
                {group: 'mpi', name: 'mpi-selector', version: '',
                 link: 'compilation'},
 
-               {group: 'general', name: 'cmake', module: 'cmake', 
+               {group: 'general', name: 'cmake', module: 'cmake',
                 version: '2.8.8', link: ''},
 
                {group: 'general', name: 'GCC', version: '4.7.2',
                 link: 'gcc'},
 
-               {group: 'general', name: 'GCC', module: 'gcc', 
+               {group: 'general', name: 'GCC', module: 'gcc',
                 version: '4.8.2', link: ''},
 
                {group: 'general', name: 'icc', version: '2013', link: 'intel'},
@@ -156,10 +156,10 @@ exports.applications = function() {
                {group: 'general', name: 'CellProfiler', version: '',
                 link: ''},
 
-               {group: 'general', name: 'cpmd', module: 'cpmd', 
+               {group: 'general', name: 'cpmd', module: 'cpmd',
                 version: '3.17.1', link: ''},
 
-               {group: 'general', name: 'ADF', module: 'adf', 
+               {group: 'general', name: 'ADF', module: 'adf',
                 version: '2013.01d', link: ''},
 
                {group: 'general', name: 'GIT', version: '3.3',
@@ -620,6 +620,16 @@ exports.reservations = function(execSync) {
    }
 };
 
+exports.faq = function(execSync) {
+  return function(req, res) {
+     var fs = require('fs');
+     fs.readFile(__dirname + '/../faq.json',
+                 {'encoding': 'utf8'}, function(err, data) {
+        if (err) throw err;
+        res.render('resjson', { data: data });
+     });
+  };
+};
 
 exports.status = function(execSync) {
   return function(req, res) {

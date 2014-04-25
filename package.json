@@ -10,7 +10,8 @@
     "jade": "*",
     "grunt": "~0.4.1",
     "connect-flash": "~0.1.1",
-    "execSync": "~1.0.1-pre"
+    "execSync": "~1.0.1-pre",
+    "grunt-execute": "~0.1.5"
   },
   "devDependencies": {
     "closure-linter-wrapper": "~0.2.9",
