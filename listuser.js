@@ -66,7 +66,7 @@ exports.execute = function(myCb) {
         console.error('error: ' + err.message);
       });
       res.on('end', function(result) {
-        console.log('status: ' + result.status);
+        //console.log('status: ' + result.status);
       });
     });
   };
@@ -99,5 +99,5 @@ exports.execute = function(myCb) {
     });
   };
 
-  search(adminGroupDN, optsGroup, cb);
+  search(userGoupDN, optsGroup, cb);
 };

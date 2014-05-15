@@ -25,6 +25,19 @@ $(document).ready(function() {
             ':' + zeropad(date.getUTCSeconds()) + 'Z';
   };
 
+   // fill the select with users
+   $.ajax({
+      url: urlRoot + 'listuser'
+   }).done(function(data) {
+      var entries = JSON.parse(data);
+      for (var i = 0; i < entries.length; i++) {
+         $('#historyUser').
+           append($('<option></option>').
+           attr('value', entries[i].unigeChUniqueUid).
+           text(entries[i].displayName));
+      }
+   });
+
    // Javascript to enable link to tab
    var url = document.location.toString();
    if (url.match('#')) {
@@ -53,20 +66,35 @@ $(document).ready(function() {
     selector: '[data-toggle="tooltip"]'
   });
 
+
+  // set the initial start date for history
   $('#startDate').val('-10d');
+
   $('#startDate').datepicker({
     format: 'dd/mm/yyyy'
     //startDate: '-5d'
   }).on('changeDate', function(e) {
-    var selectedDate = e.format('yyyy-mm-dd');
+    changeHistory();
+  });
+
+  $('#historyUser').on('change', function(e) {
+    changeHistory();
+  });
+
+  // refresh the history table with start date and user
+  var changeHistory = function() {
+    var selectedDate = $('#startDate').
+          datepicker('getFormattedDate', 'yyyy-mm-dd');
+
     var url = myWatable.history.table.option('url');
+
     var newUrl = url + '?startDate=' + selectedDate +
                        '&user=' + $('#historyUser').val();
+
     myWatable.history.table.option('url', newUrl);
     myWatable.history.table.update();
     myWatable.history.table.option('url', url);
-    console.log(selectedDate);
-  });
+  };
 
   // to store the watable instances
   var myWatable = {'status' : {'table': null},

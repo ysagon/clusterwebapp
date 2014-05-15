@@ -11,6 +11,7 @@ var path = require('path');
 var assert = require('assert');
 var flash = require('connect-flash');
 var execSync = require('execSync');
+var configWeb = require('config').web;
 var urlRoot;
 var port;
 var logFile = fs.createWriteStream('./express.log', {flags: 'a'});
@@ -26,13 +27,17 @@ if (!(process.env.NODE_ENV == 'production' ||
    process.exit();
 }
 
-if (process.env.NODE_ENV == 'production') {
-  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
-  port = 6000;
-}else {
-  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
-  port = 6000;
-}
+
+urlRoot = configWeb.urlRoot;
+port = configWeb.port;
+
+//if (process.env.NODE_ENV == 'production') {
+//  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
+//  port = 6000;
+//}else {
+//  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
+//  port = 6000;
+//}
 
 
 // all environments

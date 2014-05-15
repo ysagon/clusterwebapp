@@ -1,0 +1,3 @@
+web:
+  urlRoot: 'https://baobabmaster.unige.ch/iface/'
+  port: 3000 
