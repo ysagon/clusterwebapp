@@ -290,7 +290,12 @@ exports.allJobsRunning = function(execSync) {
      ganglia.execute(execSync);
      var gangliaLinks = ganglia.parse(execSync);
 
-    for (var i = 0; i < jobs.length; i++) {
+    function len(x) {
+      if (x) return Object.keys(x).length;
+      else return -1;
+    }
+
+    for (var i = 0; i < len(jobs); i++) {
       var link = gangliaHosts(jobs[i].jobid);
       var hrefLink = '<a href=\"' +
                      link +
@@ -408,6 +413,15 @@ function _isAdmin(ismemberof) {
   return false;
 }
 
+exports.listUsers = function() {
+   return function(req, res) {
+      var listUsers = require('.././listuser');
+      var data = listUsers.execute(function(data) {
+            res.render('resjson', {data: JSON.stringify(data)});
+      });
+   };
+};
+
 exports.history = function(execSync) {
   return function(req, res) {
       var ouCode = req.headers['unigechemployeeoucode'];
@@ -421,8 +435,8 @@ exports.history = function(execSync) {
          startDate = new Date(new Date().setDate(new Date().getDate() - 10));
       }
 
-      if(_isAdmin(ismemberof)){
-         if(typeof req.query.user != 'undefined'){
+      if (_isAdmin(ismemberof)) {
+         if (typeof req.query.user != 'undefined') {
             user = req.query.user;
          }
       }

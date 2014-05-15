@@ -84,7 +84,8 @@ Running the application
 =======================
 ::
 
- node app.js
+ NODE_ENV=development node app.js
+ NODE_ENV=production node app.js
 
 Deploy the application
 ======================

@@ -107,7 +107,10 @@ module.exports = function(grunt) {
   grunt.registerTask('provisionning', ['bower:install',
                                        'copy:init',
                                        'shell:make_bootstrap']);
-  grunt.registerTask('production', ['requirejs', 'cssmin', 'copy:main', 'execute']);
+  grunt.registerTask('production', ['requirejs',
+                                    'cssmin',
+                                    'copy:main',
+                                    'execute']);
   grunt.registerTask('default', ['gjslint']);
 
 };

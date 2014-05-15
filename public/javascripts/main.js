@@ -10,7 +10,7 @@ define(['jquery-ui',
         'watable',
         'bootstrap',
         'bootstrap-datepicker'],
-        function($, undefined, undefined, 
+        function($, undefined, undefined,
                  undefined, undefined, undefined) {
 $(document).ready(function() {
   var zeropad = function(num) {
@@ -60,7 +60,8 @@ $(document).ready(function() {
   }).on('changeDate', function(e) {
     var selectedDate = e.format('yyyy-mm-dd');
     var url = myWatable.history.table.option('url');
-    var newUrl = url + '?startDate=' + selectedDate + '&user=' + $('#historyUser').val();
+    var newUrl = url + '?startDate=' + selectedDate +
+                       '&user=' + $('#historyUser').val();
     myWatable.history.table.option('url', newUrl);
     myWatable.history.table.update();
     myWatable.history.table.option('url', url);

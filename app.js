@@ -80,6 +80,7 @@ app.get('/status', routes.status(execSync));
 app.get('/reservations', routes.reservations(execSync));
 app.get('/applications', routes.applications());
 app.get('/faq', routes.faq());
+app.get('/listuser', routes.listUsers());
 
 try {
    var res = http.createServer(app).listen(app.get('port'), function() {

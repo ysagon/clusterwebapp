@@ -1,0 +1,5 @@
+LDAP:
+  url: 'ldaps://people.unige.ch:636'
+  bindDN: 'cn=HPC search agent,ou=HPC,ou=Applications,dc=unige,dc=ch'
+  bindCredentials: 'xxxx'
+  rootCA: 'root-cert09.pem' 
