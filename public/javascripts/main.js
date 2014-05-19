@@ -38,11 +38,22 @@ $(document).ready(function() {
       }
    });
 
-   // Javascript to enable link to tab
-   var url = document.location.toString();
-   if (url.match('#')) {
-    $('.nav-tabs a[href=#' + url.split('#')[1] + ']').tab('show');
-   }
+
+   var changeTab = function() {
+      // Javascript to enable link to tab
+      var url = document.location.toString();
+      if (url.match('#')) {
+       $('.nav-tabs a[href=#' + url.split('#')[1] + ']').tab('show');
+      }
+   };
+
+   changeTab();
+
+   // change tab  when url change
+   $(window).bind('hashchange', function() {
+      changeTab();
+   });
+
 
    // Change hash for page-reload
    $('.nav-tabs a').on('shown', function(e) {
@@ -128,10 +139,11 @@ $(document).ready(function() {
   // auto refresh tabs
   setInterval(function() {
     refreshTable();
-  }, 5000);
+  }, 20000);
 
   // history table
   var temp = ($('#historyTable').WATable({
+    pageSize: '100',
     columnPicker: true,
     filter: true,
     url: urlRoot + 'history'

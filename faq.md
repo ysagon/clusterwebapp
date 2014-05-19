@@ -88,7 +88,7 @@ computing node, but will not be backuped.
 
 ## What applications are installed on Baobab ?
 
-The page [link] hosts a list of installed software on Baobab. 
+The page [applications](#applications) hosts a list of installed software on Baobab. 
 
 If you don't find what you need in the list, it may be installed
 however. Just try to use it. 
@@ -98,7 +98,7 @@ us at hpc@unige.ch, we will try to install it for you.
 
 ## Can you install the software XYZ on Baobab ?
 
-Check first the list of installed software on [link]. If it is not
+Check first the list of installed software on [applications](#applications). If it is not
 among the listed item, contact us at hpc@unige.ch, we will try to
 install the requested software.
 
@@ -238,7 +238,7 @@ try several strategies to see your code executed before:
 1.  Be sure that your job will consume all 16 cores of each node.
     If it's not the case, you can run simulteanously several jobs
     on the same node. For instance, if your computation uses only
-    2 threads, you can run 8 of these on a node. [link]
+    2 threads, you can run 8 of these on a node. [http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#monothread-jobs]
 
 2.  Shorter jobs are often scheduled earlier. Try to set the walltime
     limit as close as possible to the real execution time of your
