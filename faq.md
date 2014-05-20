@@ -9,7 +9,7 @@ demand as soon as possible.
 
 ## Could you create an account on the cluster ?
 
-Any researcher of the University of Geneva can request a an account on
+Any researcher of the University of Geneva can request an account on
 Baobab. You just need to contact us at hpc@unige.ch. Please provide
 the following informations:
 
@@ -62,7 +62,7 @@ move your results to another machine as soon as possible.
 ## How can I make my data accessible on the computing nodes ?
 
 Your home directory is mounted in every computing node, so anything
-you copy to your home directory will present in each computing node.
+you copy to your home directory will be present in each computing node.
 
 ## My job creates lots of temporary small files and everything is slow...
 
@@ -79,8 +79,8 @@ directory at the end of the job.
 
 ## How to backup my data ?
 
-The home directories are backuped every night. To avoid backuping
-temporary data, you can store them in the `~/scratch/`
+The whole home directories are backuped every night. To avoid backuping
+temporary data, we please ask you to store them in the `~/scratch/`
 directory. Everything you put there is still available to every
 computing node, but will not be backuped.
 
@@ -111,14 +111,14 @@ solutions.
 
 ## Can I use a proprietary licensed software ?
 
-Yes we can installed it, but you should pay the required license. Send
+Yes we can install it, but you should pay the required license. Send
 us a request at hpc@unige.ch.
 
 ## I need a different Linux distributions/version, am I stuck ?
 
 No, you can use *usermod linux* to run the kernel of your choice and
 the distribution of your choice. The setup is described in
-<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#user-mode-linuxlinux>
+<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#user-mode-linuxlinux>
 
 If you need further help, feel free to contact us at hpc@unige.ch
 
@@ -145,7 +145,7 @@ script
 
 You can pack 16 mono-core jobs in a single node. You can find an explanation here:
 
-<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#monothread-jobs>
+<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#monothread-jobs>
 
 If you need further explanations, contact us at hpc@unige.ch
 
@@ -154,7 +154,7 @@ If you need further explanations, contact us at hpc@unige.ch
 In that case you can use the *job arrays* feature of SLURM. Please, have a look
 at the documentation here:
 
-<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#job-array>
+<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#job-array>
 
 If you need further explanations, contact us at hpc@unige.ch
 
@@ -163,7 +163,7 @@ If you need further explanations, contact us at hpc@unige.ch
 Currently we have four partions: **parallel**, **shared**, **bigmem**, and
 **debug**. The criteria to choose the right partition are:
 
-1.  If it just a test, send it to the **debug** partition. It will be
+1.  If it's just a test, send it to the **debug** partition. It will be
     limited to 15 minutes, but that will be enough to check if
     everything starts fine. On the plus side, two nodes are reserved
     for the debug partition during the day, so you won't need to

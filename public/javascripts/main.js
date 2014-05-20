@@ -128,17 +128,22 @@ $(document).ready(function() {
       });
       myWatable.allJobsPending.table.update(function() {
          refreshTimeStamp();
-      });
+      })
   };
 
   function refreshTimeStamp() {
     jQuery.timeago(new Date());
     $('abbr.timeago').timeago('update');
   }
+  // store the slurm status url to be able to refresh it later.
+  var srcSlurmStatusDay = $('#img_slurm_status_day').attr('src');
+  var srcSlurmStatusHour = $('#img_slurm_status_hour').attr('src');
 
-  // auto refresh tabs
+  // auto refresh elements
   setInterval(function() {
     refreshTable();
+    $('#img_slurm_status_day').attr('src', srcSlurmStatusDay + '&bzt=' + new Date().getTime());
+    $('#img_slurm_status_hour').attr('src', srcSlurmStatusHour + '&bzt=' + new Date().getTime());
   }, 20000);
 
   // history table
