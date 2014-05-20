@@ -62,7 +62,7 @@ FAQ = (function(){
                     state.curr.q = q;
                 } else if( state.curr.a === "" && ! state.categories.length === 0){
                     throw "Question '"+ state.curr.q +"' has no answer";
-                } else {
+                } else { // we already have one q and one a, we push them and create a new one.
                     state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
                     state.curr.q = q;
                     state.curr.a = ""
@@ -70,7 +70,10 @@ FAQ = (function(){
             } else if( c = parseCategory( line ) ) {
                 console.log("C " + line);
                 if( state.curr.cat.length > 0 ) {
-                    state.categegories.push( state.curr.cat );
+                    state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
+                    state.curr.q = "";  
+                    state.curr.a = ""
+                    state.categories.push( state.curr.cat );
                     state.curr.cat = [];
                 }
                 state.curr.cat.push( { title: c } );
@@ -82,6 +85,9 @@ FAQ = (function(){
         
         // Handle end of file and calls the callback function.
         function finish(close){
+            if( state.curr.a !== ""){
+               state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
+            }
             if( state.curr.cat.length > 0 ) {
                 state.categories.push( state.curr.cat );
             }
