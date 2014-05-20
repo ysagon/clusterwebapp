@@ -33,6 +33,7 @@ exports.applications = function() {
        cols: {
           group: {
              index: 1,
+             sortOrder: 'asc',
              type: 'string',
              friendly: 'Group'
           },
@@ -80,6 +81,9 @@ exports.applications = function() {
                {group: 'general', name: 'R', module: 'r',
                 version: '3.0.3', link: 'r-project-and-r-studio'},
 
+               {group: 'general', name: 'R with MKL BLAS', module: 'r/303-parallel',
+                version: '3.0.3', link: 'r-project-and-r-studio'},
+
                {group: 'general', name: 'R studio', module: 'rstudio',
                 version: '', link: 'r-project-and-r-studio'},
 
@@ -92,24 +96,24 @@ exports.applications = function() {
                {group: 'general', name: 'Palabos', version: '',
                 link: 'palabos'},
 
-               {group: 'mpi', name: 'mpi-selector', version: '',
+               {group: 'tools', name: 'mpi-selector', version: '',
                 link: 'compilation'},
 
-               {group: 'general', name: 'cmake', module: 'cmake',
+               {group: 'tools', name: 'cmake', module: 'cmake',
                 version: '2.8.8', link: ''},
 
-               {group: 'general', name: 'GCC', version: '4.7.2',
+               {group: 'compiler', name: 'GCC', version: '4.7.2',
                 link: 'gcc'},
 
-               {group: 'general', name: 'GCC', module: 'gcc',
+               {group: 'compiler', name: 'GCC', module: 'gcc',
                 version: '4.8.2', link: ''},
 
-               {group: 'general', name: 'icc', version: '2013', link: 'intel'},
-               {group: 'general', name: 'icpc', version: '2013', link: 'intel'},
-               {group: 'general', name: 'ifort', version: '2013',
+               {group: 'compiler', name: 'icc', version: '2013', link: 'intel'},
+               {group: 'compiler', name: 'icpc', version: '2013', link: 'intel'},
+               {group: 'compiler', name: 'ifort', version: '2013',
                 link: 'intel'},
 
-               {group: 'general', name: 'paraview', module: 'paraview',
+               {group: 'tools', name: 'paraview', module: 'paraview',
                 version: '4.10', link: 'paraview'},
 
                {group: 'general', name: 'Python', module: 'python/27',
@@ -165,49 +169,49 @@ exports.applications = function() {
                {group: 'general', name: 'GIT', version: '3.3',
                 link: 'git'},
 
-               {group: 'biani', name: 'MrBayes', module: 'mrbayes',
+               {group: 'general', name: 'MrBayes', module: 'mrbayes',
                 version: '3.2.2', link: ''},
 
-               {group: 'biani', name: 'exaML', module: 'examl',
+               {group: 'general', name: 'exaML', module: 'examl',
                 version: '1.0.8', link: ''},
 
-               {group: 'biani', name: 'RAxML', module: 'raxml',
+               {group: 'general', name: 'RAxML', module: 'raxml',
                 version: '', link: ''},
 
-               {group: 'biani', name: 'PAML', module: 'paml',
+               {group: 'general', name: 'PAML', module: 'paml',
                 version: '4.7b', link: ''},
 
-               {group: 'biani', name: 'PhyML', module: 'phyml',
+               {group: 'general', name: 'PhyML', module: 'phyml',
                 version: '3.1', link: ''},
 
-               {group: 'biani', name: 'Beast', module: 'beast',
+               {group: 'general', name: 'Beast', module: 'beast',
                 version: '1.8.0', link: ''},
 
-               {group: 'biani', name: 'Tracer', module: 'tracer',
+               {group: 'general', name: 'Tracer', module: 'tracer',
                 version: '1.5', link: ''},
 
-               {group: 'biad', name: 'BWA', module: 'bwa',
+               {group: 'general', name: 'BWA', module: 'bwa',
                 version: '0.7.5a', link: ''},
 
-               {group: 'biad', name: 'samtools', module: 'samtools',
+               {group: 'general', name: 'samtools', module: 'samtools',
                 version: '0.1.19', link: ''},
 
-               {group: 'biad', name: 'bowtie1', module: 'bowtie1',
+               {group: 'general', name: 'bowtie1', module: 'bowtie1',
                 version: '1.0.0', link: ''},
 
-               {group: 'biad', name: 'bowtie2', module: 'bowtie2',
+               {group: 'general', name: 'bowtie2', module: 'bowtie2',
                 version: '2.1.0', link: ''},
 
-               {group: 'biad', name: 'Tophat', module: 'tophat',
+               {group: 'general', name: 'Tophat', module: 'tophat',
                 version: '2.0.9', link: ''},
 
-               {group: 'biad', name: 'Cufflinks', module: 'cufflinks',
+               {group: 'general', name: 'Cufflinks', module: 'cufflinks',
                 version: '2.1.1', link: ''},
 
-               {group: 'biad', name: 'Trinity', module: 'trinity',
+               {group: 'general', name: 'Trinity', module: 'trinity',
                 version: 'r20131110', link: ''},
 
-               {group: 'biad', name: 'Mira assembler', module: 'mira',
+               {group: 'general', name: 'Mira assembler', module: 'mira',
                 version: '4.0rc4', link: ''}
 
                ];
