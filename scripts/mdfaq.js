@@ -8,121 +8,126 @@ var readline = require('readline');
 
 /* The `FAQ` module has two entry points:
 
-   - `parse(inputfile, callback)` which parses `inputfile` and call the `callback function
-      on the result.
-   - `convert(inputfile, outputfile)` which converts the `inputfile` to `the outputfile`.
+   - `parse(inputfile, callback)` which parses `inputfile` and call the
+      `callback function on the result.
+   - `convert(inputfile, outputfile)` which converts the `inputfile` to
+      `the outputfile`.
 */
-FAQ = (function(){
+FAQ = (function() {
 
     // ### Helpers: functions and "constants"
-    
+
     // Regex for matching level 1 and level 2 titles as categories and questions
     var catRegex = /#\s+(.+)/;
     var qRegex = /##\s+(.+)/;
-    
+
     // Attempt parsing a category line.
-    function parseCategory( line ) {
-        var res = catRegex.exec( line );
-        if( res && res.index == 0 ) {
+    function parseCategory(line) {
+        var res = catRegex.exec(line);
+        if (res && res.index == 0) {
             return res[1];
         }
         return undefined;
     }
-    
+
     // Attempt parsing a question line.
-    function parseQuestion( line ) {
-        var res = qRegex.exec( line );
-        if( res && res.index == 0 ) {
+    function parseQuestion(line) {
+        var res = qRegex.exec(line);
+        if (res && res.index == 0) {
             return res[1];
         }
         return undefined;
     }
-    
+
 
     // ### Main parsing function
 
     // Input file parser. Calls the `andThen` callback when finished.
-    function parseMarkdown( inputFile, andThen ) {
+    function parseMarkdown(inputFile, andThen) {
 
         // Parsing state
         var state = {
             categories: [],
             curr: {
                 cat: [],
-                q: "",
-                a: ""
+                q: '',
+                a: ''
             }
         };
-        
+
         // Handle line parsing through a machine state behavior
-        function parseLine( line ){
-            if( q = parseQuestion( line ) ) {
-                console.log("Q " + line);
-                if( state.curr.q === "" ) {
+        function parseLine(line) {
+            if (q = parseQuestion(line)) {
+                console.log('Q ' + line);
+                if (state.curr.q === '') {
                     state.curr.q = q;
-                } else if( state.curr.a === "" && ! state.categories.length === 0){
-                    throw "Question '"+ state.curr.q +"' has no answer";
-                } else { // we already have one q and one a, we push them and create a new one.
-                    state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
+                } else if (state.curr.a === '' &&
+                           ! state.categories.length === 0) {
+                    throw "Question '" + state.curr.q + "' has no answer";
+                } else { // we already have one q and one a,
+                         // we push them and create a new one.
+                    state.curr.cat.push({ head: state.curr.q,
+                                          body: state.curr.a });
                     state.curr.q = q;
-                    state.curr.a = ""
+                    state.curr.a = '';
                 }
-            } else if( c = parseCategory( line ) ) {
-                console.log("C " + line);
-                if( state.curr.cat.length > 0 ) {
-                    state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
-                    state.curr.q = "";  
-                    state.curr.a = ""
-                    state.categories.push( state.curr.cat );
+            } else if (c = parseCategory(line)) {
+                console.log('C ' + line);
+                if (state.curr.cat.length > 0) {
+                    state.curr.cat.push({ head: state.curr.q,
+                                          body: state.curr.a });
+                    state.curr.q = '';
+                    state.curr.a = '';
+                    state.categories.push(state.curr.cat);
                     state.curr.cat = [];
                 }
-                state.curr.cat.push( { title: c } );
-            } else if( !(line === "" && state.curr.a === "") ) {
-                console.log("A " + line);
-                state.curr.a += line + "\n";
-            }    
+                state.curr.cat.push({ title: c });
+            } else if (!(line === '' && state.curr.a === '')) {
+                console.log('A ' + line);
+                state.curr.a += line + '\n';
+            }
         }
-        
+
         // Handle end of file and calls the callback function.
-        function finish(close){
-            if( state.curr.a !== ""){
-               state.curr.cat.push( { head: state.curr.q, body: state.curr.a } )
+        function finish(close) {
+            if (state.curr.a !== '') {
+               state.curr.cat.push({ head: state.curr.q, body: state.curr.a });
             }
-            if( state.curr.cat.length > 0 ) {
-                state.categories.push( state.curr.cat );
+            if (state.curr.cat.length > 0) {
+                state.categories.push(state.curr.cat);
             }
-            console.log( state.categories );
-            andThen( state.categories );
-        } 
-        
+            console.log(state.categories);
+            andThen(state.categories);
+        }
+
         // Read a file line by line, calling both handlers defined above.
         readline.createInterface({
             input: fs.createReadStream(inputFile),
             terminal: false
         }).on('line', parseLine).on('close', finish);
-        
+
     }
-    
-    // ### Convenience functions 
+
+    // ### Convenience functions
     // Parse mark down and save the resulting json to a file.
-    function parseAndWrite( inputFile, outputFile ) { 
-        parseMarkdown( inputFile, function(content) {
+    function parseAndWrite(inputFile, outputFile) {
+        parseMarkdown(inputFile, function(content) {
             var str = JSON.stringify(content, null, 4);
             fs.writeFile(outputFile, str, function(err) {
-                if(err) {
+                if (err) {
                     console.log(err);
                 } else {
-                    console.log("JSON saved to " + outputFile );
+                    console.log('JSON saved to ' + outputFile);
                 }
             });
         });
     }
-    
+
     // ### Public interface
-    
+
     return {
         convert: parseAndWrite,
-        parse: parseMarkdown   
+        parse: parseMarkdown
     };
 
 }());

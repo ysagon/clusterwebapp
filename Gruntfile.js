@@ -30,6 +30,7 @@ module.exports = function(grunt) {
       all: {
         src: ['*.js',
               'routes/*.js',
+              'scripts/*.js',
               'public/javascripts/*.js',
               'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js',
               'public/javascripts/sbatchGenerator/jquery.unige.faq.js',

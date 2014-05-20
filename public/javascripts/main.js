@@ -128,7 +128,7 @@ $(document).ready(function() {
       });
       myWatable.allJobsPending.table.update(function() {
          refreshTimeStamp();
-      })
+      });
   };
 
   function refreshTimeStamp() {
@@ -142,8 +142,10 @@ $(document).ready(function() {
   // auto refresh elements
   setInterval(function() {
     refreshTable();
-    $('#img_slurm_status_day').attr('src', srcSlurmStatusDay + '&bzt=' + new Date().getTime());
-    $('#img_slurm_status_hour').attr('src', srcSlurmStatusHour + '&bzt=' + new Date().getTime());
+    $('#img_slurm_status_day').
+       attr('src', srcSlurmStatusDay + '&bzt=' + new Date().getTime());
+    $('#img_slurm_status_hour').
+       attr('src', srcSlurmStatusHour + '&bzt=' + new Date().getTime());
   }, 20000);
 
   // history table
