@@ -81,8 +81,9 @@ exports.applications = function() {
                {group: 'general', name: 'R', module: 'r',
                 version: '3.0.3', link: 'r-project-and-r-studio'},
 
-               {group: 'general', name: 'R with MKL BLAS', module: 'r/303-parallel',
-                version: '3.0.3', link: 'r-project-and-r-studio'},
+               {group: 'general', name: 'R with MKL BLAS',
+                module: 'r/303-parallel', version: '3.0.3',
+                link: 'r-project-and-r-studio'},
 
                {group: 'general', name: 'R studio', module: 'rstudio',
                 version: '', link: 'r-project-and-r-studio'},
@@ -108,8 +109,12 @@ exports.applications = function() {
                {group: 'compiler', name: 'GCC', module: 'gcc',
                 version: '4.8.2', link: ''},
 
-               {group: 'compiler', name: 'icc', version: '2013', link: 'intel'},
-               {group: 'compiler', name: 'icpc', version: '2013', link: 'intel'},
+               {group: 'compiler', name: 'icc', version: '2013',
+                link: 'intel'},
+
+               {group: 'compiler', name: 'icpc', version: '2013',
+                link: 'intel'},
+
                {group: 'compiler', name: 'ifort', version: '2013',
                 link: 'intel'},
 
@@ -207,6 +212,9 @@ exports.applications = function() {
 
                {group: 'general', name: 'Cufflinks', module: 'cufflinks',
                 version: '2.1.1', link: ''},
+
+               {group: 'general', name: 'Gromacs', module: 'gromacs',
+                version: '4.6.5', link: ''},
 
                {group: 'general', name: 'Trinity', module: 'trinity',
                 version: 'r20131110', link: ''},
