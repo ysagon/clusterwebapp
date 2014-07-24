@@ -181,7 +181,7 @@ exports.applications = function() {
                 version: '1.0.8', link: ''},
 
                {group: 'general', name: 'RAxML', module: 'raxml',
-                version: '', link: ''},
+                version: '8.0.26', link: ''},
 
                {group: 'general', name: 'PAML', module: 'paml',
                 version: '4.7b', link: ''},

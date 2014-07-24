@@ -87,6 +87,11 @@ Running the application
  NODE_ENV=development node app.js
  NODE_ENV=production node app.js
 
+Restart the application
+::
+
+ kill -2 PID
+
 Deploy the application
 ======================
 ::
