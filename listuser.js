@@ -17,9 +17,9 @@ exports.execute = function(myCb) {
    // the ldap client handler
    var client = ldap.createClient({
       url: config.url,
-      maxConnections: 1,
-      checkInterval: 30000, // 30 s
-      maxIdleTime: 60000, // 1 min
+      maxConnections: 2,
+      checkInterval: 86400000, // 1 day
+      maxIdleTime: 86400000, // 1 day
       bindDN: config.bindDN,
       bindCredentials: config.bindCredentials,
       tlsOptions: {'ca': fs.readFileSync(config.rootCA)}
