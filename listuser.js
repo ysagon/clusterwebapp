@@ -25,6 +25,9 @@ exports.execute = function(myCb) {
       tlsOptions: {'ca': fs.readFileSync(config.rootCA)}
    });
 
+
+  //client.bind(config.bindDN, config.bindCredentials);
+
   //person search base:
   var basePerson = 'ou=People,dc=unige,dc=ch';
   //group search base:
@@ -98,6 +101,7 @@ exports.execute = function(myCb) {
     var dn = entry.object.uniqueMember;
     async.concat(dn, subSearch, function(err, result) {
       myCb(result);
+      client.unbind();
     });
   };
 
