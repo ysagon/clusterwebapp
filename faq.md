@@ -118,7 +118,7 @@ us a request at hpc@unige.ch.
 
 No, you can use *usermod linux* to run the kernel of your choice and
 the distribution of your choice. The setup is described in
-<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#user-mode-linuxlinux>
+<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#user-mode-linuxlinux>
 
 If you need further help, feel free to contact us at hpc@unige.ch
 
@@ -145,7 +145,7 @@ script
 
 You can pack 16 mono-core jobs in a single node. You can find an explanation here:
 
-<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#monothread-jobs>
+<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#monothread-jobs>
 
 If you need further explanations, contact us at hpc@unige.ch
 
@@ -154,7 +154,7 @@ If you need further explanations, contact us at hpc@unige.ch
 In that case you can use the *job arrays* feature of SLURM. Please, have a look
 at the documentation here:
 
-<https://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#job-array>
+<http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#job-array>
 
 If you need further explanations, contact us at hpc@unige.ch
 
