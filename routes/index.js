@@ -79,10 +79,10 @@ exports.applications = function() {
                 version: '13 mp 16', link: 'stata-13'},
 
                {group: 'general', name: 'R', module: 'r',
-                version: '3.0.3', link: 'r-project-and-r-studio'},
+                version: '3.1.1', link: 'r-project-and-r-studio'},
 
                {group: 'general', name: 'R with MKL BLAS',
-                module: 'r/303-parallel', version: '3.0.3',
+                module: 'r/311-parallel', version: '3.1.1',
                 link: 'r-project-and-r-studio'},
 
                {group: 'general', name: 'R studio', module: 'rstudio',
@@ -109,13 +109,13 @@ exports.applications = function() {
                {group: 'compiler', name: 'GCC', module: 'gcc',
                 version: '4.8.2', link: ''},
 
-               {group: 'compiler', name: 'icc', version: '2013',
+               {group: 'compiler', name: 'icc', version: '2013_sp1',
                 link: 'intel'},
 
-               {group: 'compiler', name: 'icpc', version: '2013',
+               {group: 'compiler', name: 'icpc', version: '2013_sp1',
                 link: 'intel'},
 
-               {group: 'compiler', name: 'ifort', version: '2013',
+               {group: 'compiler', name: 'ifort', version: '2013_sp1',
                 link: 'intel'},
 
                {group: 'tools', name: 'paraview', module: 'paraview',
