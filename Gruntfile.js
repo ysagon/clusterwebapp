@@ -53,7 +53,8 @@ module.exports = function(grunt) {
       combine: {
         files: {
           'build/css/optimized.css':
-             ['public/bower_components/bootstrap/docs/assets/css/bootstrap.css',
+             ['public/bower_components/jquery-ui/themes/redmond/jquery-ui.min.css',
+              'public/bower_components/bootstrap/docs/assets/css/bootstrap.css',
               'public/bower_components/bootstrap-datepicker/css/datepicker.css',
               'public/javascripts/watable/watable.css']
         }

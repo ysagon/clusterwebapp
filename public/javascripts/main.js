@@ -30,12 +30,17 @@ $(document).ready(function() {
       url: urlRoot + 'listuser'
    }).done(function(data) {
       var entries = JSON.parse(data);
-      for (var i = 0; i < entries.length; i++) {
-         $('#historyUser').
-           append($('<option></option>').
-           attr('value', entries[i].unigeChUniqueUid).
-           text(entries[i].displayName));
+      var res = new Array();
+      for (var i = 0; i < entries.length; i++){
+         res.push({ label: entries[i].displayName, value: entries[i].unigeChUniqueUid });
       }
+      $('#historyUser').autocomplete({ source: res });
+      //for (var i = 0; i < entries.length; i++) {
+      //   $('#historyUser').
+      //     append($('<option></option>').
+      //     attr('value', entries[i].unigeChUniqueUid).
+      //     text(entries[i].displayName));
+      //}
    });
 
 

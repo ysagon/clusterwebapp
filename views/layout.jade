@@ -9,6 +9,8 @@ html(lang='en')
     link(rel='shortcut icon', href=urlRoot + 'images/favicon.ico')
     title Baobab web interface
     if 'development' == process.env.NODE_ENV
+      link(href=urlRoot + 'bower_components/jquery-ui/themes/redmond/jquery-ui.min.css',
+           rel='stylesheet')
       link(href=urlRoot + 'bower_components/bootstrap/docs/assets/css/bootstrap.css', 
            rel='stylesheet')
       link(href=urlRoot + 'bower_components/bootstrap-datepicker/css/datepicker.css', 
