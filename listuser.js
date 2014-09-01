@@ -17,16 +17,18 @@ exports.execute = function(myCb) {
    // the ldap client handler
    var client = ldap.createClient({
       url: config.url,
-      maxConnections: 2,
-      checkInterval: 86400000, // 1 day
-      maxIdleTime: 86400000, // 1 day
-      bindDN: config.bindDN,
-      bindCredentials: config.bindCredentials,
+      maxConnections: 1,
+      //checkInterval: 86400000, // 1 day
+      //maxIdleTime: 86400000, // 1 day
+      //bindDN: config.bindDN,
+      //bindCredentials: config.bindCredentials,
       tlsOptions: {'ca': fs.readFileSync(config.rootCA)}
    });
 
 
-  //client.bind(config.bindDN, config.bindCredentials);
+  client.bind(config.bindDN, config.bindCredentials, function(err) {
+     assert.ifError(err);
+  });
 
   //person search base:
   var basePerson = 'ou=People,dc=unige,dc=ch';
@@ -101,7 +103,9 @@ exports.execute = function(myCb) {
     var dn = entry.object.uniqueMember;
     async.concat(dn, subSearch, function(err, result) {
       myCb(result);
-      client.unbind();
+      client.unbind(function(err) {
+  	assert.ifError(err);
+      });
     });
   };
 
