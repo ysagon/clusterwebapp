@@ -30,7 +30,7 @@ exports.execute = function(execSync, startDate, user) {
    var formatDate = fullYear + '-' + month + '-' + day;
 
    var format = 'JobID,JobName,Partition,Account,' +
-                'AllocCPUS,State,ExitCode,Start';
+                'AllocCPUS,State,ExitCode,Start,End,Elapsed,timelimit';
 
    var cmd = 'sacct --user ' +
              user +

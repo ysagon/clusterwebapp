@@ -436,6 +436,7 @@ exports.listUsers = function() {
 
 exports.history = function(execSync) {
   return function(req, res) {
+      var slurm = require('../slurm.js');
       var ouCode = req.headers['unigechemployeeoucode'];
       var user = req.headers['unigechuniqueuid'];
       var ismemberof = (req.headers['ismemberof']).split(';');
@@ -478,6 +479,7 @@ exports.history = function(execSync) {
            Account: {
               index: 4,
               type: 'string',
+              hidden: true,
               friendly: 'Account',
               filter: true
            },
@@ -485,6 +487,7 @@ exports.history = function(execSync) {
               index: 5,
               type: 'number',
               friendly: 'Cpus allocated',
+              hidden: true,
               filter: true
            },
            State: {
@@ -504,11 +507,38 @@ exports.history = function(execSync) {
               type: 'string',
               friendly: 'Start date',
               filter: true
-           }
+           },
+           End: {
+              index: 9,
+              type: 'string',
+              friendly: 'End date',
+	      hidden: true,
+              filter: true
+           },
+           Elapsed: {
+              index: 10,
+              type: 'string',
+              friendly: 'Elapsed',
+              filter: true
+           },
+           timelimit: {
+              index: 11,
+              type: 'string',
+              friendly: 'Time Limit',
+              filter: true
+           },
+	   timeError: {
+	      index: 12,
+	      type: 'string',
+              friendly: 'Time estimation',
+              filter: true
+	   }
         },
         rows: [
       ]
     };
+
+
 
 
     for (var i = 0; i < data.length; i++) {
@@ -520,8 +550,33 @@ exports.history = function(execSync) {
                             AllocCPUS: data[i][j++],
                             State: data[i][j++],
                             ExitCode: data[i][j++],
-                            Start: data[i][j++]
+                            Start: data[i][j++],
+                            End: data[i][j++],
+                            Elapsed: data[i][j++],
+                            timelimit: data[i][j++]
       };
+      jsonStruct.rows[i].timeError = 'n/a';
+      if (jsonStruct.rows[i].State == 'COMPLETED') {
+
+	var nbSecTimeLimit = slurm.convertSlurmDateToSec(jsonStruct.rows[i].timelimit);
+	var nbSecElapsed = slurm.convertSlurmDateToSec(jsonStruct.rows[i].Elapsed);
+	var diff;
+	if (nbSecTimeLimit && nbSecElapsed) {
+          diff = ((nbSecTimeLimit / nbSecElapsed) - 1) * 100;
+	  console.log(diff + '%');
+	  if (diff >= 100) {
+		jsonStruct.rows[i].timeError = 'Very bad';
+	  }else if (diff > 75) {
+		jsonStruct.rows[i].timeError = 'bad';
+	  }else if (diff > 50) {
+		jsonStruct.rows[i].timeError = 'average';
+	  }else if (diff > 25) {
+		jsonStruct.rows[i].timeError = 'good';
+	  }else if (diff > 00) {
+		jsonStruct.rows[i].timeError = 'very good';
+	  }
+	}
+      }
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
    }
