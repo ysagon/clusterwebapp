@@ -11,7 +11,8 @@
     "grunt": "~0.4.1",
     "connect-flash": "~0.1.1",
     "execSync": "~1.0.1-pre",
-    "grunt-execute": "~0.2.*"
+    "grunt-execute": "~0.2.*",
+    "etc-passwd": "~0.1.1"
   },
   "devDependencies": {
     "closure-linter-wrapper": "~0.2.9",

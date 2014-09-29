@@ -10,13 +10,13 @@ require.config({
   //enforceDefine: true,
   baseUrl: 'iface-dev/javascripts',
   paths: {
-    'jquery': '../bower_components/jquery/jquery.min',
+    'jquery': '../bower_components/jquery/dist/jquery.min',
     'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min',
     'jquery-validation': 'sbatchGenerator/jquery.validate.min',
     'timeago': '../bower_components/jquery-timeago/jquery.timeago',
     'markdown': '../bower_components/markdown/lib/markdown',
     'watable': 'watable/jquery.watable',
-    'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap.min',
+    'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
     'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/' +
                             'js/bootstrap-datepicker'
   },

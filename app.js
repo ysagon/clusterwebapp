@@ -31,15 +31,6 @@ if (!(process.env.NODE_ENV == 'production' ||
 urlRoot = configWeb.urlRoot;
 port = configWeb.port;
 
-//if (process.env.NODE_ENV == 'production') {
-//  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
-//  port = 6000;
-//}else {
-//  urlRoot = 'https://baobabmaster.unige.ch/iface-dev/';
-//  port = 6000;
-//}
-
-
 // all environments
 app.set('port', process.env.PORT || port);
 app.set('views', path.join(__dirname, 'views'));
