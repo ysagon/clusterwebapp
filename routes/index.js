@@ -346,6 +346,7 @@ exports.allJobsPending = function(execSync) {
   return function(req, res) {
     var result = execSync.exec(__dirname +
                                '/../scripts/showq.py --json --pending');
+     var slurm = require('../slurm.js');
      var jsonStruct = {
         cols: {
            jobid: {
@@ -370,7 +371,7 @@ exports.allJobsPending = function(execSync) {
            },
            limit: {
               index: 5,
-              type: 'string',
+              type: 'number',
               friendly: 'Requested time'
            },
            start: {
@@ -388,6 +389,11 @@ exports.allJobsPending = function(execSync) {
               index: 8,
               type: 'number',
               friendly: 'Nb cpus'
+           },
+           hint: {
+              index: 9,
+              type: 'string',
+              friendly: 'Hint'
            }
         },
         rows: [
@@ -405,11 +411,19 @@ exports.allJobsPending = function(execSync) {
                             name: _cutJobName(jobs[i].name),
                             user: jobs[i].user,
                             partition: jobs[i].partition,
-                            limit: jobs[i].limit,
+                            limit: slurm.convertSlurmDateToSec(jobs[i].limit),
+                            limitFormat: jobs[i].limit,
                             start: jobs[i].start_sec,
                             startFormat: jobs[i].start,
                             priority: jobs[i].priority,
                             numCpus: jobs[i].cpus};
+      if(jsonStruct.rows[i] && jsonStruct.rows[i].limit <= 36000 * 4 && jsonStruct.rows[i].partition == 'parallel'){
+        jsonStruct.rows[i].hint = '<a data-toggle="tooltip" class="tooltipLink" ' +
+	       'data-original-title="You should use the shared partition for this job">' +
+               '<span class="glyphicon glyphicon-info-sign"></span>a</a>';
+      }else{
+	jsonStruct.rows[i].hint = '<span class="glyphicon glyphicon-info-sign"></span>';
+      }
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };

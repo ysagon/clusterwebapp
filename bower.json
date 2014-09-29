@@ -1,6 +1,6 @@
 {
   "name": "clusterWebApp",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "directory": "public/bower_components",
   "ignore": [
@@ -12,8 +12,8 @@
   ],
   "dependencies": {
     "jquery-ui": "~1.10.3",
-    "bootstrap": "2.3.2",
-    "bootstrap-datepicker": "1.2.0",
+    "bootstrap": "3.2.0",
+    "bootstrap-datepicker": "1.3.0",
     "jquery-timeago": "~1.3.1",
     "requirejs": "~2.1.11",
     "almond": "~0.2.9",
