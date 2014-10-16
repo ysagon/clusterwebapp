@@ -18,14 +18,17 @@ block history
   p. 
     This page lists your already terminated jobs from the 10 last days.
     You can select another date in the field below.
-  div(id='div_start_date', class='input-append date')
-     input(type='text', name='startDate', class='span2', id='startDate')
-     span.add-on
-        i.icon-th
-  if userDetail.isAdmin
-     div(id='div_history_user')
-        label(for='historyUser') Select a user:
-        input(name='historyUser', id='historyUser')
+  form(role='form')
+    div(class='form-group')
+      label(for='startDate') Start date:
+      div(id='div_start_date', class='input-append date')
+        input(type='text', name='startDate', class='span2', id='startDate')
+        span.add-on
+          i.icon-th
+    if userDetail.isAdmin
+      div(class='form-group')
+          label(for='historyUser') Select a user:
+          input(name='historyUser', id='historyUser')
   #historyTable
   br
   p Page opened 

@@ -417,19 +417,23 @@ exports.allJobsPending = function(execSync) {
                             startFormat: jobs[i].start,
                             priority: jobs[i].priority,
                             numCpus: jobs[i].cpus};
+      // if the requested time is less or equal than 12 hours
+      // and the requested partition is parallel,
+      // we give the advice to use the shared partition.
       if (jsonStruct.rows[i] &&
-          jsonStruct.rows[i].limit <= (36000 * 4) &&
+          jsonStruct.rows[i].limit <= (3600 * 12) &&
           jsonStruct.rows[i].partition == 'parallel') {
           jsonStruct.rows[i].hint = '<a data-toggle="tooltip" ' +
            'class="tooltipLink" ' +
-           'data-original-title="You should use the shared partition ' +
-           'for this job">' +
+           'data-original-title="You should probably use the shared partition ' +
+           'for this job to be scheduled faster">' +
            '<span class="glyphicon glyphicon-info-sign"></span>a</a>';
-      }else {
-        jsonStruct.rows[i].hint = '<span class="glyphicon ' +
-                                  ' glyphicon-info-sign">' +
-                                  '</span>';
       }
+      //else {
+      //  jsonStruct.rows[i].hint = '<span class="glyphicon ' +
+      //                            ' glyphicon-info-sign">' +
+      //                            '</span>';
+      //}
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
   };
@@ -469,7 +473,7 @@ exports.history = function(execSync) {
       }
 
       if (_isAdmin(ismemberof)) {
-         if (typeof req.query.user != 'undefined') {
+         if (typeof req.query.user != 'undefined' && req.query.user != '') {
             user = req.query.user;
          }
       }
@@ -573,31 +577,33 @@ exports.history = function(execSync) {
                             Start: data[i][j++],
                             End: data[i][j++],
                             Elapsed: data[i][j++],
-                            timelimit: data[i][j++]
+                            timelimit: data[i][j++],
+                            timeError: 'n/a'
       };
-      jsonStruct.rows[i].timeError = 'n/a';
+      // If the satus of the job is completed,
+      // we check if the time required by the user
+      // is more or less accurate with the real
+      // elapsed time.
       if (jsonStruct.rows[i].State == 'COMPLETED') {
-
-   var nbSecTimeLimit =
-         slurm.convertSlurmDateToSec(jsonStruct.rows[i].timelimit);
-   var nbSecElapsed =
-         slurm.convertSlurmDateToSec(jsonStruct.rows[i].Elapsed);
-   var diff;
-   if (nbSecTimeLimit && nbSecElapsed) {
-          diff = ((nbSecTimeLimit / nbSecElapsed) - 1) * 100;
-     console.log(diff + '%');
-     if (diff >= 100) {
-      jsonStruct.rows[i].timeError = 'Very bad';
-     }else if (diff > 75) {
-      jsonStruct.rows[i].timeError = 'bad';
-     }else if (diff > 50) {
-      jsonStruct.rows[i].timeError = 'average';
-     }else if (diff > 25) {
-      jsonStruct.rows[i].timeError = 'good';
-     }else if (diff > 00) {
-      jsonStruct.rows[i].timeError = 'very good';
-     }
-   }
+        var nbSecTimeLimit =
+          slurm.convertSlurmDateToSec(jsonStruct.rows[i].timelimit);
+        var nbSecElapsed =
+          slurm.convertSlurmDateToSec(jsonStruct.rows[i].Elapsed);
+        var diff;
+        if (nbSecTimeLimit && nbSecElapsed) {
+            diff = ((nbSecTimeLimit / nbSecElapsed) - 1) * 100;
+          if (diff >= 100) {
+            jsonStruct.rows[i].timeError = 'very bad';
+          }else if (diff > 75) {
+            jsonStruct.rows[i].timeError = 'bad';
+          }else if (diff > 50) {
+            jsonStruct.rows[i].timeError = 'average';
+          }else if (diff > 25) {
+            jsonStruct.rows[i].timeError = 'good';
+          }else if (diff > 00) {
+            jsonStruct.rows[i].timeError = 'very good';
+          }
+        }
       }
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
