@@ -1,13 +1,8 @@
 /**
  * jQueryUI widget for the message dispatcher
  *
- * The goal of this widget is to accept data from outside and to forward it
- * to others widgets.
- * Outside can be a websocket, another script etc.
- * Others widgets can be a log, notification, image, 3d etc.
- * This widget must provide callbacks entries to forward message.
- * When a widget register, it must specify what kind of message it wants to
- * receive.
+ * This widget allows to generate a slurm sbatch script
+ * based on the user input
  *
  * @author yann.sagon@unige.ch (Yann Sagon)
  */
@@ -47,9 +42,11 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
 
 
-      var form = $('<form id="form"></form>');
+      var form = $('<form role="form" id="form"></form>');
 
-      var fieldset = $('<fieldset></fielseet>');
+      var fieldset = $('<fieldset></fieldset>');
+
+      var formgroup = $('<div class="form-group"></div>');
 
       var legend = $('<legend>Sbatch generator</legend>');
       that._vars.inputs = [
@@ -155,14 +152,18 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
       }, 'Specify a valid duration max: 4-00:00:00');
 
       for (var i = 0; i < that._vars.inputs.length; i++) {
+         var newFormGroup = formgroup.clone();
          var input = that._buildInputs(that._vars.inputs[i]);
          var label = that._buildLabels(that._vars.inputs[i]);
          if (label) {
-            label.appendTo(fieldset);
+            label.appendTo(newFormGroup);
          }
-         input.appendTo(fieldset);
+         input.appendTo(newFormGroup);
+         newFormGroup.appendTo(fieldset);
       }
       legend.appendTo(form);
+     
+      //formgroup.appendTo(fieldset);
 
       fieldset.appendTo(form);
       form.appendTo(this._vars.container);
@@ -215,7 +216,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
     _buildLabels: function(obj) {
         var label = false;
          if (obj.label) {
-            label = $('<label>' + obj.label + '</label>');
+            label = $('<label for="'+ obj.id +'">' + obj.label + '</label>');
             if (obj.tooltip) {
               label.append($('<a href="#" data-html="true" ' +
                              'data-toggle="tooltip" title="' +
@@ -264,7 +265,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
              break;
           }
           case 'button': {
-          return $('<button class="btn" id="' +
+          return $('<button type="submit" class="btn btn-default" id="' +
                    obj.id + '">' +
                    obj.value + '</button>');
           }
