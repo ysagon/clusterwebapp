@@ -104,7 +104,7 @@ exports.execute = function(myCb) {
     async.concat(dn, subSearch, function(err, result) {
       myCb(result);
       client.unbind(function(err) {
-  	assert.ifError(err);
+        assert.ifError(err);
       });
     });
   };

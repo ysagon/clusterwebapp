@@ -417,12 +417,18 @@ exports.allJobsPending = function(execSync) {
                             startFormat: jobs[i].start,
                             priority: jobs[i].priority,
                             numCpus: jobs[i].cpus};
-      if(jsonStruct.rows[i] && jsonStruct.rows[i].limit <= 36000 * 4 && jsonStruct.rows[i].partition == 'parallel'){
-        jsonStruct.rows[i].hint = '<a data-toggle="tooltip" class="tooltipLink" ' +
-	       'data-original-title="You should use the shared partition for this job">' +
-               '<span class="glyphicon glyphicon-info-sign"></span>a</a>';
-      }else{
-	jsonStruct.rows[i].hint = '<span class="glyphicon glyphicon-info-sign"></span>';
+      if (jsonStruct.rows[i] &&
+          jsonStruct.rows[i].limit <= (36000 * 4) &&
+          jsonStruct.rows[i].partition == 'parallel') {
+          jsonStruct.rows[i].hint = '<a data-toggle="tooltip" ' +
+           'class="tooltipLink" ' +
+           'data-original-title="You should use the shared partition ' +
+           'for this job">' +
+           '<span class="glyphicon glyphicon-info-sign"></span>a</a>';
+      }else {
+        jsonStruct.rows[i].hint = '<span class="glyphicon ' +
+                                  ' glyphicon-info-sign">' +
+                                  '</span>';
       }
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
@@ -526,7 +532,7 @@ exports.history = function(execSync) {
               index: 9,
               type: 'string',
               friendly: 'End date',
-	      hidden: true,
+           hidden: true,
               filter: true
            },
            Elapsed: {
@@ -541,12 +547,12 @@ exports.history = function(execSync) {
               friendly: 'Time Limit',
               filter: true
            },
-	   timeError: {
-	      index: 12,
-	      type: 'string',
+           timeError: {
+              index: 12,
+              type: 'string',
               friendly: 'Time estimation',
               filter: true
-	   }
+           }
         },
         rows: [
       ]
@@ -572,24 +578,26 @@ exports.history = function(execSync) {
       jsonStruct.rows[i].timeError = 'n/a';
       if (jsonStruct.rows[i].State == 'COMPLETED') {
 
-	var nbSecTimeLimit = slurm.convertSlurmDateToSec(jsonStruct.rows[i].timelimit);
-	var nbSecElapsed = slurm.convertSlurmDateToSec(jsonStruct.rows[i].Elapsed);
-	var diff;
-	if (nbSecTimeLimit && nbSecElapsed) {
+   var nbSecTimeLimit =
+         slurm.convertSlurmDateToSec(jsonStruct.rows[i].timelimit);
+   var nbSecElapsed =
+         slurm.convertSlurmDateToSec(jsonStruct.rows[i].Elapsed);
+   var diff;
+   if (nbSecTimeLimit && nbSecElapsed) {
           diff = ((nbSecTimeLimit / nbSecElapsed) - 1) * 100;
-	  console.log(diff + '%');
-	  if (diff >= 100) {
-		jsonStruct.rows[i].timeError = 'Very bad';
-	  }else if (diff > 75) {
-		jsonStruct.rows[i].timeError = 'bad';
-	  }else if (diff > 50) {
-		jsonStruct.rows[i].timeError = 'average';
-	  }else if (diff > 25) {
-		jsonStruct.rows[i].timeError = 'good';
-	  }else if (diff > 00) {
-		jsonStruct.rows[i].timeError = 'very good';
-	  }
-	}
+     console.log(diff + '%');
+     if (diff >= 100) {
+      jsonStruct.rows[i].timeError = 'Very bad';
+     }else if (diff > 75) {
+      jsonStruct.rows[i].timeError = 'bad';
+     }else if (diff > 50) {
+      jsonStruct.rows[i].timeError = 'average';
+     }else if (diff > 25) {
+      jsonStruct.rows[i].timeError = 'good';
+     }else if (diff > 00) {
+      jsonStruct.rows[i].timeError = 'very good';
+     }
+   }
       }
     }
     res.render('resjson', { data: JSON.stringify(jsonStruct) });

@@ -31,8 +31,9 @@ $(document).ready(function() {
    }).done(function(data) {
       var entries = JSON.parse(data);
       var res = new Array();
-      for (var i = 0; i < entries.length; i++){
-         res.push({ label: entries[i].displayName, value: entries[i].unigeChUniqueUid });
+      for (var i = 0; i < entries.length; i++) {
+         res.push({ label: entries[i].displayName,
+                    value: entries[i].unigeChUniqueUid });
       }
       $('#historyUser').autocomplete({ source: res });
       //for (var i = 0; i < entries.length; i++) {
