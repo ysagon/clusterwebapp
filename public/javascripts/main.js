@@ -7,6 +7,7 @@ define(['jquery-ui',
         'sbatchGenerator/jquery.unige.sbatchGenerator',
         'sbatchGenerator/jquery.unige.faq',
         'timeago',
+        'typeahead',
         'watable',
         'bootstrap',
         'bootstrap-datepicker'],
@@ -26,6 +27,7 @@ $(document).ready(function() {
   };
 
    // fill the select with users
+   // todo migrate to typeahead.. one day
    $.ajax({
       url: urlRoot + 'listuser'
    }).done(function(data) {

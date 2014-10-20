@@ -12,6 +12,7 @@ require.config({
   paths: {
     'jquery': '../bower_components/jquery/dist/jquery.min',
     'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min',
+    'typeahead': '../bower_components/typeahead.js/dist/typeahead.jquery.min',
     'jquery-validation': 'sbatchGenerator/jquery.validate.min',
     'timeago': '../bower_components/jquery-timeago/jquery.timeago',
     'markdown': '../bower_components/markdown/lib/markdown',
