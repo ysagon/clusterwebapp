@@ -264,6 +264,9 @@ exports.applications = function() {
          var url = baseUrl + '#' + data[i].link;
          data[i].link = '<a href="' + url + '" target="_blank">doc</a>';
        }
+       if (typeof data[i].module != 'undefined'){
+         data[i].module = '<a href="' + 'http://baobabmaster.unige.ch/enduser/src/enduser/enduser.html#modules' + '" target="_blank">' + data[i].module + '</a>';
+       }
     }
     jsonStruct.rows = data;
     res.render('resjson', { data: JSON.stringify(jsonStruct) });
@@ -577,18 +580,21 @@ exports.history = function(execSync) {
               index: 10,
               type: 'string',
               friendly: 'Elapsed',
+              tooltip: 'The real running time',
               filter: true
            },
            timelimit: {
               index: 11,
               type: 'string',
-              friendly: 'Time Limit',
+              friendly: 'Time limit',
+              tooltip: 'The time you requested',
               filter: true
            },
            timeError: {
               index: 12,
               type: 'string',
               friendly: 'Time estimation',
+              tooltip: 'Correcteness of running time versus requested time.',
               filter: true
            }
         },

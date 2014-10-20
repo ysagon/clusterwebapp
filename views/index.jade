@@ -19,16 +19,18 @@ block history
   p. 
     This page lists your already terminated jobs from the 10 last days.
     You can select another date in the field below.
-  form(role='form')
+  form(role='form', class='form-horizontal')
     div(class='form-group')
-      label(for='startDate') Start date:
-      div(id='div_start_date', class='input-group date')
-        input(type='text', class="form-control" name='startDate', id='startDate')
-        span.input-group-addon.glyphicon.glyphicon-th
+      label(for='startDate', class='col-sm-2 control-label') Start date:
+      div(class='col-sm-3')
+        div(id='div_start_date', class='input-group date')
+          input(type='text', class='form-control' name='startDate', id='startDate')
+          span.input-group-addon.glyphicon.glyphicon-th
     if userDetail.isAdmin
       div(class='form-group')
-        label(for='historyUser') Select a user:
-        input(name='historyUser', class="form-control" id='historyUser')
+        label(for='historyUser', class='col-sm-2 control-label') Select a user:
+        div(class='col-sm-3')
+          input(name='historyUser', class='form-control' id='historyUser')
   #historyTable
   br
   p Page opened 
@@ -73,6 +75,7 @@ block tools
 // - this block is only seen if the user is in group admin
 if userDetail.isAdmin
   block admin
+    h2 Admin links
     ul
       li
         a(href='https://baobabmaster.unige.ch/admin/' target='_blank') Admin doc
