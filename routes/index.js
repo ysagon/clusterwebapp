@@ -81,6 +81,9 @@ exports.applications = function() {
                {group: 'general', name: 'R', module: 'r',
                 version: '3.1.1', link: 'r-project-and-r-studio'},
 
+               {group: 'general', name: 'PETSc', module: 'petsc',
+                version: '3.4.4', link: ''},
+
                {group: 'general', name: 'R with MKL BLAS',
                 module: 'r/311-parallel', version: '3.1.1',
                 link: 'r-project-and-r-studio'},
@@ -101,22 +104,25 @@ exports.applications = function() {
                 link: 'compilation'},
 
                {group: 'tools', name: 'cmake', module: 'cmake',
-                version: '2.8.8', link: ''},
+                version: '3.0.0', link: ''},
 
-               {group: 'compiler', name: 'GCC', version: '4.7.2',
+               {group: 'compiler', name: 'GCC', version: '4.8.2',
                 link: 'gcc'},
 
-               {group: 'compiler', name: 'GCC', module: 'gcc',
-                version: '4.8.2', link: ''},
-
-               {group: 'compiler', name: 'icc', version: '2013_sp1',
+               {group: 'compiler', name: 'icc', version: '2015',
                 link: 'intel'},
 
-               {group: 'compiler', name: 'icpc', version: '2013_sp1',
+               {group: 'compiler', name: 'icpc', version: '2015',
                 link: 'intel'},
 
-               {group: 'compiler', name: 'ifort', version: '2013_sp1',
+               {group: 'compiler', name: 'ifort', version: '2015',
                 link: 'intel'},
+
+               {group: 'compiler', name: 'PGI', module: 'pgi/1310',
+                version: '13.10', link: ''},
+
+               {group: 'compiler', name: 'PGI', module: 'pgi/1110',
+                version: '11.10', link: ''},
 
                {group: 'tools', name: 'paraview', module: 'paraview',
                 version: '4.10', link: 'paraview'},
@@ -141,7 +147,7 @@ exports.applications = function() {
                {group: 'general', name: 'Gaussian', module: 'gaussian',
                 version: 'g09.c01 with PGI 11.10', link: ''},
 
-               {group: 'general', name: 'Boost', version: '1.5.4',
+               {group: 'general', name: 'Boost', version: '1.5.6',
                 module: 'boost', link: ''},
 
                {group: 'python33', name: 'Pygrib', version: '1.9.8',
@@ -153,14 +159,17 @@ exports.applications = function() {
                {group: 'python27', name: 'pp', version: '1.6.4',
                 link: ''},
 
+               {group: 'python27', name: 'Cutadapt', version: '',
+                link: ''},
+
                {group: 'general', name: 'xsd', module: 'xsd',
                 version: '3.3.0', link: ''},
 
+               {group: 'general', name: 'java', module: 'java',
+                version: '1.7.0.55', link: ''},
+
                {group: 'general', name: 'MetaPIGA', module: 'metapiga',
                 version: '3.1', link: ''},
-
-               {group: 'python27', name: 'Cutadapt', version: '',
-                link: ''},
 
                {group: 'general', name: 'CellProfiler', version: '',
                 link: ''},
@@ -174,11 +183,26 @@ exports.applications = function() {
                {group: 'general', name: 'GIT', version: '3.3',
                 link: 'git'},
 
+               {group: 'general', name: 'fall3d', module: 'fall3d',
+                version: '7.0', link: ''},
+
+               {group: 'general', name: 'fastx toolkit', module: 'fastx_tookit',
+                version: '0.0.14', link: ''},
+
+               {group: 'general', name: 'fftw3', module: 'fftw3',
+                version: '3.3.4', link: ''},
+
+               {group: 'general', name: 'fsl', module: 'fsl',
+                version: '507', link: ''},
+
                {group: 'general', name: 'MrBayes', module: 'mrbayes',
                 version: '3.2.2', link: ''},
 
                {group: 'general', name: 'exaML', module: 'examl',
                 version: '1.0.8', link: ''},
+
+               {group: 'general', name: 'exabayes', module: 'exabayes',
+                version: '1.4.1', link: ''},
 
                {group: 'general', name: 'RAxML', module: 'raxml',
                 version: '8.0.26', link: ''},
@@ -198,6 +222,13 @@ exports.applications = function() {
                {group: 'general', name: 'BWA', module: 'bwa',
                 version: '0.7.5a', link: ''},
 
+               {group: 'general', name: 'cd-hit', module: 'cd-hit',
+                version: '4.6.1-2012-08-27', link: ''},
+
+               {group: 'general', name: 'cd-hit-cluster-consensus',
+                module: 'cdhit-cluster-consensus', version: '2013-03-27',
+                link: ''},
+
                {group: 'general', name: 'samtools', module: 'samtools',
                 version: '0.1.19', link: ''},
 
@@ -216,8 +247,11 @@ exports.applications = function() {
                {group: 'general', name: 'Gromacs', module: 'gromacs',
                 version: '4.6.5', link: ''},
 
+               {group: 'general', name: 'hmmer', module: 'hmmer',
+                version: '3.1b1', link: ''},
+
                {group: 'general', name: 'Trinity', module: 'trinity',
-                version: 'r20131110', link: ''},
+                version: '20140717', link: ''},
 
                {group: 'general', name: 'Mira assembler', module: 'mira',
                 version: '4.0rc4', link: ''}
@@ -425,8 +459,8 @@ exports.allJobsPending = function(execSync) {
           jsonStruct.rows[i].partition == 'parallel') {
           jsonStruct.rows[i].hint = '<a data-toggle="tooltip" ' +
            'class="tooltipLink" ' +
-           'data-original-title="You should probably use the shared partition ' +
-           'for this job to be scheduled faster">' +
+           'data-original-title="You should probably use the shared ' +
+           'partition for this job to be scheduled faster">' +
            '<span class="glyphicon glyphicon-info-sign"></span>a</a>';
       }
       //else {
