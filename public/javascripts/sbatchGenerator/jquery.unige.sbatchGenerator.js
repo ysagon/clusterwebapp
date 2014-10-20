@@ -42,11 +42,13 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
 
 
-      var form = $('<form role="form" id="form"></form>');
+      var form = $('<form role="form" ' +
+                    'class="form-horizontal" ' +
+                    'id="form"></form>');
 
       var fieldset = $('<fieldset></fieldset>');
 
-      var formgroup = $('<div class="form-group"></div>');
+      var formgroup = $('<div class="form-group form-group-sm"></div>');
 
       var legend = $('<legend>Sbatch generator</legend>');
       that._vars.inputs = [
@@ -162,7 +164,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
          newFormGroup.appendTo(fieldset);
       }
       legend.appendTo(form);
-     
+
       //formgroup.appendTo(fieldset);
 
       fieldset.appendTo(form);
@@ -216,7 +218,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
     _buildLabels: function(obj) {
         var label = false;
          if (obj.label) {
-            label = $('<label for="'+ obj.id +'">' + obj.label + '</label>');
+            label = $('<label for="' + obj.id + '">' + obj.label + '</label>');
             if (obj.tooltip) {
               label.append($('<a href="#" data-html="true" ' +
                              'data-toggle="tooltip" title="' +
@@ -230,8 +232,8 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
         switch (obj.type) {
           case 'select': {
           var select = $('<select id="' + obj.id +
-                                        '" name="' + obj.name +
-                                       '" class="' + obj.class + '"></select>');
+                         '" name="' + obj.name +
+                         '" class="form-control ' + obj.class + '"></select>');
           for (var i = 0; i < obj.value.length; i++) {
             var id = obj.value[i].id;
             var value = obj.value[i].value;
@@ -249,7 +251,7 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
              var input = $('<input type="' + obj.type +
              '" placeholder="' + obj.ph +
              '" name="' + obj.name +
-             '" class="' + obj.class +
+             '" class="form-control ' + obj.class +
              '" id="' + obj.id +
              '">');
              if (typeof obj.value != 'undefined') {
