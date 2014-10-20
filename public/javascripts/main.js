@@ -7,7 +7,6 @@ define(['jquery-ui',
         'sbatchGenerator/jquery.unige.sbatchGenerator',
         'sbatchGenerator/jquery.unige.faq',
         'timeago',
-        'typeahead',
         'watable',
         'bootstrap',
         'bootstrap-datepicker'],
@@ -38,12 +37,6 @@ $(document).ready(function() {
                     value: entries[i].unigeChUniqueUid });
       }
       $('#historyUser').autocomplete({ source: res });
-      //for (var i = 0; i < entries.length; i++) {
-      //   $('#historyUser').
-      //     append($('<option></option>').
-      //     attr('value', entries[i].unigeChUniqueUid).
-      //     text(entries[i].displayName));
-      //}
    });
 
 
