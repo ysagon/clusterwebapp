@@ -31,17 +31,17 @@ define(['jquery-ui', 'markdown'], function($, md) {
     },
 
    _getGroup: function() {
-      return $('<div class="accordion-group"></div>');
+      return $('<div class="panel pannel-primary"></div>');
    },
 
    _getToggle: function(data, idParent, idCollapse) {
-      return $('<a class="accordion-toggle" data-toggle="collapse" ' +
+      return $('<a class="pannel-title" data-toggle="collapse" ' +
                'data-parent="#' + idParent + '" href="#' + idCollapse + '">' +
                data + '</a>');
    },
 
-   _getBegin: function(title, id) {
-      return $('<div class="accordion" id="' + id + '"></div>');
+   _getBegin: function(id) {
+      return $('<div class="panel-group" id="' + id + '"></div>');
    },
 
    _getTitle: function(title) {
@@ -50,17 +50,17 @@ define(['jquery-ui', 'markdown'], function($, md) {
    },
 
    _getHeading: function() {
-      return $('<div class="accordion-heading"></div>');
+      return $('<div class="pannel-heading"></div>');
    },
 
    _getBody: function(idCollapse, open) {
       var active = open ? ' in' : '';
       return $('<div id="' + idCollapse +
-               '" class="accordion-body collapse' + active + '"></div>');
+               '" class="panel-collapse collapse' + active + '"></div>');
    },
 
    _getInner: function(content) {
-      return $('<div class="accordion-inner">' + content + '</div>');
+      return $('<div class="pannel-body">' + content + '</div>');
    },
 
 
@@ -72,6 +72,7 @@ define(['jquery-ui', 'markdown'], function($, md) {
       var that = this;
       var accordionGroup = that._getGroup();
       var accordionHeading = that._getHeading();
+
       var toggle = that._getToggle(headingContent, idParent, idGroup);
 
       toggle.appendTo(accordionHeading);
