@@ -211,10 +211,14 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
        var inputs = that._vars.inputs;
        for (var i = 0; i < inputs.length; i++) {
           if (typeof inputs[i].slurm_option != 'undefined') {
+             if(!(inputs[i].name == 'sbatch_mail_type' 
+                && $('#' + inputs[i].id).val() == 'NONE')){
              data.push('#SBATCH ' +
                        inputs[i].slurm_option +
                        '=' +
                        $('#' + inputs[i].id).val());
+         
+             }
           }
        }
        data.push('#SBATCH --clusters=baobab');
