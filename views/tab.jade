@@ -17,7 +17,7 @@ block content
     li
       a( href="#doc" data-toggle="tab") Doc
     li
-      a( href="#faq" data-toggle="tab") FAQ
+      a( href="#faq-tab" data-toggle="tab") FAQ
     if userDetail.isAdmin
       li
         a( href="#admin" data-toggle="tab") Admin
@@ -37,7 +37,7 @@ block content
       block tools
     .tab-pane(id="doc")
       block doc
-    .tab-pane(id="faq")
+    .tab-pane(id="faq-tab")
       block faq
     if userDetail.isAdmin
       .tab-pane(id="admin")
