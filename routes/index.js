@@ -100,11 +100,14 @@ exports.applications = function() {
                {group: 'general', name: 'Palabos', version: '',
                 link: 'palabos'},
 
-               {group: 'tools', name: 'mpi-selector', version: '',
-                link: 'compilation'},
-
                {group: 'tools', name: 'cmake', module: 'cmake',
                 version: '3.0.0', link: ''},
+
+               {group: 'compiler', name: 'openMPI gcc', 
+                module: 'openmpi/gcc/', version: '1.8.3', link: ''}
+
+               {group: 'compiler', name: 'openMPI intel', 
+                module: 'openmpi/intel/', version: '1.8.3', link: ''}
 
                {group: 'compiler', name: 'GCC', version: '4.8.2',
                 link: 'gcc'},
@@ -197,6 +200,9 @@ exports.applications = function() {
 
                {group: 'general', name: 'MrBayes', module: 'mrbayes',
                 version: '3.2.2', link: ''},
+
+               {group: 'general', name: 'MEME', module: 'meme',
+                version: '4.10', link: ''},
 
                {group: 'general', name: 'exaML', module: 'examl',
                 version: '1.0.8', link: ''},
