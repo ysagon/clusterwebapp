@@ -19,7 +19,7 @@ var out = null;
  */
 exports.execute = function(execSync) {
    var result = execSync.exec(
-                  'squeue -t RUNNING --noheader --format=\"%i|%N\"');
+                  'squeue -a -t RUNNING --noheader --format=\"%i|%N\"');
    out = result.stdout.split('\n');
    out.pop();
    return out;

@@ -460,6 +460,7 @@ exports.allJobsPending = function(execSync) {
       if (jsonStruct.rows[i] &&
           jsonStruct.rows[i].limit <= (3600 * 12) &&
           jsonStruct.rows[i].partition == 'parallel') {
+	  console.log('time: ' + jsonStruct.rows[i].limit);
           jsonStruct.rows[i].hint = '<a data-toggle="tooltip" ' +
            'class="tooltipLink" ' +
            'data-original-title="You should probably use the shared ' +

@@ -62,7 +62,7 @@ module.exports = function(grunt) {
     },
     shell: {
       make_bootstrap: {
-         command: 'npm install; make',
+         command: 'npm install; grunt dist --force',
          options: {
            stdout: true,
            execOptions: {
