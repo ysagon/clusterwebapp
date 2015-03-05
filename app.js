@@ -11,12 +11,15 @@ var path = require('path');
 var assert = require('assert');
 var flash = require('connect-flash');
 var execSync = require('execSync');
+var NodeCache = require( "node-cache" );
 var configWeb = require('config').web;
 var urlRoot;
 var port;
 var logFile = fs.createWriteStream('./express.log', {flags: 'a'});
 
 var app = express();
+
+global.myCache = new NodeCache({ stdTTL: 100, checkperiod: 120});
 
 /**
  * check if node mode is valid

@@ -104,10 +104,10 @@ exports.applications = function() {
                 version: '3.0.0', link: ''},
 
                {group: 'compiler', name: 'openMPI gcc', 
-                module: 'openmpi/gcc/', version: '1.8.3', link: ''}
+                module: 'openmpi/gcc/', version: '1.8.3', link: ''},
 
                {group: 'compiler', name: 'openMPI intel', 
-                module: 'openmpi/intel/', version: '1.8.3', link: ''}
+                module: 'openmpi/intel/', version: '1.8.3', link: ''},
 
                {group: 'compiler', name: 'GCC', version: '4.8.2',
                 link: 'gcc'},
@@ -282,100 +282,110 @@ exports.applications = function() {
 
 exports.allJobsRunning = function(execSync) {
   return function(req, res) {
-     var result = execSync.exec(__dirname +
+     var data = myCache.get('runningJobs');
+     if (Object.keys(data).length === 0){
+       console.log('not in cache!');
+
+       var result = execSync.exec(__dirname +
                                 '/../scripts/showq.py --json --running');
-     var jsonStruct = {
-        cols: {
-           jobid: {
-              index: 1,
-              type: 'string',
-              friendly: 'Job ID',
-              tooltip: 'Click on the id to see your job in ganglia',
-              filter: true
-           },
-           name: {
-              index: 2,
-              type: 'string',
-              filter: true,
-              friendly: 'Job name'
-           },
-           user: {
-              index: 3,
-              type: 'string',
-              friendly: 'User',
-              filter: true,
-              tooltip: 'Owner of the job'
-           },
-           partition: {
-              index: 4,
-              type: 'string',
-              friendly: 'Partition',
-              filter: true
-           },
-           end: {
-              index: 5,
-              type: 'number',
-              friendly: 'Max remaining time',
-              filter: false
-           },
-           cpus: {
-              index: 6,
-              type: 'number',
-              friendly: 'Nb cpus',
-              filter: true
-           },
-           nodes: {
-              index: 7,
-              type: 'string',
-              friendly: 'Nodes allocated to the job',
-              filter: true
+       var jsonStruct = {
+          cols: {
+             jobid: {
+                index: 1,
+                type: 'string',
+                friendly: 'Job ID',
+                tooltip: 'Click on the id to see your job in ganglia',
+                filter: true
+             },
+             name: {
+                index: 2,
+                type: 'string',
+                filter: true,
+                friendly: 'Job name'
+             },
+             user: {
+                index: 3,
+                type: 'string',
+                friendly: 'User',
+                filter: true,
+                tooltip: 'Owner of the job'
+             },
+             partition: {
+                index: 4,
+                type: 'string',
+                friendly: 'Partition',
+                filter: true
+             },
+             end: {
+                index: 5,
+                type: 'number',
+                friendly: 'Max remaining time',
+                filter: false
+             },
+             cpus: {
+                index: 6,
+                type: 'number',
+                friendly: 'Nb cpus',
+                filter: true
+             },
+             nodes: {
+                index: 7,
+                type: 'string',
+                friendly: 'Nodes allocated to the job',
+                filter: true
+             }
+          },
+          rows: [
+          ]
+       };
+
+
+       var jobs = JSON.parse(result.stdout).running;
+       //if no pending jobs, we return just the structure with no data.
+       if (typeof jobs == 'undefined') {
+         res.render('resjson', { data: JSON.stringify(jsonStruct) });
+       }
+       var ganglia = require('.././ganglia');
+       ganglia.execute(execSync);
+       var gangliaLinks = ganglia.parse(execSync);
+
+
+      for (var i = 0; i < len(jobs); i++) {
+        var link = gangliaHosts(jobs[i].jobid);
+        var hrefLink = '<a href=\"' +
+                       link +
+                       '\" target=\"_blank\">' + jobs[i].jobid + '</a>';
+
+        jsonStruct.rows[i] = {jobid: hrefLink,
+                              name: _cutJobName(jobs[i].name),
+                              user: jobs[i].user,
+                              partition: jobs[i].partition,
+                              end: jobs[i].end_sec,
+                              endFormat: jobs[i].end,
+                              cpus: jobs[i].cpus,
+                              nodes: jobs[i].nodes};
+       }
+       var data = JSON.stringify(jsonStruct);
+       function len(x) {
+         if (x) return Object.keys(x).length;
+         else return -1;
+       }
+
+      function gangliaHosts(jobId) {
+        for (var i = 0; i < gangliaLinks.length; i++) {
+           if (gangliaLinks[i][0] == jobId) {
+             return gangliaLinks[i][1];
            }
-        },
-        rows: [
-        ]
-     };
-
-
-    var jobs = JSON.parse(result.stdout).running;
-    //if no pending jobs, we return just the structure with no data.
-    if (typeof jobs == 'undefined') {
-       res.render('resjson', { data: JSON.stringify(jsonStruct) });
-    }
-     var ganglia = require('.././ganglia');
-     ganglia.execute(execSync);
-     var gangliaLinks = ganglia.parse(execSync);
-
-    function len(x) {
-      if (x) return Object.keys(x).length;
-      else return -1;
-    }
-
-    for (var i = 0; i < len(jobs); i++) {
-      var link = gangliaHosts(jobs[i].jobid);
-      var hrefLink = '<a href=\"' +
-                     link +
-                     '\" target=\"_blank\">' + jobs[i].jobid + '</a>';
-
-      jsonStruct.rows[i] = {jobid: hrefLink,
-                            name: _cutJobName(jobs[i].name),
-                            user: jobs[i].user,
-                            partition: jobs[i].partition,
-                            end: jobs[i].end_sec,
-                            endFormat: jobs[i].end,
-                            cpus: jobs[i].cpus,
-                            nodes: jobs[i].nodes};
-    }
-
-    res.render('resjson', { data: JSON.stringify(jsonStruct) });
-
-    function gangliaHosts(jobId) {
-      for (var i = 0; i < gangliaLinks.length; i++) {
-         if (gangliaLinks[i][0] == jobId) {
-           return gangliaLinks[i][1];
-         }
+        }
+        return '#';
       }
-      return '#';
-    }
+       myCache.set("runningJobs", data);
+       }else{
+       data = data.runningJobs;
+       console.log('in cache!');
+     }
+       res.render('resjson', { data: data });
+
   };
 };
 function _cutJobName(str) {
