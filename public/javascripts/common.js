@@ -8,7 +8,7 @@
 require.config({
   //catchError: true,
   //enforceDefine: true,
-  baseUrl: 'iface-dev/javascripts',
+  //baseUrl: 'iface-dev/javascripts',
   paths: {
     'jquery': '../bower_components/jquery/dist/jquery.min',
     'jquery-ui': '../bower_components/jquery-ui/ui/minified/jquery-ui.min',
