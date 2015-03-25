@@ -13,9 +13,8 @@ exports.index = function(urlRoot) {
   return function(req, res) {
     var user = req.headers['unigechuniqueuid'];
     var email = req.headers['mail'];
-    var ismemberof = (req.headers['ismemberof']).split(';');
     var isAdmin = false;
-    if (_isAdmin(ismemberof)) {
+    if (_isAdmin(req)) {
       isAdmin = true;
     }
     res.render('index',
@@ -280,14 +279,19 @@ exports.applications = function() {
 };
 
 
-exports.allJobsRunning = function(execSync) {
+exports.allJobsRunning = function() {
   return function(req, res) {
      var data = myCache.get('runningJobs');
      if (Object.keys(data).length === 0){
        console.log('not in cache!');
-
-       var result = execSync.exec(__dirname +
-                                '/../scripts/showq.py --json --running');
+       try{
+         var result = require('child_process').execSync(__dirname +
+                                '/../scripts/showq.py --json --running',{stderr: bla});
+       }catch (err){
+          //console.log("Error: ", err);
+          console.log("Error: all running jobs");
+          return;
+       }
        var jsonStruct = {
           cols: {
              jobid: {
@@ -339,16 +343,14 @@ exports.allJobsRunning = function(execSync) {
           ]
        };
 
-
        var jobs = JSON.parse(result.stdout).running;
        //if no pending jobs, we return just the structure with no data.
        if (typeof jobs == 'undefined') {
          res.render('resjson', { data: JSON.stringify(jsonStruct) });
        }
        var ganglia = require('.././ganglia');
-       ganglia.execute(execSync);
-       var gangliaLinks = ganglia.parse(execSync);
-
+       ganglia.execute();
+       var gangliaLinks = ganglia.parse();
 
       for (var i = 0; i < len(jobs); i++) {
         var link = gangliaHosts(jobs[i].jobid);
@@ -395,10 +397,10 @@ function _cutJobName(str) {
    return str;
 }
 
-exports.allJobsPending = function(execSync) {
+exports.allJobsPending = function() {
   return function(req, res) {
-    var result = execSync.exec(__dirname +
-                               '/../scripts/showq.py --json --pending');
+    var result = require('child_process').execSync(__dirname +
+                               '/../scripts/showq.py --json --pending'); 
      var slurm = require('../slurm.js');
      var jsonStruct = {
         cols: {
@@ -494,10 +496,14 @@ exports.allJobsPending = function(execSync) {
 };
 
 
-function _isAdmin(ismemberof) {
-  for (var i = 0; i < ismemberof.length; i++) {
-    if (ismemberof[i] == 'administrator') {
+function _isAdmin(req) {
+  var ismemberof = (req.headers['ismemberof']);
+  if(typeof ismemberof !== 'undefined'){
+    ismemberof = ismemberof.split(';');
+    for (var i = 0; i < ismemberof.length; i++) {
+      if (ismemberof[i] == 'administrator') {
        return true;
+      }
     }
   }
   return false;
@@ -512,12 +518,11 @@ exports.listUsers = function() {
    };
 };
 
-exports.history = function(execSync) {
+exports.history = function() {
   return function(req, res) {
       var slurm = require('../slurm.js');
       var ouCode = req.headers['unigechemployeeoucode'];
       var user = req.headers['unigechuniqueuid'];
-      var ismemberof = (req.headers['ismemberof']).split(';');
       var startDate;
 
       if (typeof req.query.startDate != 'undefined') {
@@ -526,14 +531,14 @@ exports.history = function(execSync) {
          startDate = new Date(new Date().setDate(new Date().getDate() - 10));
       }
 
-      if (_isAdmin(ismemberof)) {
+      if (_isAdmin(req)) {
          if (typeof req.query.user != 'undefined' && req.query.user != '') {
             user = req.query.user;
          }
       }
 
       var history = require('.././history');
-      var data = history.execute(execSync, startDate, user);
+      var data = history.execute(startDate, user);
       var jsonStruct = {
         cols: {
            JobID: {
@@ -667,10 +672,10 @@ exports.history = function(execSync) {
    }
 };
 
-exports.reservations = function(execSync) {
+exports.reservations = function() {
    return function(req, res) {
       var reservation = require('.././reservation');
-      var data = reservation.execute(execSync);
+      var data = reservation.execute();
       var jsonStruct = {
         cols: {
            ReservationName: {
@@ -792,7 +797,7 @@ exports.reservations = function(execSync) {
    }
 };
 
-exports.faq = function(execSync) {
+exports.faq = function() {
   return function(req, res) {
      var fs = require('fs');
      fs.readFile(__dirname + '/../faq.json',
@@ -803,9 +808,9 @@ exports.faq = function(execSync) {
   };
 };
 
-exports.status = function(execSync) {
+exports.status = function() {
   return function(req, res) {
-    var result = execSync.exec('/usr/bin/sinfo -a --noheader');
+    var result = require('child_process').execSync('/usr/bin/sinfo -a --noheader');
     var lines = result.stdout.split('\n');
     lines.pop(); // last element is empty
     var rows = new Array();

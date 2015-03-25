@@ -25,7 +25,7 @@
  */
 exports.execute = function(execSync) {
    var out = new Array();
-   var result = execSync.exec('scontrol show reservation');
+   var result = require('child_process').execSync('scontrol show reservation');
    var reservations = result.stdout.split('\n\n');
 
    reservations.pop();

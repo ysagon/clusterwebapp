@@ -6,12 +6,11 @@
 
 /**
  * Use sacct to extract informations about the terminated jobs of a user
- * @param {object} execSync an object that allows to exec
  * @param {date} startDate the begining of the history
  * @param {string} user the user we want to work with
  * @return {array} An array, one element per job
  */
-exports.execute = function(execSync, startDate, user) {
+exports.execute = function(startDate, user) {
    var out = new Array();
 
    var fullYear = startDate.getFullYear();
@@ -38,8 +37,7 @@ exports.execute = function(execSync, startDate, user) {
              formatDate +
              ' --parsable2 --noheader --format ' +
              format;
-
-   var result = execSync.exec(cmd);
+   var result = require('child_process').execSync(cmd);
 
    var jobs = result.stdout.split('\n');
 
