@@ -1,4 +1,6 @@
-
+/**
+ * @TODO use native execSync
+ */
 /**
  * Module dependencies.
  */
@@ -10,7 +12,6 @@ var http = require('http');
 var path = require('path');
 var assert = require('assert');
 var flash = require('connect-flash');
-var execSync = require('execSync');
 var NodeCache = require( "node-cache" );
 var configWeb = require('config').web;
 var urlRoot;
@@ -72,11 +73,11 @@ app.configure('production', function() {
 });
 
 app.get('/', routes.index(urlRoot));
-app.get('/alljobsrunning', routes.allJobsRunning(execSync));
-app.get('/alljobspending', routes.allJobsPending(execSync));
-app.get('/history', routes.history(execSync));
-app.get('/status', routes.status(execSync));
-app.get('/reservations', routes.reservations(execSync));
+app.get('/alljobsrunning', routes.allJobsRunning());
+app.get('/alljobspending', routes.allJobsPending());
+app.get('/history', routes.history());
+app.get('/status', routes.status());
+app.get('/reservations', routes.reservations());
 app.get('/applications', routes.applications());
 app.get('/faq', routes.faq());
 app.get('/listuser', routes.listUsers());
