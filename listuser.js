@@ -12,8 +12,12 @@ exports.execute = function(myCb) {
    var ldap = require('ldapjs');
    var fs = require('fs');
    var yaml = require('yaml');
+   var path = require('path');
    var async = require('async');
    var config = require('config').LDAP;
+   if(typeof config === 'undefined'){
+      throw new Error('config file not defined');
+   }
    // the ldap client handler
    var client = ldap.createClient({
       url: config.url,
@@ -22,7 +26,7 @@ exports.execute = function(myCb) {
       //maxIdleTime: 86400000, // 1 day
       //bindDN: config.bindDN,
       //bindCredentials: config.bindCredentials,
-      tlsOptions: {'ca': fs.readFileSync(config.rootCA)}
+      tlsOptions: {'ca': fs.readFileSync(path.resolve(__dirname, config.rootCA))}
    });
 
 
@@ -38,7 +42,7 @@ exports.execute = function(myCb) {
                     'ou=Groups,' +
                     'dc=unige,dc=ch';
   //scope: one
-
+  // the three groups we use
   var adminGroupDN = 'cn=administrator,' + groupPerson;
   var userGoupDN = 'cn=user,' + groupPerson;
   var observerGroupDN = 'cn=observer,' + groupPerson;
@@ -109,5 +113,6 @@ exports.execute = function(myCb) {
     });
   };
 
+  // we fetch all the users from the group user.baobab
   search(userGoupDN, optsGroup, cb);
 };
