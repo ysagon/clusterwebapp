@@ -70,22 +70,20 @@ html(lang='en')
        .container
           p.muted.credit Copyright (c) 2013-2014 University of Geneva
 
-
-    if 'development' == process.env.NODE_ENV
-      script(src=urlRoot + 'bower_components/requirejs/require.js')
-    if 'production' == process.env.NODE_ENV
-      script(src=urlRoot + 'javascripts/optimized.js')
     script.
       var urlRoot = "!{urlRoot}";
       var email = "!{userDetail.email}";
       var userName = "!{userDetail.userName}";
-    if 'production' == process.env.NODE_ENV
+
+    if process.env.NODE_ENV == 'development'
+      script(data-main='javascripts/common.js' src=urlRoot + 'bower_components/requirejs/require.js')
       script.
-        require(['main'], function($){
-        });
-    if 'development' == process.env.NODE_ENV
-      script.
-        require([urlRoot + 'javascripts/common.js'], function(undefined){
+        /*require([urlRoot + 'javascripts/common.js'], function(undefined){*/
           require(['main'], function($){
           });
+        /*});*/
+    if process.env.NODE_ENV == 'production'
+      script(src=urlRoot + 'javascripts/optimized.js')
+      script.
+        require(['main'], function($){
         });
