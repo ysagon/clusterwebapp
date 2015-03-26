@@ -1,93 +1,97 @@
 var orm = require('orm');
-orm.connect('sqlite:inventory.db', function(err, db){
-   if(err) return console.error('Connection error: ' + err);
+var async = require('async');
 
-   var Vendor = db.define('vendor', {
-     id   : {type: 'serial', key: true},
-     name : {type: 'text'}
-   });
 
-   var Cpu = db.define('cpu', {
-     id      : {type: 'serial', key: true},
-     name    : {type: 'text'},
-     nb_core : {type: 'integer'},
-     freq    : {type: 'number'}
-   });
-
-   var Cluster = db.define('cluster', {
-     id      : {type: 'serial', key: true},
-     name    : {type: 'text'}
-   });
-
-   var Owner = db.define('owner', {
-     id      : {type: 'serial', key: true},
-     name    : {type: 'text'}
-   });
-
-   var Nodes = db.define('nodes', {
-     id       : {type: 'serial', key: true},
-     serial   : {type: 'text'},
-     hostname : {type: 'text'},
-     nb_cpu   : {type: 'integer'},
-     mem      : {type: 'integer'}
-   });
-
-   Nodes.hasOne('vendor', Vendor);
-   Nodes.hasOne('cpu', Cpu);
-   Nodes.hasOne('cluster', Cluster);
-
-   Vendor.sync(function createVendorTable(){
-     Vendor.create({name: 'Dalco AG'}, function(err, items){
+function createModel(rows, model, cb){
+   async.each(rows, function(row, callback){
+     model.create(row, function(err, items){
        if (err){
          console.log('Erreur ' + err);
        }
+       callback();
      });
-   });
+   }, function(err){
+        console.log('insertion done')
+        cb();
+      });
+}
 
-  Cpu.sync(function createCPUTable(){
-    Cpu.create({name: 'X5671', nb_core: 2, freq: 2.67}, function(err, items){
-      if (err){
-         console.log('Erreur ' + err);
-       }
-    });
-  });
-
-  Cluster.sync(function createClusterTable(){
-    Cluster.create({name: 'Baobab'}, function(err, items){
-      if (err){
-         console.log('Erreur ' + err);
-       }
-    });
-  });
-
-  Owner.sync(function createOwnerTable(){
-    Owner.create({name: 'DPT'}, function(err, items){
-      if (err){
-         console.log('Erreur ' + err);
-       }
-    });
-    Owner.create({name: 'CUI'}, function(err, items){
-      if (err){
-         console.log('Erreur ' + err);
-       }
-    });
-  });
-
-  Nodes.sync(function createNodesTable(){
-    Nodes.create({serial: 'S-12.12.216', nb_cpu: 2, hostname: 'server1', mem: 32}, function(err, items){
-      console.log('err: ' + err);
-      console.log('items: ' + items);
-      if (err){
-         console.log('Erreur ' + err);
-       }
-       Vendor.find({name: 'Dalco AG'}).first(function(err, myVendor){
-         console.log('myVendor: ' + myVendor);
-         items.setVendor(myVendor, function(err){
-           console.log('err: ' + err);
+function insertNode(db, node, cb){
+   db.models.vendor.find({name: node.vendor}).first(function(err, myVendor){
+     //if(err) return cb('find error: ' + err);
+     if(err) return console.error('find error: ' + err);
+     db.models.cpu.find({name: node.cpu}).first(function(err, myCpu){
+       if(err) return console.error('find error: ' + err);
+       db.models.cluster.find({name: node.cluster}).first(function(err, myCluster){
+         if(err) return console.error('find error: ' + err);
+         db.models.owner.find({name: node.owner}).first(function(err, myOwner){
+           if(err) return console.error('find error: ' + err);
+           var nodes = [];
+           nodes.push({serial: node.serial, 
+                       nb_cpu: node.nb_cpu, 
+                       hostname: node.hostname, 
+                       mem: node.mem, 
+                       cpu: myCpu, 
+                       vendor: myVendor, 
+                       owner: myOwner, 
+                       cluster: myCluster});
+           createModel(nodes, db.models.nodes, cb);
          });
+       });
+     }); 
+  });
+}
+
+orm.connect('sqlite:inventory.db', function(err, db){
+   if(err) return console.error('Connection error: ' + err);
+   db.load("./models.js", function(err){
+      if(err) return console.error('load models error: ' + err);
+      var Vendor = db.models.vendor; 
+      var Cpu = db.models.cpu; 
+      var Cluster = db.models.cluster; 
+      var Owner = db.models.owner; 
+      var Nodes = db.models.nodes;
+
+      var vendors = [];
+      var cpus = [];
+      var clusters = [];
+      var owners = [];
+      var nodes = [];
+
+      vendors.push({name: 'Dalco AG'});
+      cpus.push({name: 'X5671', nc_core: 2, freq: 2.67});
+      owners.push({name: 'DPT'});
+      owners.push({name: 'CUI'});
+      owners.push({name: 'DiSTIC'});
+      clusters.push({name: 'Baobab'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'server1', mem: 32, cluster: 'Baobab', owner: 'DiSTIC', serial: 'asdf'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'node001', mem: 64, cluster: 'Baobab', owner: 'DiSTIC', serial: 'N-12.12.101'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'node002', mem: 64, cluster: 'Baobab', owner: 'DiSTIC', serial: 'asdf'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'node003', mem: 64, cluster: 'Baobab', owner: 'DiSTIC', serial: 'asdf'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'node004', mem: 64, cluster: 'Baobab', owner: 'DiSTIC', serial: 'asdf'});
+      nodes.push({vendor: 'Dalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'node005', mem: 64, cluster: 'Baobab', owner: 'DiSTIC', serial: 'asdf'});
+
+      db.sync(function(){
+        async.parallel([
+          function(callback){
+            createModel(vendors, Vendor, callback);
+          },
+          function(callback){
+            createModel(cpus, Cpu, callback);
+          },
+          function(callback){
+            createModel(owners, Owner, callback);
+          },
+          function(callback){
+            createModel(clusters, Cluster, callback);
+          }
+        ], function(err, results){
+              for (i=0; i<nodes.length; i++){
+                //insertNode(db, {vendor: 'Daalco AG', cpu: 'X5671', nb_cpu: 2, hostname: 'server1', mem: 32, cluster: 'Baobab', owner: 'DPT', serial: 'asdf'}, function(){});
+                insertNode(db, nodes[i], function(){});
+              }
+           }
+        );
       });
     });
-  });
-
-
 });
