@@ -30,7 +30,8 @@ module.exports = function(db, cb){
      serial   : {type: 'text'},
      hostname : {type: 'text'},
      nb_cpu   : {type: 'integer'},
-     mem      : {type: 'integer'}
+     mem      : {type: 'integer'},
+     disk      : {type: 'integer'}
    });
 
    db.models.nodes.hasOne('vendor', db.models.vendor);
