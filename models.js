@@ -25,20 +25,37 @@ module.exports = function(db, cb){
      name    : {type: 'text'}
    });
 
-   db.define('nodes', {
-     id       : {type: 'serial', key: true},
-     serial   : {type: 'text'},
-     hostname : {type: 'text'},
-     nb_cpu   : {type: 'integer'},
-     mem      : {type: 'integer'},
-     disk      : {type: 'integer'}
+   db.define('chassis', {
+     id      : {type: 'serial', key: true},
+     name    : {type: 'text'},
+     serial  : {type: 'text'},
+     height  : {type: 'integer'},
+     base    : {type: 'integer'}
    });
 
+   db.define('nodes', {
+     id         : {type: 'serial', key: true},
+     serial     : {type: 'text'},
+     hostname   : {type: 'text'},
+     nb_cpu     : {type: 'integer'},
+     mem        : {type: 'integer'},
+     disk       : {type: 'integer'},
+     position   : {type: 'enum', required: false, values: ['left', 'right']}
+   });
+
+
+   db.define('rack', {
+     id   : {type: 'serial', key: true},
+     name : {type: 'text'}  
+   });
+  
    db.models.nodes.hasOne('vendor', db.models.vendor);
    db.models.nodes.hasOne('cpu', db.models.cpu);
    db.models.nodes.hasOne('cluster', db.models.cluster);
    db.models.nodes.hasOne('owner', db.models.owner);
+   db.models.nodes.hasOne('chassis', db.models.chassis);
 
+   db.models.chassis.hasOne('rack', db.models.rack);
    return cb();
 
 };
