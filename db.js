@@ -2,13 +2,23 @@ var orm = require('orm');
 var async = require('async');
 
 orm.connect('sqlite:inventory.db', function(err, db){
-   db.settings.set('instance.cache', false);
+   //db.settings.set('instance.cache', false);
    if(err) return console.error('Connection error: ' + err);
    db.load("./models.js", function(err){
       if(err) return console.error('load models error: ' + err);
 
       var nodes = fixturesNodes();
 
+              /*async.each(nodes, function(row, cb){
+                //insertNode(db, row, cb);
+                createModel(db, row, db.models.nodes, function(){console.log('inserted'); cb()});
+                //insertNode(db, nodes[0], function(){console.log('inserted')});
+              }, function(err){
+                if(err){
+                  console.log('error');
+                }
+                console.log('ok '); 
+              });*/
       db.sync(function(){
         async.parallel([
           function(callback){
@@ -25,14 +35,11 @@ orm.connect('sqlite:inventory.db', function(err, db){
           }
         ], function(err, results){
               console.log('we have inserted everything except nodes');
-              async.each(nodes, function(row, cb){
-                insertNode(db, row, cb);
+              async.eachSeries(nodes, function(row, cb){
+                createModel(db, row, db.models.nodes, function(){console.log('inserted'); cb()});
               }, function(err){
                 console.log('ok '); 
               });
-              //for (i=0; i<nodes.length; i++){
-              //  insertNode(db, nodes[i], function(){});
-              //}
            }
         );
       });
@@ -60,46 +67,43 @@ function createModels(rows, model, cb){
       });
 }
 
-function createModel(row, model, cb){
-   console.log(row.vendor);
-   console.log(row.cpu.name);
-   model.create(row, function(err, items){
+function createModel(db, node, model, cb){
+  var nodes = {serial: node.serial, 
+               nb_cpu: node.nb_cpu, 
+               hostname: node.hostname, 
+               disk: node.disk, 
+               mem: node.mem
+      };
+  var extra = {cpu: node.cpu, 
+               vendor: node.vendor, 
+               owner: node.owner, 
+               cluster: node.cluster
+           };
+   model.create(nodes, function(err, items){
      if (err){
        console.log('Erreur ' + err);
        }
-       console.log(row.vendor);
-      items.setVendor(row.vendor, cb);
-       //cb();
+       db.models.vendor.find({name: extra.vendor}).first(function(err, myVendor){
+         if(err){console.log("big mistake")}else{console.log("seems ok")};
+         items.setVendor(myVendor, function(err){console.log('set vendor'); 
+           db.models.cpu.find({name: extra.cpu}).first(function(err, myCpu){
+             items.setCpu(myCpu, function(err){console.log('set cpu'); 
+               db.models.cluster.find({name: extra.cluster}).first(function(err, myCluster){
+                 items.setCluster(myCluster, function(err){console.log('set cluster'); 
+                   db.models.owner.find({name: extra.owner}).first(function(err, myOwner){
+                     items.setOwner(myOwner, function(err){console.log('set owner'); 
+                     cb();
+                   });         
+                 });    
+               });
+             });
+           });
+         });
+       });
+     });
    });
 }
 
-function insertNode(db, node, cb){
-   db.models.vendor.find({name: node.vendor}).first(function(err, myVendor){
-     //if(err) return cb('find error: ' + err);
-     if(err) return console.error('find error: ' + err);
-     db.models.cpu.find({name: node.cpu}).first(function(err, myCpu){
-       if(err) return console.error('find error: ' + err);
-       db.models.cluster.find({name: node.cluster}).first(function(err, myCluster){
-         if(err) return console.error('find error: ' + err);
-         db.models.owner.find({name: node.owner}).first(function(err, myOwner){
-           if(err) return console.error('find error: ' + err);
-           //var nodes = [];
-           //var nodes.push({serial: node.serial, 
-           var nodes = {serial: node.serial, 
-                       nb_cpu: node.nb_cpu, 
-                       hostname: node.hostname, 
-                       disk: node.disk, 
-                       mem: node.mem, 
-                       cpu: myCpu, 
-                       vendor: myVendor, 
-                       owner: myOwner, 
-                       cluster: myCluster};
-           createModel(nodes, db.models.nodes, cb);
-         });
-       });
-     }); 
-  });
-}
 
 
 function fixturesCpus(){
