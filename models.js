@@ -51,10 +51,10 @@ module.exports = function(db, cb){
      name : {type: 'text'}  
    });
   
-   db.models.nodes.hasOne('vendor', db.models.vendor);
+   db.models.nodes.hasOne('vendor', db.models.vendor, {autoFetch: true });
    db.models.nodes.hasOne('cpu', db.models.cpu);
    db.models.nodes.hasOne('cluster', db.models.cluster);
-   db.models.nodes.hasOne('owner', db.models.owner);
+   db.models.nodes.hasOne('owner', db.models.owner, {reverse: "nodes"} );
    db.models.nodes.hasOne('chassis', db.models.chassis, {required: false});
 
    db.models.chassis.hasOne('rack', db.models.rack);
