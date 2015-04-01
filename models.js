@@ -40,7 +40,9 @@ module.exports = function(db, cb){
      nb_cpu     : {type: 'integer'},
      mem        : {type: 'integer'},
      disk       : {type: 'integer'},
-     position   : {type: 'enum', required: false, values: ['left', 'right']}
+     height     : {type: 'integer'},
+     horizontal : {type: 'enum', required: false, values: ['left', 'right']},
+     vertical   : {type: 'enum', required: false, values: ['top', 'bottom']}
    });
 
 
@@ -53,7 +55,7 @@ module.exports = function(db, cb){
    db.models.nodes.hasOne('cpu', db.models.cpu);
    db.models.nodes.hasOne('cluster', db.models.cluster);
    db.models.nodes.hasOne('owner', db.models.owner);
-   db.models.nodes.hasOne('chassis', db.models.chassis);
+   db.models.nodes.hasOne('chassis', db.models.chassis, {required: false});
 
    db.models.chassis.hasOne('rack', db.models.rack);
    return cb();
