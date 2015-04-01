@@ -17,6 +17,7 @@ require.config({
     'timeago': '../bower_components/jquery-timeago/jquery.timeago',
     'markdown': '../bower_components/markdown/lib/markdown',
     'watable': 'watable/jquery.watable',
+    'jcanvas': '../bower_components/jcanvas/jcanvas.min',
     'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
     'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/' +
                             'js/bootstrap-datepicker'
@@ -35,6 +36,10 @@ require.config({
     },
     'jquery-validation': {
       exports: '$',
+      deps: ['jquery']
+    },
+    'jcanvas': {
+      exports: '',
       deps: ['jquery']
     },
     'bootstrap': {

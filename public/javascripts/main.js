@@ -8,10 +8,11 @@ define(['jquery-ui',
         'sbatchGenerator/jquery.unige.faq',
         'timeago',
         'watable',
+        'jcanvas',
         'bootstrap',
         'bootstrap-datepicker'],
         function($, undefined, undefined,
-                 undefined, undefined, undefined) {
+                 undefined, undefined, undefined, undefined) {
 $(document).ready(function() {
   var zeropad = function(num) {
     return ((num < 10) ? '0' : '') + num;
@@ -209,6 +210,48 @@ $(document).ready(function() {
   if (typeof temp != 'undefined') {
     myWatable.allJobsRunning.table = temp;
   }
+
+  var clusterView = $('#clusterView');
+  clusterView.drawRect({
+    layer: true,
+    fillStyle: 'blue',
+    x: 0, y: 0,
+    fromCenter: false,
+    width: 150, height: 75,
+    click: function(layer) {
+      console.log('asdf', layer);
+    }
+  });
+  clusterView.drawRect({
+    layer: true,
+    fillStyle: 'red',
+    x: 150, y: 0,
+    fromCenter: false,
+    width: 150, height: 75,
+    click: function(layer) {
+      console.log('aaaa', layer);
+    }
+  });
+  clusterView.drawRect({
+    layer: true,
+    fillStyle: 'green',
+    fromCenter: false,
+    x: 0, y: 75,
+    width: 150, height: 75,
+    click: function(layer) {
+      console.log('aaaa', layer);
+    }
+  });
+  clusterView.drawRect({
+    layer: true,
+    fillStyle: 'yellow',
+    fromCenter: false,
+    x: 150, y: 75,
+    width: 150, height: 75,
+    click: function(layer) {
+      console.log('aaaa', layer);
+    }
+  });
 
   // jobs pending
   var temp = ($('#allJobsPending').WATable({
