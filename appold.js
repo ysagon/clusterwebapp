@@ -1,4 +1,5 @@
 
+
 /**
  * Module dependencies.
  */
@@ -17,13 +18,14 @@ var logFile = fs.createWriteStream('./express.log', {flags: 'a'});
 
 var app = express();
 
+
 /**
  * check if node mode is valid
  */
 if (!(process.env.NODE_ENV == 'production' ||
       process.env.NODE_ENV == 'development')) {
-   console.log('Error: invalid NODE_ENV');
-   process.exit();
+  console.log('Error: invalid NODE_ENV');
+  process.exit();
 }
 
 if (process.env.NODE_ENV == 'production') {
@@ -81,15 +83,15 @@ app.get('/reservations', routes.reservations(execSync));
 app.get('/applications', routes.applications());
 
 try {
-   var res = http.createServer(app).listen(app.get('port'), function() {
-     if (process.env.NODE_ENV == 'production') {
-       console.log('Express server listening on port ' +
+  var res = http.createServer(app).listen(app.get('port'), function() {
+    if (process.env.NODE_ENV == 'production') {
+      console.log('Express server listening on port ' +
                     app.get('port') + ' in production mode');
-     }else {
-       console.log('Express server listening on port ' +
+    }else {
+      console.log('Express server listening on port ' +
                     app.get('port') + ' in debug mode');
-     }
-   });
+    }
+  });
 }catch (e) {
 
 }

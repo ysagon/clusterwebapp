@@ -7,7 +7,7 @@
  * @author yann.sagon@unige.ch (Yann Sagon)
  */
 define(['jquery-ui', 'jquery-validation'], function($, undefined) {
-   'use strict';
+  'use strict';
   $.widget('unige.sbatchGenerator', {
     /**
          * object to store widget default options
@@ -27,15 +27,15 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
         * @private
         */
     _create: function() {
-       var that = this;
-       that._vars.container = that.element;
-       console.log(that._vars.container);
-       that._drawUI();
+      var that = this;
+      that._vars.container = that.element;
+      console.log(that._vars.container);
+      that._drawUI();
     },
 
 
-    _getDivWrapper: function(size){
-      return $('<div class="'+size+'"></div>');
+    _getDivWrapper: function(size) {
+      return $('<div class="' + size + '"></div>');
     },
     /**
      * Draw the widget
@@ -47,8 +47,8 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
 
       var form = $('<form role="form" ' +
-                    'class="form-horizontal" ' +
-                    'id="form"></form>');
+          'class="form-horizontal" ' +
+          'id="form"></form>');
 
       var fieldset = $('<fieldset></fieldset>');
 
@@ -58,106 +58,106 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
       var legend = $('<legend>Sbatch generator</legend>');
       that._vars.inputs = [
         {'type': 'number',
-         'slurm_option': '--cpus-per-task',
-         'id': 'sbatch_cpusPerTask',
-         'name': 'sbatch_cpusPerTask',
-         'label': 'Cpus per task',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-2',
-         'tooltip': 'Number of threads a single instance ' +
-                    'of your application needs',
-         'ph': '1..16',
-         'validate': [{'key': 'required', 'val': ''},
-                      {'key': 'min', 'val': 1},
-                      {'key': 'max', 'val': 16}
-         ]
+          'slurm_option': '--cpus-per-task',
+          'id': 'sbatch_cpusPerTask',
+          'name': 'sbatch_cpusPerTask',
+          'label': 'Cpus per task',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-2',
+          'tooltip': 'Number of threads a single instance ' +
+              'of your application needs',
+          'ph': '1..16',
+          'validate': [{'key': 'required', 'val': ''},
+            {'key': 'min', 'val': 1},
+            {'key': 'max', 'val': 16}
+          ]
         },
         {'type': 'text',
-                 'slurm_option': '--job-name',
-                 'id': 'sbatch_jobName',
-                 'label': 'Job name',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-4',
-         'ph': 'string',
-         'validate': [{'key': 'required', 'val': ''},
-                      {'key': 'minlength', 'val': 2}
-         ]
+          'slurm_option': '--job-name',
+          'id': 'sbatch_jobName',
+          'label': 'Job name',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-4',
+          'ph': 'string',
+          'validate': [{'key': 'required', 'val': ''},
+            {'key': 'minlength', 'val': 2}
+          ]
 
         },
         {'type': 'number',
-         'slurm_option': '--ntasks',
-         'id': 'sbatch_nTasks',
-         'name': 'sbatch_nTasks',
-         'label': 'Number of tasks',
-         'tooltip': 'Number of instance(s) of your application, or number ' +
-                    'of MPI workers',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-2',
-         'ph': '1..416',
-         'validate': [{'key': 'max', 'val': 416},
-                      {'key': 'min', 'val': 1},
-                      {'key': 'required', 'val': ''}
-         ]
+          'slurm_option': '--ntasks',
+          'id': 'sbatch_nTasks',
+          'name': 'sbatch_nTasks',
+          'label': 'Number of tasks',
+          'tooltip': 'Number of instance(s) of your application, or number ' +
+              'of MPI workers',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-2',
+          'ph': '1..416',
+          'validate': [{'key': 'max', 'val': 416},
+            {'key': 'min', 'val': 1},
+            {'key': 'required', 'val': ''}
+          ]
 
         },
         {'type': 'text',
-         'slurm_option': '--time',
-         'id': 'sbatch_time',
-         'name': 'sbatch_time',
-         'label': 'Required time',
-         'tooltip': 'Maximum running time of your job. In order for your ' +
-                    'job to be scheduled quickly, specify the minimum time ' +
-                    'possible',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-4',
-         'ph': 'days-hh:mm:ss'
+          'slurm_option': '--time',
+          'id': 'sbatch_time',
+          'name': 'sbatch_time',
+          'label': 'Required time',
+          'tooltip': 'Maximum running time of your job. In order for your ' +
+              'job to be scheduled quickly, specify the minimum time ' +
+              'possible',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-4',
+          'ph': 'days-hh:mm:ss'
         },
         {'type': 'email',
-         'slurm_option': '--mail-user',
-         'id': 'sbatch_mail_user',
-         'name': 'sbatch_mail_user',
-         'label': 'Email of the user to be notified',
-         'value': email,
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-4',
-         'ph': 'email'
+          'slurm_option': '--mail-user',
+          'id': 'sbatch_mail_user',
+          'name': 'sbatch_mail_user',
+          'label': 'Email of the user to be notified',
+          'value': email,
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-4',
+          'ph': 'email'
         },
         {'type': 'select',
-         'slurm_option': '--mail-type',
-         'id': 'sbatch_mail_type',
-         'label': 'Type of notification',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-2',
-         'name': 'sbatch_mail_type',
-         'value': [{'id': 'NONE', 'value': 'No notification'},
-                   {'id': 'BEGIN', 'value': 'Begin of job'},
-                   {'id': 'END', 'value': 'End of job'},
-                   {'id': 'FAIL', 'value': 'Fail job'},
-                   {'id': 'REQUEUE', 'value': 'Requeue'},
-                   {'id': 'ALL', 'value': 'All'}]
+          'slurm_option': '--mail-type',
+          'id': 'sbatch_mail_type',
+          'label': 'Type of notification',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-2',
+          'name': 'sbatch_mail_type',
+          'value': [{'id': 'NONE', 'value': 'No notification'},
+            {'id': 'BEGIN', 'value': 'Begin of job'},
+            {'id': 'END', 'value': 'End of job'},
+            {'id': 'FAIL', 'value': 'Fail job'},
+            {'id': 'REQUEUE', 'value': 'Requeue'},
+            {'id': 'ALL', 'value': 'All'}]
 
         },
         {'type': 'select',
-         'slurm_option': '--partition',
-         'id': 'partitions',
-         'label': 'Partition',
-         'labelWidth': 'col-sm-2',
-         'widgetWidth': 'col-sm-2',
-         'name': 'sbatch_partitions',
-         'tooltip': 'See &lt;a href=&quot;#status&quot;&gt;status&lt;/a&gt;',
-         'value': [
-                   {'id': 'debug', 'value': 'Debug'},
-                   {'id': 'parallel', 'value': 'Parallel'},
-                   {'id': 'bigmem', 'value': 'Bigmem'},
-                   {'id': 'shared', 'value': 'Shared'}
-                  ]
+          'slurm_option': '--partition',
+          'id': 'partitions',
+          'label': 'Partition',
+          'labelWidth': 'col-sm-2',
+          'widgetWidth': 'col-sm-2',
+          'name': 'sbatch_partitions',
+          'tooltip': 'See &lt;a href=&quot;#status&quot;&gt;status&lt;/a&gt;',
+          'value': [
+            {'id': 'debug', 'value': 'Debug'},
+            {'id': 'parallel', 'value': 'Parallel'},
+            {'id': 'bigmem', 'value': 'Bigmem'},
+            {'id': 'shared', 'value': 'Shared'}
+          ]
 
         },
         {'type': 'button',
-         'id': 'btnSubmit',
-         'name': 'submit',
-         'widgetWidth': 'col-sm-offset-2 col-sm-10',
-         'value': 'Generate'
+          'id': 'btnSubmit',
+          'name': 'submit',
+          'widgetWidth': 'col-sm-offset-2 col-sm-10',
+          'value': 'Generate'
         }
       ];
 
@@ -169,16 +169,18 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
       }, 'Specify a valid duration max: 4-00:00:00');
 
       for (var i = 0; i < that._vars.inputs.length; i++) {
-         var newFormGroup = formgroup.clone();
-         var newDivWrapper = that._getDivWrapper(that._vars.inputs[i].widgetWidth);
-         var input = that._buildInputs(that._vars.inputs[i]);
-         var label = that._buildLabels(that._vars.inputs[i]);
-         if (label) {
-            label.appendTo(newFormGroup);
-         }
-         input.appendTo(newDivWrapper);
-         newDivWrapper.appendTo(newFormGroup);
-         newFormGroup.appendTo(fieldset);
+        var newFormGroup = formgroup.clone();
+        var newDivWrapper = that._getDivWrapper(
+            that._vars.inputs[i].widgetWidth
+            );
+        var input = that._buildInputs(that._vars.inputs[i]);
+        var label = that._buildLabels(that._vars.inputs[i]);
+        if (label) {
+          label.appendTo(newFormGroup);
+        }
+        input.appendTo(newDivWrapper);
+        newDivWrapper.appendTo(newFormGroup);
+        newFormGroup.appendTo(fieldset);
       }
       legend.appendTo(form);
 
@@ -191,62 +193,65 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
 
       // validate form
       form.validate({debug: true,
-                     submitHandler: function(form) {
-                        var res = that._generateScript();
-                        script.text(res);
-                     },
-                     rules: {
-                      sbatch_time: {
-                         required: true,
-                         duration: true
-                      }
-                     }});
+        submitHandler: function(form) {
+          var res = that._generateScript();
+          script.text(res);
+        },
+        rules: {
+          sbatch_time: {
+            required: true,
+            duration: true
+          }
+        }});
     },
 
     _generateScript: function() {
-       var that = this;
-       var data = new Array();
-       data.push('#!/bin/sh ');
+      var that = this;
+      var data = new Array();
+      data.push('#!/bin/sh ');
 
-       var inputs = that._vars.inputs;
-       for (var i = 0; i < inputs.length; i++) {
-          if (typeof inputs[i].slurm_option != 'undefined') {
-             if(!(inputs[i].name == 'sbatch_mail_type' 
-                && $('#' + inputs[i].id).val() == 'NONE')){
-             data.push('#SBATCH ' +
-                       inputs[i].slurm_option +
-                       '=' +
-                       $('#' + inputs[i].id).val());
-         
-             }
+      var inputs = that._vars.inputs;
+      for (var i = 0; i < inputs.length; i++) {
+        if (typeof inputs[i].slurm_option != 'undefined') {
+          if (!(inputs[i].name == 'sbatch_mail_type' &&
+                $('#' + inputs[i].id).val() == 'NONE')) {
+            data.push('#SBATCH ' +
+                inputs[i].slurm_option +
+                '=' +
+                $('#' + inputs[i].id).val());
+
           }
-       }
-       data.push('#SBATCH --clusters=baobab');
-       data.push('#SBATCH --output=slurm-%J.out');
-       data.push('\n');
-       data.push('srun your_binary');
-       return data.join('\n');
+        }
+      }
+      data.push('#SBATCH --clusters=baobab');
+      data.push('#SBATCH --output=slurm-%J.out');
+      data.push('\n');
+      data.push('srun your_binary');
+      return data.join('\n');
     },
 
     _buildLabels: function(obj) {
-        var label = false;
-         if (obj.label) {
-            label = $('<label for="' + obj.id + '" class="'+ obj.labelWidth +'" control-label">' + obj.label + '</label>');
-            if (obj.tooltip) {
-              label.append($('<a href="#" data-html="true" ' +
+      var label = false;
+      if (obj.label) {
+        label = $('<label for="' + obj.id +
+                  '" class="' + obj.labelWidth +
+                  '" control-label">' + obj.label + '</label>');
+        if (obj.tooltip) {
+          label.append($('<a href="#" data-html="true" ' +
                              'data-toggle="tooltip" title="' +
                              obj.tooltip +
                              '">?</a>'));
-            }
-         }
-         return label;
+        }
+      }
+      return label;
     },
     _buildInputs: function(obj) {
-        switch (obj.type) {
-          case 'select': {
+      switch (obj.type) {
+        case 'select': {
           var select = $('<select id="' + obj.id +
                          '" name="' + obj.name +
-                         //'" class="form-control ' + obj.class + '"></select>');
+                         //'" class="form-control ' +
+                         //obj.class + '"></select>');
                          '" class="form-control"></select>');
           for (var i = 0; i < obj.value.length; i++) {
             var id = obj.value[i].id;
@@ -258,36 +263,36 @@ define(['jquery-ui', 'jquery-validation'], function($, undefined) {
               value + '</option>').appendTo(select);
           }
           return select;
+        }
+        case 'text':
+        case 'email':
+        case 'number': {
+          var input = $('<input type="' + obj.type +
+              '" placeholder="' + obj.ph +
+              '" name="' + obj.name +
+              //'" class="form-control ' + obj.class +
+              '" class="form-control ' +
+              '" id="' + obj.id +
+              '">');
+          if (typeof obj.value != 'undefined') {
+            input.attr('value', obj.value);
           }
-          case 'text':
-          case 'email':
-          case 'number': {
-             var input = $('<input type="' + obj.type +
-             '" placeholder="' + obj.ph +
-             '" name="' + obj.name +
-             //'" class="form-control ' + obj.class +
-             '" class="form-control ' +
-             '" id="' + obj.id +
-             '">');
-             if (typeof obj.value != 'undefined') {
-               input.attr('value', obj.value);
-             }
-             if (typeof obj.validate != 'undefined') {
-                for (var i = 0; i < obj.validate.length; i++) {
-                    input.attr(obj.validate[i].key, obj.validate[i].val);
-                }
-             }
+          if (typeof obj.validate != 'undefined') {
+            for (var i = 0; i < obj.validate.length; i++) {
+              input.attr(obj.validate[i].key, obj.validate[i].val);
+            }
+          }
 
-             return input;
-             break;
-          }
-          case 'button': {
+          return input;
+          break;
+        }
+        case 'button': {
           return $('<button type="submit" class="btn btn-default" id="' +
                    obj.id + '">' +
                    obj.value + '</button>');
-          }
         }
-     },
+      }
+    },
     /**
         * Manage options received from the init function
         * @private

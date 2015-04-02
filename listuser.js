@@ -4,34 +4,35 @@
  * @author ysagon@gmail.com (Yann Sagon)
  */
 
+
 /**
  * @param {function} myCb a callback to be called with one paramter when done
  */
 exports.execute = function(myCb) {
-   var assert = require('assert');
-   var ldap = require('ldapjs');
-   var fs = require('fs');
-   var yaml = require('yaml');
-   var path = require('path');
-   var async = require('async');
-   var config = require('config').LDAP;
-   if(typeof config === 'undefined'){
-      throw new Error('config file not defined');
-   }
-   // the ldap client handler
-   var client = ldap.createClient({
-      url: config.url,
-      maxConnections: 1,
-      //checkInterval: 86400000, // 1 day
-      //maxIdleTime: 86400000, // 1 day
-      //bindDN: config.bindDN,
-      //bindCredentials: config.bindCredentials,
-      tlsOptions: {'ca': fs.readFileSync(path.resolve(__dirname, config.rootCA))}
-   });
+  var assert = require('assert');
+  var ldap = require('ldapjs');
+  var fs = require('fs');
+  var yaml = require('yaml');
+  var path = require('path');
+  var async = require('async');
+  var config = require('config').LDAP;
+  if (typeof config === 'undefined') {
+    throw new Error('config file not defined');
+  }
+  // the ldap client handler
+  var client = ldap.createClient({
+    url: config.url,
+    maxConnections: 1,
+    //checkInterval: 86400000, // 1 day
+    //maxIdleTime: 86400000, // 1 day
+    //bindDN: config.bindDN,
+    //bindCredentials: config.bindCredentials,
+    tlsOptions: {'ca': fs.readFileSync(path.resolve(__dirname, config.rootCA))}
+  });
 
 
   client.bind(config.bindDN, config.bindCredentials, function(err) {
-     assert.ifError(err);
+    assert.ifError(err);
   });
 
   //person search base:
@@ -89,12 +90,12 @@ exports.execute = function(myCb) {
    */
   var subSearch = function(item, callback) {
     search(item, optsPeople, function(entry) {
-    // print every attributes
-        var entryRes = new Object();
-        for (var j = 0; j < optsPeople.attributes.length; j++) {
-          var attr = optsPeople.attributes[j];
-          entryRes[attr] = eval('entry.object.' + attr);
-        }
+      // print every attributes
+      var entryRes = new Object();
+      for (var j = 0; j < optsPeople.attributes.length; j++) {
+        var attr = optsPeople.attributes[j];
+        entryRes[attr] = eval('entry.object.' + attr);
+      }
       callback(null, [entryRes]);
     });
   };

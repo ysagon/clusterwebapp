@@ -20,7 +20,7 @@ require.config({
     'jcanvas': '../bower_components/jcanvas/jcanvas.min',
     'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
     'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/' +
-                            'js/bootstrap-datepicker'
+        'js/bootstrap-datepicker'
   },
   shim: {
     'jquery-ui': {

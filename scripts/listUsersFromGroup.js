@@ -10,7 +10,7 @@ var args = process.argv;
 //}
 //var inputFile = args[2];
 //var outputFile = args[3];
-user.execute(function(data){
-console.log(data);
+user.execute(function(data) {
+  console.log(data);
 });
 

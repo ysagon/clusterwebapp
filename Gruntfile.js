@@ -1,6 +1,7 @@
 /**
- * @author Yann Sagon (yann.sagon@unige.ch)
+ * @author yann.sagon@unige.ch (Yann Sagon)
  */
+
 
 /**
  * @param {object} grunt the grunt object
@@ -11,12 +12,12 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     execute: {
-       options: {
-          args: ['faq.md', 'faq.json']
-       },
-       target: {
-          src: ['scripts/md2faq.js']
-       }
+      options: {
+        args: ['faq.md', 'faq.json']
+      },
+      target: {
+        src: ['scripts/md2faq.js']
+      }
     },
     gjslint: {
       options: {
@@ -33,9 +34,10 @@ module.exports = function(grunt) {
               'scripts/*.js',
               'public/javascripts/*.js',
               'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js',
+              'public/javascripts/clusterViewer/*.js',
               'public/javascripts/sbatchGenerator/jquery.unige.faq.js',
               'public/javascripts/sbatchGenerator/faqdata.js'
-              ]
+        ]
       }
     },
     requirejs: {
@@ -53,22 +55,45 @@ module.exports = function(grunt) {
       combine: {
         files: {
           'build/css/optimized.css':
-             ['public/bower_components/jquery-ui/themes/redmond/jquery-ui.min.css',
-              'public/bower_components/bootstrap/dist/css/bootstrap.css',
-              'public/bower_components/bootstrap-datepicker/css/datepicker.css',
-              'public/javascripts/watable/watable.css']
+              ['public/bower_components/jquery-ui/themes/redmond/jquery-ui.min.css',
+               'public/bower_components/bootstrap/dist/css/bootstrap.css',
+               'public/bower_components/bootstrap-datepicker/css/datepicker.css',
+               'public/javascripts/watable/watable.css']
         }
       }
     },
     shell: {
       make_bootstrap: {
-         command: 'npm install; grunt dist --force',
-         options: {
-           stdout: true,
-           execOptions: {
-             cwd: 'public/bower_components/bootstrap/'
-           }
-         }
+        command: 'npm install; grunt dist --force',
+        options: {
+          stdout: true,
+          execOptions: {
+            cwd: 'public/bower_components/bootstrap/'
+          }
+        }
+      }
+    },
+    fixjsstyle: {
+      options: {
+        flags: [
+          '--strict',
+          '--disable 220', //ignore error code 220 from gjslint
+          '--exclude_files inc/js/*.min.js'
+        ],
+        reporter: {
+          name: 'console'
+        }
+      },
+      all: {
+        src: ['*.js',
+              'routes/*.js',
+              'scripts/*.js',
+              'public/javascripts/*.js',
+              'public/javascripts/sbatchGenerator/jquery.unige.sbatchGenerator.js',
+              'public/javascripts/clusterViewer/*.js',
+              'public/javascripts/sbatchGenerator/jquery.unige.faq.js',
+              'public/javascripts/sbatchGenerator/faqdata.js'
+        ]
       }
     },
     bower: {
@@ -88,11 +113,11 @@ module.exports = function(grunt) {
       main: {
         files: [
           {expand: true,
-           flatten: true,
-           src: ['public/bower_components/bootstrap/docs/assets' +
-                 '/img/glyphicons-halflings.png'],
-           dest: 'build/img/',
-           filter: 'isFile'}
+            flatten: true,
+            src: ['public/bower_components/bootstrap/docs/assets' +
+                  '/img/glyphicons-halflings.png'],
+            dest: 'build/img/',
+            filter: 'isFile'}
         ]
       }
     }
@@ -113,6 +138,7 @@ module.exports = function(grunt) {
                                     'cssmin',
                                     'copy:main',
                                     'execute']);
+  grunt.registerTask('lint', ['fixjsstyle', 'gjslint']);
   grunt.registerTask('default', ['gjslint']);
 
 };

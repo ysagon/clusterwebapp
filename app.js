@@ -1,7 +1,4 @@
 /**
- * @TODO use native execSync
- */
-/**
  * Module dependencies.
  */
 var fs = require('fs');
@@ -12,7 +9,7 @@ var http = require('http');
 var path = require('path');
 var assert = require('assert');
 var flash = require('connect-flash');
-var NodeCache = require( "node-cache" );
+var NodeCache = require('node-cache');
 var configWeb = require('config').web;
 var urlRoot;
 var port;
@@ -22,13 +19,14 @@ var app = express();
 
 global.myCache = new NodeCache({ stdTTL: 100, checkperiod: 120});
 
+
 /**
  * check if node mode is valid
  */
 if (!(process.env.NODE_ENV == 'production' ||
       process.env.NODE_ENV == 'development')) {
-   console.log('Error: invalid NODE_ENV');
-   process.exit();
+  console.log('Error: invalid NODE_ENV');
+  process.exit();
 }
 
 
@@ -83,15 +81,15 @@ app.get('/faq', routes.faq());
 app.get('/listuser', routes.listUsers());
 
 try {
-   var res = http.createServer(app).listen(app.get('port'), function() {
-     if (process.env.NODE_ENV == 'production') {
-       console.log('Express server listening on port ' +
+  var res = http.createServer(app).listen(app.get('port'), function() {
+    if (process.env.NODE_ENV == 'production') {
+      console.log('Express server listening on port ' +
                     app.get('port') + ' in production mode');
-     }else {
-       console.log('Express server listening on port ' +
+    }else {
+      console.log('Express server listening on port ' +
                     app.get('port') + ' in debug mode');
-     }
-   });
+    }
+  });
 }catch (e) {
 
 }
