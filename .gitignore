@@ -5,3 +5,4 @@ public/bower_components/
 express.log
 faq.json
 public/javascripts/optimized.js
+tmp.log
