@@ -18,10 +18,15 @@ var out = null;
  * @param {object} execSync an object that allows to exec.
  * @return {array} Array of string, one element per job.
  */
-exports.execute = function(execSync) {
-  var result = execSync.exec(
-      'squeue -a -t RUNNING --noheader --format=\"%i|%N\"');
-  out = result.stdout.split('\n');
+exports.execute = function() {
+//exports.execute = function(execSync) {
+  var result = require('child_process').execSync(
+    'squeue -a -t RUNNING --noheader --format=\"%i|%N\"', {encoding: 'utf-8'}
+  );
+  //var result = execSync.exec(
+  //    'squeue -a -t RUNNING --noheader --format=\"%i|%N\"');
+  //out = result.stdout.split('\n');
+  out = result.split('\n');
   out.pop();
   return out;
 };
@@ -32,11 +37,13 @@ exports.execute = function(execSync) {
  * @param {object} execSync an object that allow to exec.
  * @return {array} Array of two elements: id and link
  */
-exports.parse = function(execSync) {
+//exports.parse = function(execSync) {
+exports.parse = function() {
   var res = new Array();
   for (var i = 0; i < out.length; i++) {
     var temp = out[i].split('|');
-    var hosts = _splitHostNames(execSync, temp[1]);
+    //var hosts = _splitHostNames(execSync, temp[1]);
+    var hosts = _splitHostNames(temp[1]);
     var link = _createLink(_createRegex(hosts));
     res[i] = new Array(temp[0], link);
   }
@@ -44,8 +51,12 @@ exports.parse = function(execSync) {
 };
 
 function _splitHostNames(execSync, hosts) {
-  var result = execSync.exec('scontrol show hostnames ' + hosts);
-  var temp = result.stdout.split('\n');
+  var result = require('child_process').execSync(
+    'scontrol show hostnames ' + hosts, {encoding: 'utf-8'}
+  );
+  //var result = execSync.exec('scontrol show hostnames ' + hosts);
+  //var temp = result.stdout.split('\n');
+  var temp = result.split('\n');
   temp.pop();
   return temp;
 }

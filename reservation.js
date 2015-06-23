@@ -26,8 +26,8 @@
  */
 exports.execute = function(execSync) {
   var out = new Array();
-  var result = require('child_process').execSync('scontrol show reservation');
-  var reservations = result.stdout.split('\n\n');
+  var result = require('child_process').execSync('scontrol show reservation', {encoding: 'utf-8'});
+  var reservations = result.split('\n\n');
 
   reservations.pop();
 

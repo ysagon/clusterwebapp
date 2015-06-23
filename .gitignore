@@ -2,7 +2,7 @@ node_modules
 build
 public/bower_components/
 *.pyc
-express.log
+logs/
 faq.json
 public/javascripts/optimized.js
 tmp.log

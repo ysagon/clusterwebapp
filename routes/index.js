@@ -286,11 +286,12 @@ exports.allJobsRunning = function() {
     var data = myCache.get('runningJobs');
     if (Object.keys(data).length === 0) {
       console.log('not in cache!');
+      var result;
       try {
-        var result = require('child_process').execSync(__dirname +
-            '/../scripts/showq.py --json --running', {stderr: bla});
+        result = require('child_process').execSync(__dirname +
+            '/../scripts/showq.py --json --running', { encoding: 'utf-8'});
       }catch (err) {
-        //console.log("Error: ", err);
+        console.log("Error: ", err);
         console.log('Error: all running jobs');
         return;
       }
@@ -345,7 +346,8 @@ exports.allJobsRunning = function() {
         ]
       };
 
-      var jobs = JSON.parse(result.stdout).running;
+      //var jobs = JSON.parse(result.stdout).running;
+      var jobs = JSON.parse(result).running;
       //if no pending jobs, we return just the structure with no data.
       if (typeof jobs == 'undefined') {
         res.render('resjson', { data: JSON.stringify(jsonStruct) });
@@ -402,7 +404,7 @@ function _cutJobName(str) {
 exports.allJobsPending = function() {
   return function(req, res) {
     var result = require('child_process').execSync(__dirname +
-        '/../scripts/showq.py --json --pending');
+        '/../scripts/showq.py --json --pending', { encoding: 'utf-8'});
     var slurm = require('../slurm.js');
     var jsonStruct = {
       cols: {
@@ -457,7 +459,8 @@ exports.allJobsPending = function() {
       ]
     };
     // the id pending doesn't exist if there is no pending jobs.
-    var jobs = JSON.parse(result.stdout).pending;
+    var jobs = JSON.parse(result).pending;
+    //var jobs = JSON.parse(result.stdout).pending;
     //if no pending jobs, we return just the structure with no data.
     if (typeof jobs == 'undefined') {
       res.render('resjson', { data: JSON.stringify(jsonStruct) });
@@ -813,9 +816,9 @@ exports.faq = function() {
 exports.status = function() {
   return function(req, res) {
     var result = require('child_process').execSync(
-        '/usr/bin/sinfo -a --noheader'
+        '/usr/bin/sinfo -a --noheader', { encoding: 'utf-8' }
         );
-    var lines = result.stdout.split('\n');
+    var lines = result.split('\n');
     lines.pop(); // last element is empty
     var rows = new Array();
     // split each row into an array

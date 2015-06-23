@@ -13,7 +13,7 @@ var NodeCache = require('node-cache');
 var configWeb = require('config').web;
 var urlRoot;
 var port;
-var logFile = fs.createWriteStream('./express.log', {flags: 'a'});
+var logFile = fs.createWriteStream('./logs/express.log', {flags: 'a'});
 
 var app = express();
 

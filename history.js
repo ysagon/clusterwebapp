@@ -38,9 +38,9 @@ exports.execute = function(startDate, user) {
       formatDate +
       ' --parsable2 --noheader --format ' +
       format;
-  var result = require('child_process').execSync(cmd);
+  var result = require('child_process').execSync(cmd, {encoding: 'utf-8'});
 
-  var jobs = result.stdout.split('\n');
+  var jobs = result.split('\n');
 
   jobs.pop();
 
