@@ -19,20 +19,20 @@ You need node.js. You can either install it using your favorite tool (yum, apt) 
 Install node from source
 ------------------------
 ::
-
- wget http://nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz
- tar xf node-v0.10.21.tar.gz
- cd node-v0.10.21
- ./configure --prefix=/opt/nodejs
+ wget https://nodejs.org/dist/v5.5.0/node-v5.5.0.tar.gz
+ tar xf /root/kits/nodejs/node-v5.5.0.tar.gz
+ cd node-v5.5.0
+ module load gcc/devtoolset
+ ./configure --prefix=/opt/nodejs/node-v5.5.0
  make -j5
  su -c "make install"
  vi ~/.bash_profile
- add => PATH=$PATH:/opt/nodejs/bin
+ add => PATH=$PATH:/opt/nodejs/node-v5.5.0/bin
  save&quit
  logout
  login
  node --version
- echo: v0.10.21
+ echo: v5.5.0
 
 Install the project dependencies
 --------------------------------
