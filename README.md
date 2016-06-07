@@ -18,51 +18,44 @@ You need node.js. You can either install it using your favorite tool (yum, apt) 
 
 Install node from source
 ------------------------
-::
- wget https://nodejs.org/dist/v5.5.0/node-v5.5.0.tar.gz
- tar xf /root/kits/nodejs/node-v5.5.0.tar.gz
- cd node-v5.5.0
- module load gcc/devtoolset
- ./configure --prefix=/opt/nodejs/node-v5.5.0
- make -j5
- su -c "make install"
- vi ~/.bash_profile
- add => PATH=$PATH:/opt/nodejs/node-v5.5.0/bin
- save&quit
- logout
- login
- node --version
- echo: v5.5.0
-
+	wget https://nodejs.org/dist/v5.5.0/node-v5.5.0.tar.gz
+	tar xf /root/kits/nodejs/node-v5.5.0.tar.gz
+	cd node-v5.5.0
+	module load gcc/devtoolset
+	./configure --prefix=/opt/nodejs/node-v5.5.0
+	make -j5
+	su -c "make install"
+	vi ~/.bash_profile
+	add => PATH=$PATH:/opt/nodejs/node-v5.5.0/bin
+	save&quit
+	logout
+	login
+	node --version
+	echo: v5.5.0
+	
 Install the project dependencies
 --------------------------------
 The node dependencies are installed using npm.
-::
-
- npm update
+	
+	npm update
 
 The js dependencies are installed using bower. There is a task in grunt that do all the initial stuff:
-::
-
- grunt provisionning
+	
+	grunt provisionning
 
 Go production
 -------------
 Once all the dependencies are installed, you can optimize the files for production by doing:
-::
-
- grunt production
-
+	
+	grunt production
 
 Configure apache
 ----------------
 The application listen on port 3000 on localhost. To serve to content outside, you can for example use apache reverse proxy.
-::
-
- <Location /iface>
-  ProxyPass          http://localhost:3000
-  ProxyPassReverse   http://localhost:3000
- </Location>
+	<Location /iface>
+ 	ProxyPass          http://localhost:3000
+ 	ProxyPassReverse   http://localhost:3000
+	</Location>
 
 Configure shibboleth
 --------------------
