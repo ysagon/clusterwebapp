@@ -1,4 +1,3 @@
-===================
 Slurm web interface
 ===================
 
@@ -52,22 +51,22 @@ Once all the dependencies are installed, you can optimize the files for producti
 Configure apache
 ----------------
 The application listen on port 3000 on localhost. To serve to content outside, you can for example use apache reverse proxy.
+	
 	<Location /iface>
- 	ProxyPass          http://localhost:3000
- 	ProxyPassReverse   http://localhost:3000
+ 		ProxyPass          http://localhost:3000
+ 		ProxyPassReverse   http://localhost:3000
 	</Location>
 
 Configure shibboleth
 --------------------
 The authentication is done by shibboleth through apache. Here is the part needed for the application:
-::
-
- <Location /iface>
-     AuthType Shibboleth
-     ShibRequestSetting requireSession true
-     Require shibboleth
-     ShibUseHeaders On
- </Location>
+    
+	<Location /iface>
+		AuthType Shibboleth
+		ShibRequestSetting requireSession true
+		Require shibboleth
+		ShibUseHeaders On
+	</Location>
 
 Configure the application
 -------------------------
@@ -75,20 +74,18 @@ You can specify the urlroot of your installation in app.js
 
 Running the application
 =======================
-::
 
- NODE_ENV=development node app.js
- NODE_ENV=production node app.js
+
+	NODE_ENV=development node app.js
+ 	NODE_ENV=production node app.js
 
 Restart the application
-::
 
- kill -2 PID
+	kill -2 PID
 
 Deploy the application
 ======================
-::
 
- su nodeapp -c "./update.sh"
- cp scripts/iface.conf /etc/init/
- start iface
+	su nodeapp -c "./update.sh"
+	cp scripts/iface.conf /etc/init/
+	start iface
